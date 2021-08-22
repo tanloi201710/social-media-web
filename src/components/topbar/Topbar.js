@@ -1,9 +1,20 @@
 import { Chat, Notifications, Person, Search } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import './Topbar.css';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 export default function Topbar() {
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const handleLogout = () => {
+        dispatch({ type: 'LOGOUT' });
+        history.push('/login');
+        setUser(null);
+    };
     return (
         <div className="topbarContainer">
 
@@ -21,12 +32,14 @@ export default function Topbar() {
             </div>
 
             <div className="topbarRight">
-                <div className="topbarLinks">
-                    <img src="/assets/person/nene.jfif" alt="" className="topbarImg"/>
-                    <span className="topbarUsername">Ngô Tấn Thành</span>
-                    {/* <span className="topbarLink">Trang chủ</span>
-                    <span className="topbarLink">Timeline</span> */}
-                </div>
+                <Link to={`/profile/${user.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
+                    <div className="topbarLinks">
+                        <img src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/>
+                        <span className="topbarUsername">{user.result.name}</span>
+                        {/* <span className="topbarLink">Trang chủ</span>
+                        <span className="topbarLink">Timeline</span> */}
+                    </div>
+                </Link>
 
                 <div className="topbarIcons">
                     <div className="topbarIconItem">
@@ -41,7 +54,7 @@ export default function Topbar() {
                         <Notifications fontSize="large"/>
                         <span className="topbarIconBadge">1</span>
                     </div>
-                
+                    <button onClick={handleLogout}>Đăng xuất</button>
                 </div>
             </div>
         </div>

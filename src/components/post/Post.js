@@ -1,4 +1,4 @@
-import { MoreVert } from '@material-ui/icons';
+import { ContactSupportOutlined, MoreVert } from '@material-ui/icons';
 import React from 'react';
 import './Post.css';
 import {Users} from '../../dummyData';
@@ -8,6 +8,7 @@ export default function Post({post}) {
     const [liked, setLiked] = useState(post.like);
     const [isLiked, setIsLiked] = useState(false);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
 
     const likeHandler = () => {
         setLiked(isLiked ? liked-1 : liked+1);

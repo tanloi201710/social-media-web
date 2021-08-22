@@ -11,7 +11,7 @@ export const Users = [
     },
     {
         id: 3,
-        profilePicture: "/person/luffy.jfif",
+        profilePicture: "person/luffy.jfif",
         username: "Monkey D Luffy",
     },
     {
