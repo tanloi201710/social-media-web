@@ -11,6 +11,7 @@ export default function Login() {
     const history = useHistory();
     const email = useRef();
     const password = useRef();
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
 
     const googleSuccess = async (res) => {
@@ -64,7 +65,8 @@ export default function Login() {
                                 className="googleButton"
                                 disabled={renderProps.disabled}
                             >
-                                Google Sign In
+                                <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
+                                <span className="googleText">Đăng nhập bằng Google</span>
                             </button>
                         )}
                         onSuccess={googleSuccess}

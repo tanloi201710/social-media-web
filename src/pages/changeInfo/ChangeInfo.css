@@ -1,0 +1,12 @@
+.changeInfo {
+    width: 100%;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.changeInfoBox {
+    width: 55%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+}

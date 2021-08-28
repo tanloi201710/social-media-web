@@ -1,4 +1,4 @@
-import { ContactSupportOutlined, MoreVert } from '@material-ui/icons';
+import { MoreVert } from '@material-ui/icons';
 import React from 'react';
 import './Post.css';
 import {Users} from '../../dummyData';

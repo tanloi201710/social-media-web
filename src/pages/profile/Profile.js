@@ -5,8 +5,9 @@ import Rightbar from '../../components/rightbar/Rightbar';
 import Feed from '../../components/feed/Feed';
 import Topbar from '../../components/topbar/Topbar';
 
-export default function Profile() {
+export default function Profile({user}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
     return (
         <> 
         
@@ -23,13 +24,12 @@ export default function Profile() {
                             />
                             <img 
                                 className="profileUserImg" 
-                                src={`${PF}person/luffy.jfif`}
+                                src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'}
                                 alt=""
                             />
                         </div>
                         <div className="profileInfo">
-                            <h4 className="profileInfoName">Monkey D Luffy</h4>
-                            <span className="profileInfoDesc">Vua hải tặc</span>
+                            <h4 className="profileInfoName">{user.result.name}</h4>
                         </div>
                     </div>
                     <div className="profileRightBottom">
@@ -38,6 +38,7 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            
         
         </>
     )

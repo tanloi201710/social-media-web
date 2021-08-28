@@ -81,3 +81,31 @@
     font-weight: 500;
     cursor: pointer;
 }
+
+.googleButton {
+    width: 65%;
+    border-radius: 10px;
+    border: none;
+    padding: 7px;
+    align-self: center;
+    background-color: #1775ee;
+    display: flex;
+    align-items: center;
+}
+
+.googleImg {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.googleText {
+    font-weight: 500;
+    color: white;
+    margin: 0 auto;
+    font-size: 20px;
+}

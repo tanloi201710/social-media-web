@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
 import {Posts} from '../../dummyData';
 
 export default function Feed() {
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
     return (
         <div className="feed">
             <div className="feedWrapper">
-                    <Share />
+                    <Share/>
                     {Posts.map((p) => (
                         <Post key={p.id} post={p}/>
                     ))}

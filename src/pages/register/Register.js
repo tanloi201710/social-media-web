@@ -15,7 +15,6 @@ export default function Register() {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        console.log("thành ngu");
         if(password.current.value !== confirmPassword.current.value) {
             alert("Nhập lại mật khẩu sai!");
         } else {

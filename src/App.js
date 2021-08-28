@@ -9,6 +9,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import ChangeInfo from './pages/changeInfo/ChangeInfo';
 
 
 
@@ -22,7 +23,7 @@ function App() {
   return ( 
     <Router>
       <Switch >
-        <Route exact path='/' component={() => (!user ? <Redirect to="/login"/> : <Home/>)}/>
+        <Route exact path='/' component={() => (!user ? <Redirect to="/login"/> : <Home user={user}/>)}/>
           
         <Route  path='/login'>
           <Login/>
@@ -31,7 +32,11 @@ function App() {
           <Register/>
         </Route>
         <Route path="/profile/:id">
-          <Profile/>
+          <Profile user={user}/>
+        </Route>
+
+        <Route  path='/changeInfo'>
+          <ChangeInfo/>
         </Route>
       </Switch>
     </Router>
