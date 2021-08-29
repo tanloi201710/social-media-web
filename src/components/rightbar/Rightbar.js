@@ -2,7 +2,6 @@ import React from 'react';
 import './Rightbar.css';
 import {Users} from '../../dummyData';
 import Online from '../online/Online';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
@@ -49,7 +48,7 @@ export default function Rightbar({profile}) {
             >
                 {value === index && (
                 <Box p={3}>
-                    <Typography>{children}</Typography>
+                    <Typography component={'div'}>{children}</Typography>
                 </Box>
                 )}
             </div>
@@ -188,9 +187,9 @@ export default function Rightbar({profile}) {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <Link to="/changeInfo" style={{textDecoration:"none"}}>
-                            <Button variant="outlined" color="primary">Chỉnh sửa thông tin</Button>
-                        </Link>
+                        {/* <Link to="/changeInfo" style={{textDecoration:"none"}}> */}
+                            <Button variant="outlined" color="primary" onClick={()=> window.location.href='/changeInfo'}>Chỉnh sửa thông tin</Button>
+                        {/* </Link> */}
                         <div className="rightbarInfo">
                             <div className="rightbarInfoItem">
                                 <span className="rightbarInfoKey">Thành phố: </span>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
@@ -15,10 +15,6 @@ import ChangeInfo from './pages/changeInfo/ChangeInfo';
 
 function App() {
   const user = JSON.parse(localStorage.getItem('profile'));
-
-  useEffect(() => {
-    // window.location.reload();
-  },[user]);
 
   return ( 
     <Router>

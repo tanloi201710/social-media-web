@@ -101,7 +101,7 @@ export default function ChangeInfo() {
             </form>
             <form className={classes.root} noValidate autoComplete="off">
               <TextField
-                id="district"
+                id="jobs"
                 label="Nghề nghiệp hiện tại"
               />
             </form>
@@ -141,7 +141,7 @@ export default function ChangeInfo() {
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
-                  <Typography>{getStepContent(index)}</Typography>
+                  <Typography component={'div'}>{getStepContent(index)}</Typography>
                   <div className={classes.actionsContainer}>
                     <div>
                       <Button

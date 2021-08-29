@@ -2,17 +2,26 @@ import React from 'react';
 import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
-import {Posts} from '../../dummyData';
+import { useSelector } from 'react-redux';
 
 export default function Feed() {
-    // const [posts, setPosts] = useState([]);
+
+    const{ posts }= useSelector((state) => state.posts);
     return (
-        <div className="feed">
+        <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">
                     <Share/>
-                    {Posts.map((p) => (
-                        <Post key={p.id} post={p}/>
-                    ))}
+                    {
+                        posts.length > 0 ? 
+                            posts.map((p) => (
+                            <Post key={p._id} post={p}/>
+                            )) :
+                        (
+                            <div>
+                                <h4>Không có post - Hiển thị một cái Post Demo nào đó</h4>
+                            </div>
+                        )
+                    }
             </div>
         </div>
     )

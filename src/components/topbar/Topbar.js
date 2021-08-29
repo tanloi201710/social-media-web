@@ -1,21 +1,38 @@
 import { Chat, Notifications, Person, Search, ArrowDropDownCircle, ExitToApp} from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Topbar.css';
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {Menu, withStyles, MenuItem, ListItemIcon} from '@material-ui/core';
+import decode from 'jwt-decode';
 
 export default function Topbar() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
 
     const handleLogout = () => {
         dispatch({ type: 'LOGOUT' });
         history.push('/login');
         setUser(null);
     };
+
+    useEffect(() => {
+        const token = user?.token;
+
+        if(token) {
+            const decodedToken = decode(token);
+
+            if(decodedToken.exp * 1000 < new Date().getTime()) {
+                handleLogout();
+            }
+        }
+
+        setUser(JSON.parse(localStorage.getItem('profile')));
+
+    }, [location,user?.token]);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -75,7 +92,7 @@ export default function Topbar() {
 
             <div className="topbarRight">
                 <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none', color: 'white'}}>
-                    <div className="topbarLinks">
+                    <div className="topbarLinks" >
                         <img src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/>
                         <span className="topbarUsername">{user.result.name}</span>
                     </div>

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Avatar from 'react-avatar-edit';
 import './ChangeAvatar.css'
 
-class ChangeAvartar extends Component {
+class ChangeAvartar extends React.Component {
     
   user = JSON.parse(localStorage.getItem('profile'));
   constructor(props) {

@@ -91,6 +91,7 @@
     background-color: #1775ee;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .googleImg {

@@ -18,7 +18,7 @@ export default function Profile({user}) {
                     <div className="profileRightTop">
                         <div className="profileCover">
                             <img 
-                                className="profileCoverImg" 
+                                className="profileCoverImg"
                                 src={`${PF}post/luffy.jpg`}
                                 alt=""
                             />

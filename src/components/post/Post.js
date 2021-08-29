@@ -1,13 +1,13 @@
 import { MoreVert } from '@material-ui/icons';
 import React from 'react';
 import './Post.css';
-import {Users} from '../../dummyData';
 import { useState } from 'react';
 
 export default function Post({post}) {
-    const [liked, setLiked] = useState(post.like);
+    const [liked, setLiked] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const Users = JSON.parse(localStorage.getItem('profile'));
 
 
     const likeHandler = () => {
@@ -22,21 +22,21 @@ export default function Post({post}) {
                     <div className="postTopLeft">
                         <img 
                             className="postProfileImg" 
-                            src={PF+Users.filter((u) => u.id === post?.userId)[0].profilePicture}
+                            src={Users.result.imageUrl}
                             alt=""
                         />
                         <span className="postUsername">
-                            {Users.filter((u) => u.id === post?.userId)[0].username}
+                            {Users.result.name}
                         </span>
-                        <span className="postDate">{post.date}</span>
+                        <span className="postDate">Vài phút trước</span>
                     </div>
                     <div className="postTopRight">
                         <MoreVert />
                     </div>
                 </div>
                 <div className="postCenter">
-                    <span className="postText">{post?.description}</span>
-                    <img className="postImg" src={PF+post.photo} alt=""/>
+                    <span className="postText">{post?.desc}</span>
+                    <img className="postImg" src={'http://localhost:5000/images/'+post?.img} alt=""/>
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">
@@ -53,7 +53,7 @@ export default function Post({post}) {
                         <span className="postLikeCouter">{liked} người thích</span>
                     </div>
                     <div className="postBottomRight">
-                        <span className="postCommentText">{post.comment} bình luận </span>
+                        <span className="postCommentText">{post?.comments?.length || 0} bình luận </span>
                     </div>
                 </div>
             </div>
