@@ -16,7 +16,7 @@ import {
     RadioGroup,
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
-import ChangeAvartar from '../../components/changeAvatar/ChangeAvartar';
+import ChangeAvatar from '../../components/changeAvatar/ChangeAvatar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,7 +73,7 @@ export default function ChangeInfo() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <ChangeAvartar />
+        return <ChangeAvatar />
       case 1:
         return (
           <>
