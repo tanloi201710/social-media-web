@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useEffect } from 'react';
 import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPosts } from '../../actions/post';
 
 export default function Feed() {
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getPosts());
+    }, [dispatch]);
     const{ posts }= useSelector((state) => state.posts);
     return (
         <div className="feed" style={{marginBottom: 'auto'}}>
@@ -14,7 +19,7 @@ export default function Feed() {
                     {
                         posts.length > 0 ? 
                             posts.map((p) => (
-                            <Post key={p._id} post={p}/>
+                                <Post key={p._id} post={p}/>
                             )) :
                         (
                             <div>
