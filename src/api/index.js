@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: 'http://localhost:5000/api'});
+const API = axios.create({ baseURL: 'https://social-api-ct466.herokuapp.com/api'});
 
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')){
@@ -18,3 +18,6 @@ export const createPost = (newPost) => API.post('/posts', newPost);
 
 export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const fetchPosts = () => API.get('/posts/timeline/all');
+
+export const likePost = (id) => API.patch(`/posts/${id}/like`);
+export const deletePost = (id) => API.delete(`/posts/${id}`);

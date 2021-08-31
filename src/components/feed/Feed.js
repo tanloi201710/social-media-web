@@ -4,6 +4,7 @@ import Post from '../post/Post';
 import './Feed.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../actions/post';
+import { CircularProgress } from '@material-ui/core';
 
 export default function Feed() {
     const dispatch = useDispatch();
@@ -11,21 +12,28 @@ export default function Feed() {
     useEffect(() => {
         dispatch(getPosts());
     }, [dispatch]);
-    const{ posts }= useSelector((state) => state.posts);
+
+    const{ posts, isLoading } = useSelector((state) => state.posts);
+
+    if(!posts.length && !isLoading) return (
+        <div className="feed" style={{marginBottom: 'auto'}}>
+            <div className="feedWrapper">
+                    <Share/>
+                    <div>
+                        <h4>Không có post - Hiển thị một cái Post Demo nào đó</h4>
+                    </div>
+            </div>
+        </div>
+    )
     return (
         <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">
                     <Share/>
                     {
-                        posts.length > 0 ? 
+                        !isLoading ? 
                             posts.map((p) => (
                                 <Post key={p._id} post={p}/>
-                            )) :
-                        (
-                            <div>
-                                <h4>Không có post - Hiển thị một cái Post Demo nào đó</h4>
-                            </div>
-                        )
+                            )) : <div className="progress-circle" ><CircularProgress /> </div>
                     }
             </div>
         </div>
