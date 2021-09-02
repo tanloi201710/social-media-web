@@ -1,12 +1,18 @@
-import { CREATE, FETCH_ALL } from "../constants/actionTypes";
+import { CREATE, END_LOADING, FETCH_ALL, START_LOADING } from "../constants/actionTypes";
 
 const initState = {
-    isLoading: false,
+    isLoading: true,
     posts: []
 };
 
 const postsReducer = (state = initState, action) => {
     switch (action.type) {
+        case START_LOADING:
+            return { ...state, isLoading: true };
+
+        case END_LOADING:
+            return { ...state, isLoading: false };
+            
         case CREATE:
             return {...state, posts: [...state.posts, action.payload]};
     

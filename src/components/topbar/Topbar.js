@@ -1,5 +1,5 @@
 import { Chat, Notifications, Person, Search, ArrowDropDownCircle, ExitToApp} from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './Topbar.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -13,11 +13,11 @@ export default function Topbar() {
     const history = useHistory();
     const location = useLocation();
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
         history.push('/login');
         setUser(null);
-    };
+    }, [dispatch, history]);
 
     useEffect(() => {
         const token = user?.token;
@@ -32,7 +32,7 @@ export default function Topbar() {
 
         setUser(JSON.parse(localStorage.getItem('profile')));
 
-    }, [location,user?.token]);
+    }, [location,user?.token,handleLogout]);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 

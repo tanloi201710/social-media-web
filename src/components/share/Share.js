@@ -8,7 +8,7 @@ import {
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createPost } from '../../actions/post';
+import { createPost, getPosts } from '../../actions/post';
 import { upload } from '../../api';
 import './Share.css';
 
@@ -26,7 +26,7 @@ export default function Share() {
             userId: user._id,
             desc: desc.current.value
         };
-        if(file) {
+        if(file !== null) {
             const data = new FormData();
             const fileName = Date.now()+'-'+file.name;
             data.append("name", fileName);
@@ -38,8 +38,14 @@ export default function Share() {
                 console.log(error);
             }
         }
-        dispatch(createPost(newPost,history));
-        window.location.reload();
+        if(file === null && desc.current.value === '') {
+            alert("You dont't have any picture or description to post");
+        } else {
+            dispatch(createPost(newPost,history));
+            setFile(null);
+            desc.current.value = '';
+            dispatch(getPosts());
+        }
     }
     return (
         <div className="share">
