@@ -7,11 +7,19 @@
 }
 
 .feedWrapper {
+<<<<<<< HEAD
     padding: 15px 80px;
+=======
+    padding: 10px 30px;
+>>>>>>> ximung/main
 }
 
 .progress-circle {
     display: flex;
     justify-content: center;
+<<<<<<< HEAD
     margin-top: 30px;
+=======
+    margin: 30px 0;
+>>>>>>> ximung/main
 }

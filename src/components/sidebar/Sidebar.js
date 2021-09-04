@@ -12,17 +12,19 @@ import React from 'react';
 import './Sidebar.css';
 import {Users} from '../../dummyData';
 import CloseFriend from '../closeFriend.js/CloseFriend';
+import {Link} from 'react-router-dom';
 
 export default function Sidebar() {
     return (
         <div className="sidebar">
             <div className="sidebarWrapper">
                 <ul className="sidebarList">
-
-                    <li className="sidebarListItem">
-                        <LocalHospital fontSize="large" className="sidebarIcon" />
-                        <span className="sidebarListItemText">Covid-19</span>
-                    </li>
+                    <Link to="/Covid-19" style={{textDecoration:"none", color: 'black'}}>
+                        <li className="sidebarListItem">
+                            <LocalHospital fontSize="large" className="sidebarIcon" />
+                            <span className="sidebarListItemText">Covid-19</span>
+                        </li>
+                    </Link>
 
                     <li className="sidebarListItem">
                         <PlayCircleFilledOutlined fontSize="large" className="sidebarIcon" />
