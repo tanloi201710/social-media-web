@@ -28,7 +28,7 @@ function App() {
           <Register/>
         </Route>
         <Route path="/profile/:id">
-          <Profile user={user}/>
+          <Profile/>
         </Route>
 
         <Route  path='/changeInfo'>

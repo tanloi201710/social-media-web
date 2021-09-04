@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './Topbar.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {Menu, withStyles, MenuItem, ListItemIcon} from '@material-ui/core';
+import {Menu, withStyles, MenuItem, ListItemIcon, Avatar } from '@material-ui/core';
 import decode from 'jwt-decode';
 
 export default function Topbar() {
@@ -91,9 +91,10 @@ export default function Topbar() {
             </div>
 
             <div className="topbarRight">
-                <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none', color: 'white'}}>
+                <Link to={`/profile/${user.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
                     <div className="topbarLinks" >
-                        <img src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/>
+                        {/* <img src={user.result.profilePicture ? user.result.profilePicture : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/> */}
+                        <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
                         <span className="topbarUsername">{user.result.name}</span>
                     </div>
                 </Link>

@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { AUTH } from '../constants/actionTypes';
+import { AUTH, ERROR } from '../constants/actionTypes';
 
 export const signin = (formdata,history) => async (dispatch) => {
     try {
@@ -7,7 +7,8 @@ export const signin = (formdata,history) => async (dispatch) => {
         dispatch({ type: AUTH, data });
         history.push('/');
     } catch (error) {
-        console.log(error);
+        const message = error?.response.data.message;
+        dispatch({ type: ERROR, message });
     }
 };
 
@@ -19,4 +20,22 @@ export const signup = (formdata,history) => async (dispatch) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
+
+export const google = (result,token,history) => async (dispatch) => {
+    try {
+        const googleAccount = await api.googleAccount(result);
+        
+        const data = { result: googleAccount.data, token };
+        
+        dispatch({ type: AUTH, data });
+        history.push('/');
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// export const catchError = (message) => (dispatch) =>{
+//     console.log(message);
+//     dispatch({ type: ERROR, message });
+// };

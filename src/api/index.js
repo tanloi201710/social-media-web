@@ -12,6 +12,8 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post('/auth/login', formData);
 export const signUp = (formData) => API.post('/auth/register', formData);
 
+export const googleAccount = (formData) => API.post('/auth/create', formData);
+
 export const upload = (data) => API.post('/upload', data);
 
 export const createPost = (newPost) => API.post('/posts', newPost);

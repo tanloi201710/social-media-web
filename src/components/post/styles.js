@@ -1,0 +1,60 @@
+import { makeStyles } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        margin: '30px 0',
+    },
+    media: {
+        height: 350,
+        width: '100%',
+        // objectFit: 'contain',
+        boxShadow: 'inset 0px 10px 8px -10px #c6c6c6, inset 0px -10px 8px -10px #c6c6c6',
+        backgroundSize: 'contain',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
+    postTopRight: {
+        position: 'relative'
+    },
+    postTopRight_morevert: {
+        position: 'absolute',
+        width: '200px',
+        right: '10px',
+        top: '47px',
+        backgroundColor: '#fff',
+        boxShadow: '0 5px 10px rgba(0, 0, 0, 0.4)',
+        borderRadius: '5px',
+        border: '1px solid rgba(0,0,0,0.1)',
+        '&:before': {
+            content: '""',
+            position: 'absolute',
+            top: '-5px',
+            right: '2px',
+            width: '10px',
+            height: '10px',
+            backgroundColor: '#fff',
+            borderTop: '1px solid rgba(0,0,0,0.1)',
+            borderLeft: '1px solid rgba(0,0,0,0.1)',
+            transform: 'rotate(45deg)',
+        }
+    },
+    actionText: {
+        color: '#000'
+    }
+}));
+
+export default useStyles;
