@@ -8,6 +8,7 @@ import HighLight from "./Components-covid19/HighLight";
 import Summary from "./Components-covid19/Summary";
 import 'moment/locale/vi';
 import '@fontsource/roboto';
+import './Covid19.css'
 
 moment.locale('vi');
 
@@ -33,28 +34,29 @@ export default function Covid19() {
 
     useEffect(() => {
         if (selectedCountryId) {
-        const { Slug } = countries.find(
-            (country) => country.ISO2.toLowerCase() === selectedCountryId
-        );
-        getReportByCountry(Slug).then(res => {
-            res.data.pop();
-            setReport(res.data)
-        });
+            const { Slug } = countries.find(
+                (country) => country.ISO2.toLowerCase() === selectedCountryId
+            );
+            getReportByCountry(Slug).then(res => {
+                res.data.pop();
+                setReport(res.data)
+            });
         }
     }, [countries, selectedCountryId]);
     return (
-        <Container style={{ marginTop: 20 }}>
-        <p>Ngô Tấn Thành</p>
-        <Typography variant="h2" component='h2'>
-            Số liệu COVID-19
-        </Typography>
-        <Typography>{moment().format('LLL')}</Typography>
-        <CountrySelector 
-            countries={countries} 
-            handleOnchange={handleOnChange}
-            value={selectedCountryId} />
-        <HighLight report={report} />
-        <Summary report={report} selectedCountryId={selectedCountryId} />
-        </Container>
+        <div className="covid19">
+            <Container style={{ marginTop: 10 }}>
+            <Typography variant="h3" component='h3'>
+                Số liệu COVID-19
+            </Typography>
+            <Typography>{moment().format('LLL')}</Typography>
+            <CountrySelector 
+                countries={countries} 
+                handleOnchange={handleOnChange}
+                value={selectedCountryId} />
+            <HighLight report={report} />
+            <Summary report={report} selectedCountryId={selectedCountryId} />
+            </Container>
+        </div>
     );
 }

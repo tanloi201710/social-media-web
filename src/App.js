@@ -10,6 +10,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import ChangeInfo from './pages/changeInfo/ChangeInfo';
+import Covid19 from './pages/covid-19/Covid19';
 
 
 
@@ -33,6 +34,10 @@ function App() {
 
         <Route  path='/changeInfo'>
           <ChangeInfo/>
+        </Route>
+
+        <Route path="/Covid-19">
+          <Covid19 />
         </Route>
       </Switch>
     </Router>
