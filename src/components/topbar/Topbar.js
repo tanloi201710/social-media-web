@@ -130,7 +130,7 @@ export default function Topbar() {
                         <StyledMenuItem>
                             <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
                                 <div className="topbarLinks">
-                                    <img src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/>
+                                    <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
                                     <span className="topbarUsernameMenu">{user.result.name}</span>
                                 </div>
                             </Link>

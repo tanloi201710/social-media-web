@@ -23,3 +23,5 @@ export const fetchPosts = () => API.get('/posts/timeline/all');
 
 export const likePost = (id) => API.patch(`/posts/${id}/like`);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
+
+export const updateUser = (id,data) => API.put(`/users/${id}`, data);

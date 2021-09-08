@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    --border-radius: 5px;
 }
 
 .loginWrapper {
@@ -35,15 +36,24 @@
     height: 300px;
     padding: 20px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
+/* .loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginFormControl {
+    margin-bottom: 10px !important;
+} */
+
 .loginInput {
     height: 50px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: 1px solid gray;
     font-size: 18px;
     padding-left: 20px;
@@ -55,7 +65,7 @@
 
 .loginButton {
     height: 50px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: none;
     background-color: #1775ee;
     color: white;
@@ -73,7 +83,7 @@
     width: 60%;
     align-self: center;
     height: 50px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: none;
     background-color: #42b72a;
     color: white;
@@ -84,7 +94,7 @@
 
 .googleButton {
     width: 65%;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     border: none;
     padding: 7px;
     align-self: center;

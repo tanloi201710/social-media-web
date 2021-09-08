@@ -11,6 +11,7 @@ import { Avatar, Card, CardActions,
     Collapse, Divider, IconButton, 
     List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { storage, ref, deleteObject } from '../../firebase';
+import { deleteImage } from '../../actions/images';
 
 export default function Post({post}) {
     const [liked, setLiked] = useState(post.likes.length);
@@ -33,18 +34,15 @@ export default function Post({post}) {
         dispatch(likePost(post._id));
     };
 
-    const deleteHandler = () => {
+    const deleteHandler = async() => {
         if(post?.img) {
-            const desertRef = ref(storage, "images/"+post.imgName);
-            // Delete the file
-            deleteObject(desertRef).then(() => {
-                // File deleted successfully
+            try {
+                await deleteImage(post.imgName);
                 dispatch(deletePost(post._id));
                 setIsMoreBox(false);
-            }).catch((error) => {
-                // Uh-oh, an error occurred!
+            } catch (error) {
                 console.log(error);
-            });
+            }
         }
     };
 

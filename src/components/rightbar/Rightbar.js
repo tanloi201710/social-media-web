@@ -74,7 +74,7 @@ export default function Rightbar({profile}) {
             backgroundColor: theme.palette.background.paper,
         },
         tabsOptions : {
-            backgroundColor: '#1976d2',
+            backgroundColor: '#3f51b5',
             color: 'while',
         },
         picture: {
