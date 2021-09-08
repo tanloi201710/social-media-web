@@ -1,7 +1,26 @@
 .rightbarFriend {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    padding: 10px;
+    height: 40px;
+}
+
+.rightbarFriend > .MuiSvgIcon-root {
+    color: black;
+}
+
+.rightbarFriend:hover > .MuiSvgIcon-root {
+    color: #2e81f4;
+}
+
+.rightbarFriend:hover {
+    background-color: #eff2f5;
+    width: 270px;
+    height: 40px;
+    border-radius: 10px;
+    padding-left: 18px;
+    align-items: center;
+    border-bottom: none;
 }
 
 .rightbarProfileImgContainer {

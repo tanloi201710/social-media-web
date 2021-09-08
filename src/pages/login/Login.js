@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import GoogleLogin from 'react-google-login';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { signin } from '../../actions/auth';
+import { google, signin } from '../../actions/auth';
 import './Login.css';
 
 
@@ -13,17 +13,18 @@ export default function Login() {
     const password = useRef();
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
+    const {errorMsg} = useSelector((state) => state.errors);
+    
+    useEffect(() => {
+        console.log(errorMsg);
+    }, [errorMsg]);
+
 
     const googleSuccess = async (res) => {
         const result = res?.profileObj;
         const token = res?.tokenId;
 
-        try {
-            dispatch({ type: 'AUTH', data: { result, token }});
-            history.push('/');
-        } catch (error) {
-            console.log(error);
-        }
+        dispatch(google(result,token,history));
     };
 
     const googleFailure = () => {
@@ -37,6 +38,7 @@ export default function Login() {
         };
 
         dispatch(signin(formData,history));
+        if(errorMsg !== '') alert(errorMsg);
     };
 
     return (
@@ -51,7 +53,7 @@ export default function Login() {
                 <div className="loginRight">
                     <div className="loginBox">
                         <input placeholder="Email" type="email" className="loginInput" ref={email}/>
-                        <input placeholder="Password" type="password" className="loginInput" ref={password}/>
+                        <input placeholder="Password" type="password" className="loginInput" onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} ref={password}/>
                         <button className="loginButton" onClick={handleLogin}>Đăng nhập</button>
                         <span className="loginForgot"> Quên mật khẩu ?</span>
                         <button className="loginRegisterButton" onClick={() => history.push('/register')}>

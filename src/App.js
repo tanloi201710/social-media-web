@@ -2,7 +2,6 @@ import React from 'react';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
-import Profile from './pages/profile/Profile';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,6 +10,7 @@ import {
 } from 'react-router-dom';
 import ChangeInfo from './pages/changeInfo/ChangeInfo';
 import Covid19 from './pages/covid-19/Covid19';
+import Profile from './pages/profile/Profile';
 
 
 
@@ -29,7 +29,7 @@ function App() {
           <Register/>
         </Route>
         <Route path="/profile/:id">
-          <Profile user={user}/>
+          <Profile/>
         </Route>
 
         <Route  path='/changeInfo'>

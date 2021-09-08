@@ -20,7 +20,9 @@ export default function Rightbar({profile}) {
                         <b> Naruto</b> and <b>3 người khác</b>
                     </span>
                 </div>
+                <hr className="rightbarHr"/>
                 <img className="rightbarAd" src="assets/op.png" alt="" />
+                <hr className="rightbarHr"/>
                 <h4 className="rightbarTitle">Online Friends</h4>
                 <ul className="rightbarFriendList">
                     {Users.map(u => (
@@ -74,7 +76,7 @@ export default function Rightbar({profile}) {
             backgroundColor: theme.palette.background.paper,
         },
         tabsOptions : {
-            backgroundColor: '#1976d2',
+            backgroundColor: '#3f51b5',
             color: 'while',
         },
         picture: {

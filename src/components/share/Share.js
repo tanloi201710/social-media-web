@@ -1,61 +1,70 @@
 import { 
     PermMedia,
-    Label,
-    Room,
-    EmojiEmotions,
+    LocalOffer,
     Cancel, 
+    InsertEmoticon 
 } from '@material-ui/icons';
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createPost, getPosts } from '../../actions/post';
-import { upload } from '../../api';
 import './Share.css';
+import { CircularProgress, Avatar } from '@material-ui/core';
+import { compressFile, uploadFireBase } from '../../actions/images';
 
 export default function Share() {
     const user = JSON.parse(localStorage.getItem('profile'));
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-    const desc = useRef();
     const [file,setFile] = useState(null);
+    const desc = useRef();
+    
+
+    const { creating } = useSelector((state) => state.posts);
+
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newPost = {
-            userId: user._id,
-            desc: desc.current.value
-        };
-        if(file !== null) {
-            const data = new FormData();
-            const fileName = Date.now()+'-'+file.name;
-            data.append("name", fileName);
-            data.append("file", file);
-            newPost.img = fileName;
-            try {
-                upload(data);
-            } catch (error) {
-                console.log(error);
-            }
+    useEffect(() => {
+        if(!creating) {
+            dispatch(getPosts());
         }
-        if(file === null && desc.current.value === '') {
+    }, [dispatch,creating]);
+
+    const resetForm = () => {
+        desc.current.value = '';
+        setFile(null);
+    };
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+
+        const newPost = {
+            userId: user?._id || user?.googleId,
+            desc: desc.current.value,
+            img: '',
+            imgName: ''
+        };
+
+        if(file) {
+            const compressedFile = await compressFile(file);
+            const fileName = Date.now()+ '-' + compressedFile.name;
+            newPost.imgName = fileName;
+            const url = await uploadFireBase(compressedFile,fileName);
+            newPost.img = url;
+        };
+        if(newPost.img === '' && newPost.desc === '') {
             alert("You dont't have any picture or description to post");
         } else {
             dispatch(createPost(newPost,history));
+            resetForm();
             setFile(null);
-            desc.current.value = '';
-            dispatch(getPosts());
         }
-    }
+    };
+
     return (
         <div className="share">
             <div className="shareWrapper">
                 <div className="shareTop">
-                    <img 
-                        className="shareProfileImg" 
-                        src={user.result.imageUrl ? user.result.imageUrl : PF+'person/defaultUser.jpg'}
-                        alt=""
-                    />
+                    <Avatar className="shareProfileImg" src={user.result.profilePicture}>{user.result.name.charAt(0).toUpperCase()}</Avatar>
                     <input 
                         placeholder={`Bạn đang nghĩ gì vậy ${user.result.name}`}
                         className="shareInput"
@@ -74,30 +83,22 @@ export default function Share() {
                 <form className="shareBottom" onSubmit={handleSubmit}>
                     <div className="shareOptions">
                         <label className="shareOption">
-                            <PermMedia htmlColor="tomato" className="shareIcon" />
-                            <span className="shareOptionText"> Hình ảnh và Video</span>
-                            <input 
-                                style={{ display: 'none' }}
-                                type="file"
-                                name=""
-                                id="file"
-                                onChange={(e) => setFile(e.target.files[0])}
-                            />
+                            <PermMedia htmlColor="tomato" fontSize="large" className="shareIcon" />
+                            <span className="shareOptionText"> Ảnh/Video</span>
+                            <div style={{ display: 'none' }}>
+                                <input id="file" type="file" onChange={(e) => setFile(e.target.files[0])} />
+                            </div>
                         </label>
                         <div className="shareOption">
-                            <Label htmlColor="blue" className="shareIcon" />
-                            <span className="shareOptionText"> Tag </span>
+                            <LocalOffer htmlColor="blue" fontSize="large" className="shareIcon" />
+                            <span className="shareOptionText"> Gắn thẻ bạn bè </span>
                         </div>
                         <div className="shareOption">
-                            <Room htmlColor="green" className="shareIcon" />
-                            <span className="shareOptionText"> Check-in </span>
-                        </div>
-                        <div className="shareOption">
-                            <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-                            <span className="shareOptionText"> Trạng thái </span>
+                            <InsertEmoticon htmlColor="orange" fontSize="large" className="shareIcon" />
+                            <span className="shareOptionText"> Cảm súc </span>
                         </div>
                     </div>
-                    <button className="shareButton">Đăng</button>
+                    <button className="shareButton">{creating ? <CircularProgress size={18} /> : "Đăng"}</button>
                 </form>
             </div>
         </div>

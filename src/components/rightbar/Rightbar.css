@@ -29,10 +29,17 @@
     margin: 20px 0;
 }
 
+.rightbarHr {
+    margin: 10px;
+}
+
 .rightbarFriendList {
     padding: 0;
     margin: 0;
+    width: 400px;
+    height: 550px;
     padding: 0px 0px 0px 20px;
+    overflow-y: scroll;
     list-style: none;
 }
 
@@ -40,6 +47,7 @@
     font-style: 18px;
     font-weight: 500;
     padding: 15px;
+    margin: none;
 }
 
 .rightbarInfo {

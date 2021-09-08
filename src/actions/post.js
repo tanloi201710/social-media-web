@@ -1,14 +1,15 @@
 import * as api from '../api';
-import { CREATE, END_LOADING, FETCH_ALL, START_LOADING } from '../constants/actionTypes';
+import { CREATE, DELETE, END_CREATING, END_DELETING, END_LOADING, FETCH_ALL, START_CREATING, START_DELETING, START_LOADING } from '../constants/actionTypes';
 
 export const createPost = (newPost,history) => async(dispatch) => {
     try {
+        dispatch({ type: START_CREATING });
         const {data} = await api.createPost(newPost);
         dispatch({
             type: CREATE,
             payload: data
         });
-        history.push('/');
+        dispatch({ type: END_CREATING });
     } catch (error) {
         console.log(error);
     }
@@ -38,7 +39,13 @@ export const likePost = (id) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
     try {
+        dispatch({ type: START_DELETING });
         await api.deletePost(id);
+        dispatch({ type: END_DELETING });
+        dispatch({
+            type: DELETE,
+            payload: id
+        });
     } catch (error) {
         console.log(error);
     }

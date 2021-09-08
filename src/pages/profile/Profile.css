@@ -18,11 +18,11 @@
 }
 
 .profileUserImg {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    position: absolute;
+    font-size: 5rem !important;
+    width: 150px !important;
+    height: 150px !important;
+    position: absolute !important;
+    background-color: #f44336 !important;
     left: 0;
     right: 0;
     margin: auto;

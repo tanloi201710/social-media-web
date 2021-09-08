@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
@@ -8,17 +8,18 @@ import { CircularProgress } from '@material-ui/core';
 
 export default function Feed() {
     const dispatch = useDispatch();
+    const{ posts, isLoading } = useSelector((state) => state.posts);
 
     useEffect(() => {
         dispatch(getPosts());
-    }, [dispatch]);
+    }, [dispatch,posts.length]);
 
-    const{ posts, isLoading } = useSelector((state) => state.posts);
+    
 
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">
-                    <Share/>
+                    <Share />
                     <div>
                         <h4>Không có post - Hiển thị một cái Post Demo nào đó</h4>
                     </div>
