@@ -1,8 +1,8 @@
 import { 
     PermMedia,
-    Label,
-    Room,
+    LocalOffer,
     Cancel, 
+    InsertEmoticon 
 } from '@material-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -71,7 +71,7 @@ export default function Share() {
                         ref={desc}
                     />
                 </div>
-                <hr className="shareHr"/>
+                <div className="shareHr"></div>
                 {
                     file && (
                         <div className="shareImgContainer">
@@ -83,19 +83,19 @@ export default function Share() {
                 <form className="shareBottom" onSubmit={handleSubmit}>
                     <div className="shareOptions">
                         <label className="shareOption">
-                            <PermMedia htmlColor="tomato" className="shareIcon" />
-                            <span className="shareOptionText"> Hình ảnh và Video</span>
+                            <PermMedia htmlColor="tomato" fontSize="medium" className="shareIcon" />
+                            <span className="shareOptionText"> Ảnh/Video</span>
                             <div style={{ display: 'none' }}>
                                 <input id="file" type="file" onChange={(e) => setFile(e.target.files[0])} />
                             </div>
                         </label>
                         <div className="shareOption">
-                            <Label htmlColor="blue" className="shareIcon" />
-                            <span className="shareOptionText"> Tag </span>
+                            <LocalOffer htmlColor="blue" fontSize="medium" className="shareIcon" />
+                            <span className="shareOptionText"> Gắn thẻ bạn bè </span>
                         </div>
                         <div className="shareOption">
-                            <Room htmlColor="green" className="shareIcon" />
-                            <span className="shareOptionText"> Check-in </span>
+                            <InsertEmoticon htmlColor="orange" fontSize="medium" className="shareIcon" />
+                            <span className="shareOptionText"> Cảm xúc </span>
                         </div>
                     </div>
                     <button className="shareButton">{creating ? <CircularProgress size={18} /> : "Đăng"}</button>

@@ -1,4 +1,4 @@
-import { ExpandMore, Favorite, MoreVert } from '@material-ui/icons';
+import { ExpandMore, Favorite, MoreVert, Delete, Edit } from '@material-ui/icons';
 import clsx from 'clsx';
 import React from 'react';
 // import './Post.css';
@@ -9,8 +9,8 @@ import { deletePost, likePost } from '../../actions/post';
 import { Avatar, Card, CardActions, 
     CardContent, CardHeader, CardMedia, 
     Collapse, Divider, IconButton, 
-    List, ListItem, ListItemText, Typography } from '@material-ui/core';
-import { storage, ref, deleteObject } from '../../firebase';
+    List, ListItem, ListItemText, Typography} from '@material-ui/core';
+// import { storage, ref, deleteObject } from '../../firebase';
 import { deleteImage } from '../../actions/images';
 
 export default function Post({post}) {
@@ -77,37 +77,39 @@ export default function Post({post}) {
         <Card className={classes.root} raised>
             <CardHeader
                 avatar={
-                <Avatar aria-label="recipe" className={classes.avatar} src={Users.result.profilePicture}>
-                    { Users?.result.name.charAt(0).toUpperCase() }
-                </Avatar>
-                }
-                action={
-                <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
-                    <MoreVert />
-                    {
-                        isMoreBox &&
-                        <div className={classes.postTopRight_morevert}>
-                            <List component="nav" aria-label="secondary action">
-                                <ListItem
-                                    button
-                                    
-                                >
-                                <ListItemText primary="Edit" className={classes.actionText} />
-                                </ListItem>
-                                <Divider />
-                                <ListItem
-                                    button
-                                    onClick={deleteHandler}
-                                >
-                                <ListItemText primary="Delete" className={classes.actionText} />
-                                </ListItem>
-                            </List>
-                        </div>
-                    }
-                </IconButton>
+                    <Avatar aria-label="recipe" className={classes.avatar} src={Users.result.profilePicture}>
+                        { Users?.result.name.charAt(0).toUpperCase() }
+                    </Avatar>
                 }
                 title={Users.result.name}
                 subheader={dateFormat(post.createdAt)}
+                action={
+                    <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
+                        <MoreVert />
+                        {
+                            isMoreBox &&
+                            <div className={classes.postTopRight_morevert}>
+                                <List component="nav" aria-label="secondary action">
+                                    <ListItem
+                                        button
+                            
+                                    >
+                                        <Edit fontSize="large"/>
+                                        <ListItemText primary="Chỉnh sửa bài viết" className={classes.actionText} />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem
+                                        button
+                                        onClick={deleteHandler}
+                                    >
+                                        <Delete fontSize="large"/>
+                                        <ListItemText primary="Xóa bài viết" className={classes.actionText} />
+                                    </ListItem>
+                                </List>
+                            </div>
+                        }
+                    </IconButton>
+                }
             />
             <CardMedia
                 className={classes.media}

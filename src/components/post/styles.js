@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         margin: '30px 0',
+        borderRadius: '10px',
     },
     media: {
         height: 350,
@@ -26,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         backgroundColor: red[500],
+        width: '55px',
+        height: '55px',
     },
     postTopRight: {
         position: 'relative'
@@ -33,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     postTopRight_morevert: {
         position: 'absolute',
         width: '200px',
-        right: '10px',
+        right: '15px',
         top: '47px',
         backgroundColor: '#fff',
         boxShadow: '0 5px 10px rgba(0, 0, 0, 0.4)',

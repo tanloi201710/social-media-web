@@ -8,6 +8,7 @@ import {
     School, 
     WorkOutline 
 } from '@material-ui/icons';
+import {Button} from '@material-ui/core';
 import React from 'react';
 import './Sidebar.css';
 import {Users} from '../../dummyData';
@@ -63,8 +64,8 @@ export default function Sidebar() {
 
                 </ul>
 
-                <button className="sidebarButton">Xem thêm</button>
-                <hr className="sidebarHr"/>
+                <Button className="sidebarButton" variant="outlined" color="primary">Xem thêm</Button>
+                <div className="sidebarHr"></div>
                 <ul className="sidebarFriendList">
                     {Users.map(u => (
                         <CloseFriend key={u.id} user={u}/>

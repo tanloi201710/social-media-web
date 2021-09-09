@@ -20,7 +20,9 @@ export default function Rightbar({profile}) {
                         <b> Naruto</b> and <b>3 người khác</b>
                     </span>
                 </div>
+                <hr className="rightbarHr"/>
                 <img className="rightbarAd" src="assets/op.png" alt="" />
+                <hr className="rightbarHr"/>
                 <h4 className="rightbarTitle">Online Friends</h4>
                 <ul className="rightbarFriendList">
                     {Users.map(u => (
@@ -73,10 +75,6 @@ export default function Rightbar({profile}) {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
         },
-        tabsOptions : {
-            backgroundColor: '#3f51b5',
-            color: 'while',
-        },
         picture: {
             display: 'flex',
             flexWrap: 'wrap',
@@ -100,6 +98,9 @@ export default function Rightbar({profile}) {
               backgroundColor: green[600],
             },
         },
+        indicator: {
+            backgroundColor: 'white',
+        },
     }));
 
     const ProfileRightbar = () => {
@@ -117,8 +118,8 @@ export default function Rightbar({profile}) {
         return (
             <>
             <div className={classes.friendAndPicture}>
-                <AppBar position="static" className={classes.tabsOptions}>
-                    <Tabs value={value} onChange={handleChange} aria-label="Tabs Profile">
+                <AppBar position="static">
+                    <Tabs value={value} onChange={handleChange} aria-label="Tabs Profile" classes={{indicator: classes.indicator}} >
                         <Tab label="Bạn bè" {...tabsProps(0)} />
                         <Tab label="Ảnh" {...tabsProps(1)} />
                         <Tab label="Thông tin" {...tabsProps(2)} />
