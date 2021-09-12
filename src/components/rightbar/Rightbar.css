@@ -54,10 +54,11 @@
 
 .rightbarInfoItem {
     margin-bottom: 10px;
+    display: flex;
 }
 
 .rightbarInfoKey {
-    font-weight: 500;
+    /* font-weight: 500; */
     margin-right: 15px;
     color: #555;
 }

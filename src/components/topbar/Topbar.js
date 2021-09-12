@@ -62,16 +62,16 @@ export default function Topbar() {
         />
     ));
 
-    const StyledMenuItem = withStyles((theme) => ({
-        root: {
-          '&:focus': {
-            backgroundColor: theme.palette.common.white,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-              color: theme.palette.common.white,
-            },
-          },
-        },
-      }))(MenuItem);
+    // const StyledMenuItem = withStyles((theme) => ({
+    //     root: {
+    //       '&:focus': {
+    //         backgroundColor: theme.palette.common.white,
+    //         '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+    //           color: theme.palette.common.white,
+    //         },
+    //       },
+    //     },
+    // }))(MenuItem);
     
     return (
         <div className="topbarContainer">
@@ -90,10 +90,10 @@ export default function Topbar() {
             </div>
 
             <div className="topbarRight">
-                <Link to={`/profile/${user.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
+                <Link to={`/profile/${user?.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
                     <div className="topbarLinks" >
                         {/* <img src={user.result.profilePicture ? user.result.profilePicture : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/> */}
-                        <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
+                        <Avatar src={user?.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
                         <span className="topbarUsername">{user.result.name}</span>
                     </div>
                 </Link>
@@ -129,20 +129,20 @@ export default function Topbar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseMenu}
                             >
-                            <StyledMenuItem>
-                                <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
+                            <MenuItem>
+                                <Link to={`/profile/${user?.result._id}`} style={{textDecoration: 'none'}}>
                                     <div className="topbarLinks">
-                                        <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
+                                        <Avatar src={user?.result.profilePicture} className="topbarImg">{user?.result.name.charAt(0).toUpperCase()}</Avatar>
                                         <span className="topbarUsernameMenu">{user.result.name}</span>
                                     </div>
                                 </Link>
-                            </StyledMenuItem>
-                            <StyledMenuItem onClick={handleLogout}>
+                            </MenuItem>
+                            <MenuItem onClick={handleLogout}>
                                 <ListItemIcon>
                                     <ExitToApp fontSize="large" />
                                 </ListItemIcon>
                                 <span className="topbarUsernameMenu">Đăng xuất</span>
-                            </StyledMenuItem>
+                            </MenuItem>
                             </StyledMenu>
                         </div>
                     </IconButton>

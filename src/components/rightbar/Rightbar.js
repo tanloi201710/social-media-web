@@ -6,9 +6,41 @@ import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import SwipeableViews from 'react-swipeable-views';
+import { useSelector } from 'react-redux';
+import { Cake, Favorite, Home, Room, Work } from '@material-ui/icons';
 
 export default function Rightbar({profile}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const {authData} = useSelector((state)=>state.auth);
+
+    const birthFormat = (birthday) => {
+        if(birthday) {
+            const splitStr = birthday.split('-');
+            return `${splitStr[2]}/${splitStr[1]}/${splitStr[0]}`
+        } else return "Chưa cập nhật"
+    };
+
+    const relationship = (rela) => {
+        if(rela) {
+            switch (rela) {
+                case 1:
+                    return "Độc thân";
+            
+                case 2:
+                    return "Hẹn hò"
+
+                case 3:
+                    return "Kết hôn"
+
+                default:
+                    break;
+            }
+        } else return "Chưa cập nhật"
+    }
+
+    const echo = (info) => {
+        return info ? info : "Chưa cập nhật"
+    }
 
     const HomeRightBar = () => {
         return (
@@ -189,20 +221,29 @@ export default function Rightbar({profile}) {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         {/* <Link to="/changeInfo" style={{textDecoration:"none"}}> */}
-                            <Button variant="outlined" color="primary" onClick={()=> window.location.href='/changeInfo'}>Chỉnh sửa thông tin</Button>
+                            <Button variant="outlined" color="primary" href="/changeInfo">Chỉnh sửa thông tin</Button>
                         {/* </Link> */}
                         <div className="rightbarInfo">
                             <div className="rightbarInfoItem">
-                                <span className="rightbarInfoKey">Thành phố: </span>
-                                <span className="rightbarInfoValue">Cần Thơ</span>
+                                <Home className="rightbarInfoKey"/>
+                                <Typography className="rightbarInfoValue">{echo(authData.result?.city)}</Typography>
                             </div>
                             <div className="rightbarInfoItem">
-                                <span className="rightbarInfoKey">Đến từ: </span>
-                                <span className="rightbarInfoValue">An Giang</span>
+                                <Room className="rightbarInfoKey"/>
+                                <Typography className="rightbarInfoValue">{echo(authData.result?.from)}</Typography>
                             </div>
                             <div className="rightbarInfoItem">
-                                <span className="rightbarInfoKey">Nghề nghiệp</span>
-                                <span className="rightbarInfoValue">Sinh Viên</span>
+                                <Work className="rightbarInfoKey"/>
+                                <Typography className="rightbarInfoValue">{echo(authData.result?.job)}</Typography>
+                            </div>
+                            <div className="rightbarInfoItem">
+                                <Cake className="rightbarInfoKey"/>
+                                <Typography className="rightbarInfoValue">{birthFormat(authData.result?.birthday)}</Typography>
+                            </div>
+                            <div className="rightbarInfoItem">
+                                <Favorite className="rightbarInfoKey"/>
+                                <Typography className="rightbarInfoValue">{relationship(authData.result?.relationship)}</Typography>
+                                {/* <span className="rightbarInfoValue">{authData.result?.relationship}</span> */}
                             </div>
                         </div>
                     </TabPanel>

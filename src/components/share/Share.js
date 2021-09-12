@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createPost, getPosts } from '../../actions/post';
 import './Share.css';
-import { CircularProgress, Avatar } from '@material-ui/core';
+import { CircularProgress, Avatar, Button, makeStyles } from '@material-ui/core';
 import { compressFile, uploadFireBase } from '../../actions/images';
 
 export default function Share() {
@@ -19,6 +19,7 @@ export default function Share() {
     
 
     const { creating } = useSelector((state) => state.posts);
+    const { isUploading } = useSelector((state) => state.upload);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -28,6 +29,14 @@ export default function Share() {
             dispatch(getPosts());
         }
     }, [dispatch,creating]);
+
+    const useStyles = makeStyles(() => ({
+        progress_white: {
+            color: '#fff'
+        }
+    }));
+
+    const classes = useStyles();
 
     const resetForm = () => {
         desc.current.value = '';
@@ -48,7 +57,7 @@ export default function Share() {
             const compressedFile = await compressFile(file);
             const fileName = Date.now()+ '-' + compressedFile.name;
             newPost.imgName = fileName;
-            const url = await uploadFireBase(compressedFile,fileName);
+            const url = await uploadFireBase(compressedFile,fileName, dispatch);
             newPost.img = url;
         };
         if(newPost.img === '' && newPost.desc === '') {
@@ -64,7 +73,7 @@ export default function Share() {
         <div className="share">
             <div className="shareWrapper">
                 <div className="shareTop">
-                    <Avatar className="shareProfileImg" src={user.result.profilePicture}>{user.result.name.charAt(0).toUpperCase()}</Avatar>
+                    <Avatar className="shareProfileImg" src={user.result?.profilePicture}>{user.result.name.charAt(0).toUpperCase()}</Avatar>
                     <input 
                         placeholder={`Bạn đang nghĩ gì vậy ${user.result.name}`}
                         className="shareInput"
@@ -80,7 +89,7 @@ export default function Share() {
                         </div>
                     )
                 }
-                <form className="shareBottom" onSubmit={handleSubmit}>
+                <form className="shareBottom">
                     <div className="shareOptions">
                         <label className="shareOption">
                             <PermMedia htmlColor="tomato" fontSize="medium" className="shareIcon" />
@@ -98,7 +107,10 @@ export default function Share() {
                             <span className="shareOptionText"> Cảm xúc </span>
                         </div>
                     </div>
-                    <button className="shareButton">{creating ? <CircularProgress size={18} /> : "Đăng"}</button>
+                    <Button variant="contained" color="primary" onClick={handleSubmit}>
+                        {creating || isUploading ? <CircularProgress size={22} classes={{colorPrimary: classes.progress_white}} /> : "Đăng"}
+                    </Button>
+                    {/* <button className="shareButton"></button> */}
                 </form>
             </div>
         </div>

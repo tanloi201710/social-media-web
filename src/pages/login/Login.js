@@ -13,12 +13,13 @@ export default function Login() {
     const password = useRef();
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-    const {errorMsg} = useSelector((state) => state.errors);
+    const {errorMsg} = useSelector((state) => state.auth);
     
     useEffect(() => {
-        console.log(errorMsg);
+        if(errorMsg !== '') alert(errorMsg);
     }, [errorMsg]);
 
+    console.log(errorMsg);
 
     const googleSuccess = async (res) => {
         const result = res?.profileObj;
@@ -38,7 +39,6 @@ export default function Login() {
         };
 
         dispatch(signin(formData,history));
-        if(errorMsg !== '') alert(errorMsg);
     };
 
     return (

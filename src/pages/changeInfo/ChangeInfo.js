@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import ChangeAvatar from '../../components/changeAvatar/ChangeAvatar';
-import { compressFile, uploadFireBase } from '../../actions/images';
+import { compressFile, deleteImage, uploadFireBase } from '../../actions/images';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../actions/user';
 
@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
       width: 200,
     },
+    progress_white: {
+      color: '#fff'
+    }
   }));
   
   function getSteps() {
@@ -61,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangeInfo() {
   const classes = useStyles();
+  const { isUploading } = useSelector((state) => state.upload);
   const user = JSON.parse(localStorage.getItem('profile'));
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
@@ -91,7 +95,7 @@ export default function ChangeInfo() {
     if(activeStep === steps.length - 1) {
       if(file){
         try {
-          const url = await uploadFireBase(file, allInfo.profilePictureName);
+          const url = await uploadFireBase(file, allInfo.profilePictureName, dispatch);
           dispatch(updateUser(user.result._id,{...allInfo, profilePicture: url}));
         } catch (error) {
           console.log(error);
@@ -232,7 +236,9 @@ export default function ChangeInfo() {
                         onClick={handleNext}
                         className={classes.button}
                       >
-                        {activeStep === steps.length - 1 ? 'Hoàn thành' : 'Tiếp tục'}
+                        {isUploading ? <CircularProgress size={22} classes={{colorPrimary: classes.progress_white}} /> : 
+                        (activeStep === steps.length - 1 ? 'Hoàn thành' : 'Tiếp tục')
+                        }
                       </Button>
                     </div>
                   </div>
