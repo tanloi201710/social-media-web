@@ -2,23 +2,9 @@ import React, { useState } from 'react';
 import './ChangeInfo.css';
 import Topbar from '../../components/topbar/Topbar';
 import {
-    Button,
-    makeStyles, 
-    Stepper, 
-    Step,
-    StepLabel,
-    StepContent,
-    Paper,
-    Typography,
-    TextField,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    CircularProgress
+    Button, makeStyles, Stepper, Step, StepLabel, StepContent, Paper,
+    Typography, TextField, FormControlLabel, Radio, RadioGroup, FormControl,
+    InputLabel, Select, MenuItem, CircularProgress
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import ChangeAvatar from '../../components/changeAvatar/ChangeAvatar';
@@ -53,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
       width: 200,
     },
+    progress_white: {
+      color: '#fff'
+    }
   }));
   
   function getSteps() {
@@ -61,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangeInfo() {
   const classes = useStyles();
+  const { isUploading } = useSelector((state) => state.upload);
   const user = JSON.parse(localStorage.getItem('profile'));
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
@@ -91,7 +81,7 @@ export default function ChangeInfo() {
     if(activeStep === steps.length - 1) {
       if(file){
         try {
-          const url = await uploadFireBase(file, allInfo.profilePictureName);
+          const url = await uploadFireBase(file, allInfo.profilePictureName, dispatch);
           dispatch(updateUser(user.result._id,{...allInfo, profilePicture: url}));
         } catch (error) {
           console.log(error);
@@ -119,10 +109,10 @@ export default function ChangeInfo() {
             <form className={classes.root} noValidate autoComplete="off">
               <p>Giới tính</p>
               <RadioGroup 
-              aria-label="gender" 
-              name="gender" 
-              value={allInfo.gender} 
-              onChange={(e) => setAllInfo({...allInfo, gender: e.target.value})}
+                aria-label="gender" 
+                name="gender" 
+                value={allInfo.gender} 
+                onChange={(e) => setAllInfo({...allInfo, gender: e.target.value})}
               >
                 <FormControlLabel value="male" control={<Radio />} label="Nam" />
                 <FormControlLabel value="female" control={<Radio />} label="Nữ" />
@@ -232,7 +222,9 @@ export default function ChangeInfo() {
                         onClick={handleNext}
                         className={classes.button}
                       >
-                        {activeStep === steps.length - 1 ? 'Hoàn thành' : 'Tiếp tục'}
+                        {isUploading ? <CircularProgress size={22} classes={{colorPrimary: classes.progress_white}} /> : 
+                        (activeStep === steps.length - 1 ? 'Hoàn thành' : 'Tiếp tục')
+                        }
                       </Button>
                     </div>
                   </div>

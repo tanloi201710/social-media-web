@@ -1,18 +1,12 @@
 import { 
-    Event, 
-    Group, 
-    HelpOutline, 
-    PlayCircleFilledOutlined, 
-    LocalHospital,
-    StorefrontOutlined,
-    School, 
-    WorkOutline 
+    Event, Group, HelpOutline, PlayCircleFilledOutlined, 
+    LocalHospital, StorefrontOutlined, School, WorkOutline 
 } from '@material-ui/icons';
 import {Button} from '@material-ui/core';
 import React from 'react';
 import './Sidebar.css';
 import {Users} from '../../dummyData';
-import CloseFriend from '../closeFriend.js/CloseFriend';
+import CloseFriend from '../closeFriend/CloseFriend'
 import {Link} from 'react-router-dom';
 
 export default function Sidebar() {
@@ -66,15 +60,8 @@ export default function Sidebar() {
 
                 <Button className="sidebarButton" variant="outlined" color="primary">Xem thêm</Button>
                 <hr className="sidebarHr"/>
+                <h4 className="sidebarTitle">Gợi ý kết bạn</h4>
                 <ul className="sidebarFriendList">
-                    {Users.map(u => (
-                        <CloseFriend key={u.id} user={u}/>
-                    ))}
-
-                    {Users.map(u => (
-                        <CloseFriend key={u.id} user={u}/>
-                    ))}
-
                     {Users.map(u => (
                         <CloseFriend key={u.id} user={u}/>
                     ))}

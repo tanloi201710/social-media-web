@@ -8,12 +8,16 @@ const useStyles = makeStyles((theme) => ({
         margin: '30px 0',
         borderRadius: '10px',
     },
+    name: {
+        fontSize: 15,
+        fontWeight: 500,
+    },
     media: {
-        height: 350,
+        // height: 350,
         width: '100%',
-        // objectFit: 'contain',
-        boxShadow: 'inset 0px 10px 8px -10px #c6c6c6, inset 0px -10px 8px -10px #c6c6c6',
-        backgroundSize: 'contain',
+        objectFit: 'contain',
+        // boxShadow: 'inset 0px 10px 8px -10px #c6c6c6, inset 0px -10px 8px -10px #c6c6c6',
+        // backgroundSize: 'contain',
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     actionText: {
-        color: '#000'
+        color: '#000',
     }
 }));
 

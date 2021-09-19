@@ -1,9 +1,13 @@
-import { Notifications, Person, Search, ArrowDropDownCircle, ExitToApp, Message} from '@material-ui/icons';
+import { 
+    Notifications, Person, Search, ArrowDropDownCircle, ExitToApp, Message
+} from '@material-ui/icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import './Topbar.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {Menu, withStyles, MenuItem, ListItemIcon, Avatar, Badge, IconButton} from '@material-ui/core';
+import {
+    Menu, withStyles, MenuItem, ListItemIcon, Avatar, Badge, IconButton
+} from '@material-ui/core';
 import decode from 'jwt-decode';
 
 export default function Topbar() {
@@ -62,17 +66,6 @@ export default function Topbar() {
         />
     ));
 
-    const StyledMenuItem = withStyles((theme) => ({
-        root: {
-          '&:focus': {
-            backgroundColor: theme.palette.common.white,
-            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-              color: theme.palette.common.white,
-            },
-          },
-        },
-      }))(MenuItem);
-    
     return (
         <div className="topbarContainer">
 
@@ -90,16 +83,16 @@ export default function Topbar() {
             </div>
 
             <div className="topbarRight">
-                <Link to={`/profile/${user.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
+                <Link to={`/profile/${user?.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
                     <div className="topbarLinks" >
                         {/* <img src={user.result.profilePicture ? user.result.profilePicture : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/> */}
-                        <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
+                        <Avatar src={user?.result.profilePicture} className="topbarAvatar">{user.result.name.charAt(0).toUpperCase()}</Avatar>
                         <span className="topbarUsername">{user.result.name}</span>
                     </div>
                 </Link>
 
                 <div className="topbarIcons">
-                    <IconButton>
+                    <IconButton className="topbarIconButtons">
                         <Badge badgeContent={4} color="error" className="topbarIconItem">
                             <Person fontSize="large"/>
                         </Badge>
@@ -129,20 +122,24 @@ export default function Topbar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleCloseMenu}
                             >
-                            <StyledMenuItem>
-                                <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
-                                    <div className="topbarLinks">
-                                        <Avatar src={user.result.profilePicture} className="topbarImg">{user.result.name.charAt(0).toUpperCase()}</Avatar>
-                                        <span className="topbarUsernameMenu">{user.result.name}</span>
+                                <MenuItem>
+                                    <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
+                                        <div className="topbarMenu">
+                                            <ListItemIcon>
+                                                <Avatar src={user.result.profilePicture} className="topbarMenuAvatar">{user.result.name.charAt(0).toUpperCase()}</Avatar>
+                                            </ListItemIcon>
+                                            <span className="topbarMenuText">{user.result.name}</span>
+                                        </div>
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem onClick={handleLogout}>
+                                    <div className="topbarMenu">
+                                        <ListItemIcon>
+                                            <ExitToApp fontSize="large" className="topbarMenuIcon"/>
+                                        </ListItemIcon>
+                                        <span className="topbarMenuText">Đăng xuất</span>
                                     </div>
-                                </Link>
-                            </StyledMenuItem>
-                            <StyledMenuItem onClick={handleLogout}>
-                                <ListItemIcon>
-                                    <ExitToApp fontSize="large" />
-                                </ListItemIcon>
-                                <span className="topbarUsernameMenu">Đăng xuất</span>
-                            </StyledMenuItem>
+                                </MenuItem>
                             </StyledMenu>
                         </div>
                     </IconButton>

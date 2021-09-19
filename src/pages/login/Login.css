@@ -59,6 +59,14 @@
     padding-left: 20px;
 }
 
+.loginInput:hover {
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #1775ee;
+    font-size: 18px; 
+    padding-left: 20px;
+}
+
 .loginInput:focus {
     outline: none;
 }
@@ -74,6 +82,17 @@
     cursor: pointer;
 }
 
+.loginButton:hover {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #155ebf;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
 .loginForgot {
     text-align: center;
     color: #1775ee;
@@ -83,7 +102,7 @@
     width: 60%;
     align-self: center;
     height: 50px;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     border: none;
     background-color: #42b72a;
     color: white;
@@ -92,13 +111,38 @@
     cursor: pointer;
 }
 
+.loginRegisterButton:hover {
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1da701;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
 .googleButton {
     width: 65%;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     border: none;
     padding: 7px;
     align-self: center;
     background-color: #1775ee;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.googleButton:hover {
+    width: 65%;
+    border-radius: 10px;
+    border: none;
+    padding: 7px;
+    align-self: center;
+    background-color: #155ebf;
     display: flex;
     align-items: center;
     cursor: pointer;

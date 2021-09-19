@@ -13,12 +13,13 @@ export default function Login() {
     const password = useRef();
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-    const {errorMsg} = useSelector((state) => state.errors);
+    const {errorMsg} = useSelector((state) => state.auth);
     
     useEffect(() => {
-        console.log(errorMsg);
+        if(errorMsg !== '') alert(errorMsg);
     }, [errorMsg]);
 
+    console.log(errorMsg);
 
     const googleSuccess = async (res) => {
         const result = res?.profileObj;
@@ -38,7 +39,6 @@ export default function Login() {
         };
 
         dispatch(signin(formData,history));
-        if(errorMsg !== '') alert(errorMsg);
     };
 
     return (
@@ -60,20 +60,20 @@ export default function Login() {
                             Tạo tài khoản mới
                         </button>
                         <GoogleLogin 
-                        clientId="942604298897-gs8om3cnmj19gr4pc02enfpidos9ofb4.apps.googleusercontent.com"
-                        render={(renderProps) => (
-                            <button
-                                onClick={renderProps.onClick}
-                                className="googleButton"
-                                disabled={renderProps.disabled}
-                            >
-                                <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
-                                <span className="googleText">Đăng nhập bằng Google</span>
-                            </button>
-                        )}
-                        onSuccess={googleSuccess}
-                        onFailure={googleFailure}
-                        cookiePolicy="single_host_origin"
+                            clientId="942604298897-gs8om3cnmj19gr4pc02enfpidos9ofb4.apps.googleusercontent.com"
+                            render={(renderProps) => (
+                                <button
+                                    onClick={renderProps.onClick}
+                                    className="googleButton"
+                                    disabled={renderProps.disabled}
+                                >
+                                    <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
+                                    <span className="googleText">Đăng nhập bằng Google</span>
+                                </button>
+                            )}
+                            onSuccess={googleSuccess}
+                            onFailure={googleFailure}
+                            cookiePolicy="single_host_origin"
                         />
                     </div>
                 </div>

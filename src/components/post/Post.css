@@ -115,3 +115,8 @@
     border-bottom: 1px dashed gray;
     font-size: 15px;
 }
+
+.postDescription {
+    font-weight: 500;
+    font-size: 15px;
+}

@@ -20,3 +20,6 @@ export const END_DELETING = 'END_DELETING';
 
 export const START_UPDATING = 'START_UPDATING';
 export const END_UPDATING = 'END_UPDATING';
+
+export const START_UPLOADING = 'START_UPLOADING';
+export const END_UPLOADING = 'END_UPLOADING';

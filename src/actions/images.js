@@ -4,7 +4,7 @@ import { storage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from
 
 export const compressFile = async(file) => {
     const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.5,
         maxWidthOrHeight: 1920,
         useWebWorker: true
     }
@@ -12,11 +12,11 @@ export const compressFile = async(file) => {
         const compressedFile = await imageCompression(file, options);
         return compressedFile;
     } catch (error) {
-    console.log(error);
+        console.log(error);
     }
 };
 
-export const uploadFireBase = (file,fileName,cb) => {
+export const uploadFireBase = (file,fileName) => {
     return new Promise((resolve, reject) => {
         const metadata = {
             contentType: file.type
@@ -26,6 +26,7 @@ export const uploadFireBase = (file,fileName,cb) => {
         uploadTask.on('state_changed',
             (snapshot) => {
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                
                 const progress = parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 console.log(progress);
             }, 

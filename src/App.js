@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
@@ -15,7 +15,17 @@ import Profile from './pages/profile/Profile';
 
 
 function App() {
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const [user] = useState(JSON.parse(localStorage.getItem('profile')));
+
+  // const {authData} = useSelector((state) => state.auth);
+
+  // useEffect(() => {
+  //   setUser(authData);
+  // },[authData]);
+
+  // console.log(user);
+  
+  // const user = JSON.parse(localStorage.getItem('profile'));
 
   return ( 
     <Router>
@@ -23,7 +33,7 @@ function App() {
         <Route exact path='/' component={() => (!user ? <Redirect to="/login"/> : <Home user={user}/>)}/>
           
         <Route  path='/login'>
-          <Login/>
+          {user ? <Redirect to='/' /> :<Login/>}
         </Route>
         <Route path="/register">
           <Register/>
