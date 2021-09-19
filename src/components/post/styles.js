@@ -9,11 +9,11 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '10px',
     },
     media: {
-        height: 350,
+        // height: 350,
         width: '100%',
-        // objectFit: 'contain',
-        boxShadow: 'inset 0px 10px 8px -10px #c6c6c6, inset 0px -10px 8px -10px #c6c6c6',
-        backgroundSize: 'contain',
+        objectFit: 'contain',
+        // boxShadow: 'inset 0px 10px 8px -10px #c6c6c6, inset 0px -10px 8px -10px #c6c6c6',
+        // backgroundSize: 'contain',
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: '0 5px 10px rgba(0, 0, 0, 0.4)',
         borderRadius: '5px',
         border: '1px solid rgba(0,0,0,0.1)',
+        zIndex: 2,
         '&:before': {
             content: '""',
             position: 'absolute',

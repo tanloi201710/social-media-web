@@ -1,11 +1,10 @@
 import imageCompression from 'browser-image-compression';
-import { END_UPLOADING, START_UPLOADING } from '../constants/actionTypes';
 import { storage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from '../firebase';
 
 
 export const compressFile = async(file) => {
     const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.5,
         maxWidthOrHeight: 1920,
         useWebWorker: true
     }
@@ -13,11 +12,11 @@ export const compressFile = async(file) => {
         const compressedFile = await imageCompression(file, options);
         return compressedFile;
     } catch (error) {
-    console.log(error);
+        console.log(error);
     }
 };
 
-export const uploadFireBase = (file,fileName,dispatch) => {
+export const uploadFireBase = (file,fileName) => {
     return new Promise((resolve, reject) => {
         const metadata = {
             contentType: file.type
@@ -27,7 +26,7 @@ export const uploadFireBase = (file,fileName,dispatch) => {
         uploadTask.on('state_changed',
             (snapshot) => {
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                dispatch({type: START_UPLOADING});
+                
                 const progress = parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                 console.log(progress);
             }, 
@@ -35,7 +34,6 @@ export const uploadFireBase = (file,fileName,dispatch) => {
                 reject(error);
             }, 
             () => {
-                dispatch({type: END_UPLOADING});
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                     resolve(url);
                 });

@@ -11,17 +11,18 @@ import {
 import ChangeInfo from './pages/changeInfo/ChangeInfo';
 import Covid19 from './pages/covid-19/Covid19';
 import Profile from './pages/profile/Profile';
+import { useSelector } from 'react-redux';
 
 
 
 function App() {
-  const [user] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
-  // const {authData} = useSelector((state) => state.auth);
+  const {authData} = useSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   setUser(authData);
-  // },[authData]);
+  useEffect(() => {
+    setUser(authData);
+  },[authData]);
 
   // console.log(user);
   

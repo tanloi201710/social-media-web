@@ -4,10 +4,10 @@ import {Users} from '../../dummyData';
 import Online from '../online/Online';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
 import SwipeableViews from 'react-swipeable-views';
 import { useSelector } from 'react-redux';
 import { Cake, Favorite, Home, Room, Work } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
 
 export default function Rightbar({profile}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -107,6 +107,7 @@ export default function Rightbar({profile}) {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
         },
+        
         picture: {
             display: 'flex',
             flexWrap: 'wrap',
@@ -118,18 +119,18 @@ export default function Rightbar({profile}) {
             width: 430,
             height: 500,
         },
-        fab: {
-            position: 'absolute',
-            bottom: theme.spacing(2),
-            right: theme.spacing(2),
-        },
-          fabGreen: {
-            color: theme.palette.common.white,
-            backgroundColor: green[500],
-            '&:hover': {
-              backgroundColor: green[600],
-            },
-        },
+        // fab: {
+        //     position: 'absolute',
+        //     bottom: theme.spacing(2),
+        //     right: theme.spacing(2),
+        // },
+        //   fabGreen: {
+        //     color: theme.palette.common.white,
+        //     backgroundColor: green[500],
+        //     '&:hover': {
+        //       backgroundColor: green[600],
+        //     },
+        // },
         indicator: {
             backgroundColor: 'white',
         },
@@ -220,9 +221,9 @@ export default function Rightbar({profile}) {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        {/* <Link to="/changeInfo" style={{textDecoration:"none"}}> */}
-                            <Button variant="outlined" color="primary" href="/changeInfo">Chỉnh sửa thông tin</Button>
-                        {/* </Link> */}
+                        <Link to="/changeInfo" style={{textDecoration:"none"}}>
+                            <Button variant="outlined" color="primary">Chỉnh sửa thông tin</Button>
+                        </Link>
                         <div className="rightbarInfo">
                             <div className="rightbarInfoItem">
                                 <Home className="rightbarInfoKey"/>

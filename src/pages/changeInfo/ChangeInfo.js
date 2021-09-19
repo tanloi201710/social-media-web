@@ -96,6 +96,7 @@ export default function ChangeInfo() {
       if(file){
         try {
           const url = await uploadFireBase(file, allInfo.profilePictureName, dispatch);
+          if(user.result?.profilePictureName) deleteImage(user.result?.profilePictureName);
           dispatch(updateUser(user.result._id,{...allInfo, profilePicture: url}));
         } catch (error) {
           console.log(error);

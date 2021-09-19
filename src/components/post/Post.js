@@ -1,17 +1,17 @@
 import { ExpandMore, Favorite, MoreVert, Delete, Edit } from '@material-ui/icons';
 import clsx from 'clsx';
 import React from 'react';
-// import './Post.css';
 import useStyles from './styles';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost } from '../../actions/post';
 import { Avatar, Card, CardActions, 
-    CardContent, CardHeader, CardMedia, 
+    CardContent, CardHeader, 
     Collapse, Divider, IconButton, 
     List, ListItem, ListItemText, Typography} from '@material-ui/core';
-// import { storage, ref, deleteObject } from '../../firebase';
 import { deleteImage } from '../../actions/images';
+import ImagesList from '../imageList/ImagesList';
+import { CircularProgress } from '@mui/material';
 
 export default function Post({post}) {
     const [liked, setLiked] = useState(post.likes.length);
@@ -20,6 +20,7 @@ export default function Post({post}) {
     // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const Users = JSON.parse(localStorage.getItem('profile'));
     const dispatch = useDispatch();
+    const {deleting} = useSelector(state => state.posts);
     const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(false);
@@ -36,13 +37,17 @@ export default function Post({post}) {
 
     const deleteHandler = async() => {
         if(post?.img) {
-            try {
-                await deleteImage(post.imgName);
-                dispatch(deletePost(post._id));
-                setIsMoreBox(false);
-            } catch (error) {
-                console.log(error);
+            for (let i = 0; i < post.imgName.length; i++) {
+                try {
+                    await deleteImage(post.imgName[i]);
+                } catch (error) {
+                    console.log(error);
+                }
             }
+            dispatch(deletePost(post._id));
+            setIsMoreBox(false);
+        } else {
+            dispatch(deletePost(post._id));
         }
     };
 
@@ -85,7 +90,7 @@ export default function Post({post}) {
                 subheader={dateFormat(post.createdAt)}
                 action={
                     <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
-                        <MoreVert />
+                        { deleting ? <CircularProgress size={22} /> : <MoreVert />}
                         {
                             isMoreBox &&
                             <div className={classes.postTopRight_morevert}>
@@ -111,11 +116,15 @@ export default function Post({post}) {
                     </IconButton>
                 }
             />
-            <CardMedia
+            {/* <CardMedia
                 className={classes.media}
                 image={`${post.img}`}
                 title={post.imgName}
-            />
+            /> */}
+            {
+                post.img.length > 1 ? <ImagesList arrObj={post.img}  /> : post.img.length !== 0 &&
+                <img src={post.img} alt={post.imgName} className={classes.media} />
+            }
             <CardContent>
                 <Typography variant="body2" color="textPrimary" component="p">
                     {post.desc}
