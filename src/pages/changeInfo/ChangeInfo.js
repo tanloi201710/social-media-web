@@ -2,23 +2,9 @@ import React, { useState } from 'react';
 import './ChangeInfo.css';
 import Topbar from '../../components/topbar/Topbar';
 import {
-    Button,
-    makeStyles, 
-    Stepper, 
-    Step,
-    StepLabel,
-    StepContent,
-    Paper,
-    Typography,
-    TextField,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    CircularProgress
+    Button, makeStyles, Stepper, Step, StepLabel, StepContent, Paper,
+    Typography, TextField, FormControlLabel, Radio, RadioGroup, FormControl,
+    InputLabel, Select, MenuItem, CircularProgress
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import ChangeAvatar from '../../components/changeAvatar/ChangeAvatar';
@@ -124,10 +110,10 @@ export default function ChangeInfo() {
             <form className={classes.root} noValidate autoComplete="off">
               <p>Giới tính</p>
               <RadioGroup 
-              aria-label="gender" 
-              name="gender" 
-              value={allInfo.gender} 
-              onChange={(e) => setAllInfo({...allInfo, gender: e.target.value})}
+                aria-label="gender" 
+                name="gender" 
+                value={allInfo.gender} 
+                onChange={(e) => setAllInfo({...allInfo, gender: e.target.value})}
               >
                 <FormControlLabel value="male" control={<Radio />} label="Nam" />
                 <FormControlLabel value="female" control={<Radio />} label="Nữ" />

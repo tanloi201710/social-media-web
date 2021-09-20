@@ -1,4 +1,6 @@
-import { ExpandMore, Favorite, MoreVert, Delete, Edit } from '@material-ui/icons';
+import { 
+    ExpandMore, Favorite, MoreVert, Delete, Edit 
+} from '@material-ui/icons';
 import clsx from 'clsx';
 import React from 'react';
 import useStyles from './styles';
@@ -17,7 +19,6 @@ export default function Post({post}) {
     const [liked, setLiked] = useState(post.likes.length);
     const [isLiked, setIsLiked] = useState(false);
     const [isMoreBox,setIsMoreBox] = useState(false);
-    // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const Users = JSON.parse(localStorage.getItem('profile'));
     const dispatch = useDispatch();
     const {deleting} = useSelector(state => state.posts);
@@ -86,7 +87,7 @@ export default function Post({post}) {
                         { Users?.result.name.charAt(0).toUpperCase() }
                     </Avatar>
                 }
-                title={Users.result.name}
+                title={<div className={classes.name}>{Users.result.name}</div>}
                 subheader={dateFormat(post.createdAt)}
                 action={
                     <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
@@ -97,7 +98,6 @@ export default function Post({post}) {
                                 <List component="nav" aria-label="secondary action">
                                     <ListItem
                                         button
-                            
                                     >
                                         <Edit fontSize="large"/>
                                         <ListItemText primary="Chỉnh sửa bài viết" className={classes.actionText} />
@@ -126,7 +126,7 @@ export default function Post({post}) {
                 <img src={post.img} alt={post.imgName} className={classes.media} />
             }
             <CardContent>
-                <Typography variant="body2" color="textPrimary" component="p">
+                <Typography variant="body2" color="textPrimary" component="p" className={classes.description}>
                     {post.desc}
                 </Typography>
             </CardContent>
@@ -148,10 +148,8 @@ export default function Post({post}) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                <Typography paragraph>Comments:</Typography>
-                <Typography paragraph>
-                    Comming soon!
-                </Typography>
+                    <Typography paragraph>Comments:</Typography>
+                    <Typography paragraph>Comming soon!</Typography>
                 </CardContent>
             </Collapse>
             </Card>

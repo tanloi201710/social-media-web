@@ -1,17 +1,22 @@
 import { 
-    PermMedia,
-    LocalOffer,
-    Cancel, 
-    InsertEmoticon 
+    PermMedia, LocalOffer, Cancel, InsertEmoticon, Search, 
+    // ChevronRight, ChevronLeft
 } from '@material-ui/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createPost, getPosts } from '../../actions/post';
 import './Share.css';
-import { CircularProgress, Avatar, Button, makeStyles } from '@material-ui/core';
-import { ImageList, ImageListItem } from '@mui/material';
+import { 
+    CircularProgress, Avatar, Button, makeStyles, DialogActions, 
+    DialogContent, DialogTitle, Dialog, Grid, Paper, Chip, ListItemIcon, 
+    // IconButton,
+} from '@material-ui/core';
+import Emojify from 'react-emojione';
+import CloseFriend from '../closeFriend/CloseFriend';
+import {Users} from '../../dummyData';
 import { compressFile, uploadFireBase } from '../../actions/images';
+import { ImageList, ImageListItem } from '@mui/material';
 import { END_UPLOADING, START_UPLOADING } from '../../constants/actionTypes';
 
 export default function Share() {
@@ -60,7 +65,6 @@ export default function Share() {
                 itemData.push(obj);
             }
         }
-        // setArrObj(itemData);
         return itemData;
     },[]);
     useEffect(() => {
@@ -120,6 +124,33 @@ export default function Share() {
             resetForm();
         }
     };
+    const [openFeel, setOpenFeel] = React.useState(false);
+    const [openTag, setOpenTag] = React.useState(false);
+
+    const handleClickOpenFeeling = () => {
+        setOpenFeel(true)
+    };
+
+    const handleClickOpenTag = () => {
+        setOpenTag(true);
+    };
+
+    const handleClose = () => {
+        setOpenFeel(false);
+        setOpenTag(false);
+    };
+
+    const [chipData, setChipData] = React.useState([
+        { key: 0, label: 'Mark Zuckerberg' },
+        { key: 1, label: 'Polymer' },
+        { key: 2, label: 'Polymer' },
+        { key: 3, label: 'React' },
+        { key: 4, label: 'Vue.js' },
+    ]);
+    
+    const handleDelete = (chipToDelete) => () => {
+        setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+    };
 
 
     return (
@@ -173,11 +204,11 @@ export default function Share() {
                                 <input id="file" type="file" multiple onChange={(e) => setFiles(e.target.files)} />
                             </div>
                         </label>
-                        <div className="shareOption">
+                        <div className="shareOption" onClick={handleClickOpenTag}>
                             <LocalOffer htmlColor="blue" fontSize="medium" className="shareIcon" />
                             <span className="shareOptionText"> Gắn thẻ bạn bè </span>
                         </div>
-                        <div className="shareOption">
+                        <div className="shareOption" onClick={handleClickOpenFeeling}>
                             <InsertEmoticon htmlColor="orange" fontSize="medium" className="shareIcon" />
                             <span className="shareOptionText"> Cảm xúc </span>
                         </div>
@@ -185,7 +216,141 @@ export default function Share() {
                     <Button variant="contained" color="primary" onClick={handleSubmit}>
                         {creating || isUploading ? <CircularProgress size={22} classes={{colorPrimary: classes.progress_white}} /> : "Đăng"}
                     </Button>
-                    {/* <button className="shareButton"></button> */}
+                    <div >
+                        <Dialog className="shareFeeling" open={openFeel} onClose={handleClose}>
+                            <DialogTitle className="shareFeelingTitle">
+                                {/* <IconButton className="shareFeelingButtonLeft" onClick={handleClickOpenTag}>
+                                    <ChevronLeft fontSize="large" className="shareTagIconLeft"/>
+                                </IconButton> */}
+                                Bạn đang cảm thấy như thế nào ?
+                            </DialogTitle>
+                            <hr/>
+                            <DialogContent>
+                                <div className="shareFeelingContent">
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={6}>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon">😊 Hạnh phúc</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Hạnh phúc </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >😍 Đáng yêu</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Đáng yêu </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >😲 Ngạc nhiên</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Ngạc nhiên </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >🤪 Hài hước</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Hài hước </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >😪 Buồn ngủ</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Buồn ngủ </span> */}
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >😀 Tuyệt vời</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Tuyệt vời </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption">
+                                                <Emojify><span className="shareFeelingOptionIcon" >☹️ Buồn</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Buồn </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption" >
+                                                <Emojify><span className="shareFeelingOptionIcon" >😆 Vui vẻ</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Vui vẻ </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption" >
+                                                <Emojify><span className="shareFeelingOptionIcon" >😌 Thư giãn</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Thư giãn </span> */}
+                                            </div>
+                                            <div className="shareFeelingOption" >
+                                                <Emojify><span className="shareFeelingOptionIcon" >😇 Thoải mái</span></Emojify>
+                                                {/* <span className="shareFeelingOptionText" > Thoải mái </span> */}
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                            </DialogContent>
+                            <hr/>
+                            <DialogActions>
+                                <Button onClick={handleClose} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleClose} color="primary">
+                                    Ok
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+
+
+                        <Dialog className="shareTag" open={openTag} onClose={handleClose}>
+                            <DialogTitle className="shareTagTitle">
+                                {/* <IconButton className="shareTagButtonLeft" >
+                                        <ChevronLeft fontSize="large" className="shareTagIconLeft"/>
+                                </IconButton> */}
+                                Gắn thẻ bạn bè
+                                {/* <IconButton className="shareTagButtonRight" onClick={handleClickOpenFeeling}>
+                                    <ChevronRight fontSize="large" className="shareTagIconRight"/>
+                                </IconButton> */}
+                            </DialogTitle>
+                            <hr/>
+                            <DialogContent>
+                                <div className="shareTagsearch">
+                                    <ListItemIcon>
+                                        <Search fontSize="medium" className="shareTagsearchIcon"/>
+                                    </ListItemIcon>
+                                    <input placeholder="Tìm kiếm bạn bè ..." className="shareTagsearchInput" />
+                                </div>
+                                <div className="shareTagsFriended">
+                                    <span className="shareTagsFriendTitle">Đã gắn thẻ</span>
+                                    <Paper
+                                        className="shareTagsFriendNameBox"
+                                        // sx={{ p: 1, m: 1, }}
+                                        elevation={3}
+                                        component="ul"
+                                    >
+                                        {chipData.map(u => {
+                                            let icon;
+                                            return (
+                                                <li key={u.key}  className="shareTagsFriendNameLi">
+                                                    <Chip
+                                                        className="shareTagsFriendNameChip"
+                                                        icon={icon}
+                                                        label={u.label}
+                                                        // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
+                                                        onDelete={u.label === 'React' ? handleDelete(u) : handleDelete(u)}
+                                                    />
+                                                </li>
+                                            );
+                                        })}
+                                    </Paper>
+                                </div>
+                                <div className="shareTagContent">
+                                    <span className="shareTagsFriendTitle">Gợi ý</span>
+                                    <Grid container spacing={2} className="shareTagContentOption">
+                                        <Grid item xs={12} md={12}>
+                                            {Users.map(u => (
+                                                <CloseFriend key={u.id} user={u}/>
+                                            ))}
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                            </DialogContent>
+                            <hr/>
+                            <DialogActions>
+                                <Button onClick={handleClose} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleClose} color="primary">
+                                    Ok
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
                 </form>
             </div>
         </div>

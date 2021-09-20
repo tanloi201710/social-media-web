@@ -60,20 +60,20 @@ export default function Login() {
                             Tạo tài khoản mới
                         </button>
                         <GoogleLogin 
-                        clientId="942604298897-gs8om3cnmj19gr4pc02enfpidos9ofb4.apps.googleusercontent.com"
-                        render={(renderProps) => (
-                            <button
-                                onClick={renderProps.onClick}
-                                className="googleButton"
-                                disabled={renderProps.disabled}
-                            >
-                                <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
-                                <span className="googleText">Đăng nhập bằng Google</span>
-                            </button>
-                        )}
-                        onSuccess={googleSuccess}
-                        onFailure={googleFailure}
-                        cookiePolicy="single_host_origin"
+                            clientId="942604298897-gs8om3cnmj19gr4pc02enfpidos9ofb4.apps.googleusercontent.com"
+                            render={(renderProps) => (
+                                <button
+                                    onClick={renderProps.onClick}
+                                    className="googleButton"
+                                    disabled={renderProps.disabled}
+                                >
+                                    <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
+                                    <span className="googleText">Đăng nhập bằng Google</span>
+                                </button>
+                            )}
+                            onSuccess={googleSuccess}
+                            onFailure={googleFailure}
+                            cookiePolicy="single_host_origin"
                         />
                     </div>
                 </div>

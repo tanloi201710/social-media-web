@@ -14,8 +14,6 @@ export default function Feed() {
         dispatch(getPosts());
     }, [dispatch,posts.length]);
 
-    
-
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">

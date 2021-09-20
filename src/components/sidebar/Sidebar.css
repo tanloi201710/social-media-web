@@ -24,14 +24,15 @@
 .sidebarList {
     padding: 0;
     margin: 0;
+    margin-bottom: 10px;
     list-style: none;
 }
 
 .sidebarListItem {
-    height: 50px;
+    height: 45px;
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     cursor: pointer;
     transition: .2s;
 }
@@ -47,7 +48,9 @@
 .sidebarListItem:hover {
     background-color: #eff2f5;
     /* width: 250px; */
-    height: 50px;
+    color: #3f51b5;
+    height: 45px;
+    margin-bottom: 3px;
     border-radius: 10px;
     padding-left: 15px;
     align-items: center;
@@ -72,9 +75,15 @@
     margin: 20px 0;
 }
 
+.sidebarTitle {
+    font-style: 18px;
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+
 .sidebarFriendList {
     padding: 0;
-    margin: 0;
+    margin-left: 10px;
     list-style: none;
 }
 

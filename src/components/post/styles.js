@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme) => ({
         margin: '30px 0',
         borderRadius: '10px',
     },
+    name: {
+        fontSize: 15,
+        fontWeight: 500,
+    },
     media: {
         // height: 350,
         width: '100%',
@@ -57,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     actionText: {
-        color: '#000'
+        color: '#000',
     }
 }));
 

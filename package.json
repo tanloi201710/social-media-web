@@ -27,6 +27,7 @@
     "react-avatar-edit": "^1.0.0",
     "react-countup": "^5.2.0",
     "react-dom": "^17.0.2",
+    "react-emojione": "^5.0.1",
     "react-file-base64": "^1.0.3",
     "react-google-login": "^5.2.2",
     "react-images-uploading": "^3.1.3",
