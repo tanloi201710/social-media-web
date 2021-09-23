@@ -31,7 +31,9 @@ export default function Feed() {
                     {
                         !isLoading ? 
                             posts.map((p) => (
-                                <Post key={p._id} post={p}/>
+                                <div className="postWrapper">
+                                    <Post key={p._id} post={p}/>
+                                </div>
                             )) : <div className="progress-circle" ><CircularProgress /> </div>
                     }
             </div>

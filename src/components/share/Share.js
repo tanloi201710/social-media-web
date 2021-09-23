@@ -152,6 +152,7 @@ export default function Share() {
         setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
     };
 
+
     return (
         <div className="share">
             <div className="shareWrapper">

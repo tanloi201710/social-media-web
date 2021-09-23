@@ -3,15 +3,14 @@ import {
 } from '@material-ui/icons';
 import clsx from 'clsx';
 import React from 'react';
-import './Post.css';
 import useStyles from './styles';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost } from '../../actions/post';
-import { 
-    Avatar, Card, CardActions, CardContent, CardHeader, Collapse, Divider, 
-    IconButton, List, ListItem, ListItemText, Typography
-} from '@material-ui/core';
+import { Avatar, Card, CardActions, 
+    CardContent, CardHeader, 
+    Collapse, Divider, IconButton, 
+    List, ListItem, ListItemText, Typography} from '@material-ui/core';
 import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
 import { CircularProgress } from '@mui/material';

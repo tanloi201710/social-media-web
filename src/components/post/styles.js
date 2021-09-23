@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: '0 5px 10px rgba(0, 0, 0, 0.4)',
         borderRadius: '5px',
         border: '1px solid rgba(0,0,0,0.1)',
+        zIndex: 2,
         '&:before': {
             content: '""',
             position: 'absolute',

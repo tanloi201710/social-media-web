@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import ChangeAvatar from '../../components/changeAvatar/ChangeAvatar';
-import { compressFile, uploadFireBase } from '../../actions/images';
+import { compressFile, deleteImage, uploadFireBase } from '../../actions/images';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../actions/user';
 
@@ -82,6 +82,7 @@ export default function ChangeInfo() {
       if(file){
         try {
           const url = await uploadFireBase(file, allInfo.profilePictureName, dispatch);
+          if(user.result?.profilePictureName) deleteImage(user.result?.profilePictureName);
           dispatch(updateUser(user.result._id,{...allInfo, profilePicture: url}));
         } catch (error) {
           console.log(error);

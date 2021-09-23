@@ -10,10 +10,10 @@
     padding: 15px 70px;
 }
 
-/* .postWrapper {
+.postWrapper {
     width: 480px;
     margin: auto;
-} */
+}
 
 .progress-circle {
     display: flex;

@@ -37,8 +37,11 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className="profileRightBottom">
-                        <Feed />
-                        <Rightbar profile/>
+                    <Feed />
+                    <Rightbar profile/>
+                    {/* <div className="feedComp"></div>
+                    <div className="rightBarComp"></div> */}
+                        
                     </div>
                 </div>
             </div>

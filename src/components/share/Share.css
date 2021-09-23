@@ -50,6 +50,7 @@
 
 .shareOptions {
     display: flex;
+    margin-right: 10px;
     gap: 10px;
 }
 
@@ -57,13 +58,12 @@
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    margin-right: 0px;
     cursor: pointer;
 }
 
 .shareOption:hover {
     background-color: #eff2f5;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-top: 5px;
     align-items: center;
     border-bottom: none;

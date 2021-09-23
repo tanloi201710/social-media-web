@@ -3,14 +3,12 @@ import './Rightbar.css';
 import {Users} from '../../dummyData';
 import Online from '../online/Online';
 import PropTypes from 'prop-types';
-import { 
-    makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, 
-    Button, useTheme, withStyles 
-} from '@material-ui/core';
+import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { useSelector } from 'react-redux';
 import { Cake, Favorite, Home, Room, Work } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import { withStyles } from '@mui/styles';
 
 export default function Rightbar({profile}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -103,6 +101,7 @@ export default function Rightbar({profile}) {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
         },
+        
         picture: {
             display: 'flex',
             flexWrap: 'wrap',
@@ -132,13 +131,13 @@ export default function Rightbar({profile}) {
         },
     })((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
 
-    const AntTab = withStyles((theme) => ({
+    const AntTab = withStyles(() => ({
         root: {
             textTransform: 'none',
             width: 80, 
             color: '#fff',
-            fontSize: theme.typography.pxToRem(13),
-            marginRight: theme.spacing(-5),
+            fontSize: '0.813rem',
+            marginRight: '-40px',
             '&:focus': {
               opacity: 5,
             },

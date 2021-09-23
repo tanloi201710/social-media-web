@@ -19,7 +19,7 @@ export default function Topbar() {
     const handleLogout = useCallback(() => {
         dispatch({ type: 'LOGOUT' });
         history.push('/login');
-        setUser(null);
+        setUser(undefined);
     }, [dispatch, history]);
 
     useEffect(() => {
