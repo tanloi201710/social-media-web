@@ -31,10 +31,9 @@ export default function Share() {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    console.log(arrObj);
 
     useEffect(() => {
-        if(!creating) {
+        if(creating) {
             dispatch(getPosts());
         }
     }, [dispatch,creating]);

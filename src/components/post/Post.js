@@ -13,13 +13,13 @@ import { Avatar, Card, CardActions,
     List, ListItem, ListItemText, Typography} from '@material-ui/core';
 import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, TextField } from '@mui/material';
 
 export default function Post({post}) {
+    const user = JSON.parse(localStorage.getItem('profile'));
     const [liked, setLiked] = useState(post.likes.length);
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(post.likes.includes(user.result._id));
     const [isMoreBox,setIsMoreBox] = useState(false);
-    const Users = JSON.parse(localStorage.getItem('profile'));
     const dispatch = useDispatch();
     const {deleting} = useSelector(state => state.posts);
     const classes = useStyles();
@@ -83,11 +83,11 @@ export default function Post({post}) {
         <Card className={classes.root} raised>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar} src={Users.result.profilePicture}>
-                        { Users?.result.name.charAt(0).toUpperCase() }
+                    <Avatar aria-label="recipe" className={classes.avatar} src={user.result.profilePicture}>
+                        { user?.result.name.charAt(0).toUpperCase() }
                     </Avatar>
                 }
-                title={<div className={classes.name}>{Users.result.name}</div>}
+                title={<div className={classes.name}>{user.result.name}</div>}
                 subheader={dateFormat(post.createdAt)}
                 action={
                     <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
@@ -132,7 +132,7 @@ export default function Post({post}) {
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="like" onClick={likeHandler}>
-                    <Favorite />
+                    {isLiked ? <Favorite color="secondary" className={classes.favorite} /> : <Favorite />}
                 </IconButton>
                 <Typography color="textSecondary">{liked}</Typography>
                 <IconButton
@@ -148,8 +148,18 @@ export default function Post({post}) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Comments:</Typography>
-                    <Typography paragraph>Comming soon!</Typography>
+                    <TextField label="Viết bình luận..." variant="standard" fullWidth />
+                    <div className={classes.headCmtWrap}>
+                        <Avatar className={classes.cmtAvt} src="https://scontent.fsgn9-1.fna.fbcdn.net/v/t1.6435-1/p100x100/83674931_609441372959148_1761968762195542016_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=7206a8&_nc_ohc=qgeCRr0oFHAAX_jZdSM&_nc_ad=z-m&_nc_cid=1487&_nc_ht=scontent.fsgn9-1.fna&oh=b7ec3247d2811106d1b6618d49c7ac28&oe=61736C04"></Avatar>
+                        <div className={classes.cmtMain}>
+                            <Typography variant="subtitle2" component="span">User Name</Typography>
+                            <Typography color="textSecondary" className={classes.cmtTime} component="span">Created At</Typography>
+                            <Typography className={classes.cmtContent} variant="body2" component="div">
+                                Tối ngày đăng ảnh xàm xí đú.
+                            </Typography>
+                        </div>
+                    </div>
+                        
                 </CardContent>
             </Collapse>
             </Card>

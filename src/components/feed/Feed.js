@@ -12,7 +12,7 @@ export default function Feed() {
 
     useEffect(() => {
         dispatch(getPosts());
-    }, [dispatch,posts.length]);
+    }, [dispatch]);
 
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>
@@ -31,8 +31,8 @@ export default function Feed() {
                     {
                         !isLoading ? 
                             posts.map((p) => (
-                                <div className="postWrapper">
-                                    <Post key={p._id} post={p}/>
+                                <div className="postWrapper" key={p._id}>
+                                    <Post post={p}/>
                                 </div>
                             )) : <div className="progress-circle" ><CircularProgress /> </div>
                     }
