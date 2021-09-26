@@ -2,11 +2,11 @@ import {
     ExpandMore, Favorite, MoreVert, Delete, Edit 
 } from '@material-ui/icons';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import useStyles from './styles';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePost, likePost } from '../../actions/post';
+import { deletePost, likePost, updateComments } from '../../actions/post';
 import { Avatar, Card, CardActions, 
     CardContent, CardHeader, 
     Collapse, Divider, IconButton, 
@@ -14,11 +14,20 @@ import { Avatar, Card, CardActions,
 import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
 import { CircularProgress, TextField } from '@mui/material';
+import { Comment } from '@mui/icons-material';
+import CommentComponent from '../comment/CommentComponent';
+import { dateFormat } from '../../actions/format';
+import { getUser } from '../../api';
 
 export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
+    const [currentPost, setCurrentPost] = useState(post);
+    const [userPost,setUserPost] = useState();
+
     const [liked, setLiked] = useState(post.likes.length);
-    const [isLiked, setIsLiked] = useState(post.likes.includes(user.result._id));
+    const [commented, setCommented] = useState(currentPost.comments.length);
+    const [comment, setComment] = useState('');
+    const [isLiked, setIsLiked] = useState(currentPost.likes.includes(user.result._id));
     const [isMoreBox,setIsMoreBox] = useState(false);
     const dispatch = useDispatch();
     const {deleting} = useSelector(state => state.posts);
@@ -26,6 +35,28 @@ export default function Post({post}) {
 
     const [expanded, setExpanded] = React.useState(false);
 
+    const {posts} = useSelector((state) => state.posts);
+    
+    useEffect(() => {
+        const getUserPost = async () => {
+            try {
+                const user = await getUser(post.userId);
+                setUserPost(user.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getUserPost();
+    }, [post]);
+
+    useEffect(() => {
+        posts.forEach(post => {
+            if(post._id === currentPost._id) {
+                setCurrentPost(post);
+            }
+        });
+        setCommented(currentPost.comments.length);
+    }, [posts,currentPost])
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -33,62 +64,51 @@ export default function Post({post}) {
     const likeHandler = () => {
         setLiked(isLiked ? liked-1 : liked+1);
         setIsLiked(!isLiked);
-        dispatch(likePost(post._id));
+        dispatch(likePost(currentPost._id));
     };
 
     const deleteHandler = async() => {
-        if(post?.img) {
-            for (let i = 0; i < post.imgName.length; i++) {
+        if(currentPost?.img) {
+            for (let i = 0; i < currentPost.imgName.length; i++) {
                 try {
-                    await deleteImage(post.imgName[i]);
+                    await deleteImage(currentPost.imgName[i]);
                 } catch (error) {
                     console.log(error);
                 }
             }
-            dispatch(deletePost(post._id));
+            dispatch(deletePost(currentPost._id));
             setIsMoreBox(false);
         } else {
-            dispatch(deletePost(post._id));
+            dispatch(deletePost(currentPost._id));
         }
     };
 
-    const dateFormat = (timestamps) => {
-        const created_date = new Date(timestamps);
 
-        const now = new Date(Date.now());
-        
-        const yearsAgo = now.getFullYear() - created_date.getFullYear();
-        const monthsAgo = now.getMonth() - created_date.getMonth();
-        const daysAgo = now.getDate() - created_date.getDate();
-        const hoursAgo = now.getHours() - created_date.getHours();
-        const minsAgo = now.getMinutes() - created_date.getMinutes();
-
-        if(yearsAgo > 0) {
-            return `${yearsAgo} năm trước`;
-        } else if(monthsAgo > 0) {
-            return `${monthsAgo} tháng trước`;
-        } else if(daysAgo > 0) {
-            return `${daysAgo} ngày trước`;
-        } else if(hoursAgo > 0) {
-            return `${hoursAgo} giờ trước`;
-        } else if(minsAgo > 0) {
-            return `${minsAgo} phút trước`;
-        } else {
-            return 'Vừa xong';
+    const handleComment = () => {
+        const commentForm = {
+            img: user.result?.profilePicture,
+            name: user.result.name,
+            message: comment,
+            likes: [],
+            createdAt: Date.now()
         }
-    };
+        setComment('');
+        currentPost.comments.unshift(commentForm);
+        dispatch(updateComments(currentPost._id,currentPost.comments));
+    }
+
 
     return (
 
         <Card className={classes.root} raised>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar} src={user.result.profilePicture}>
-                        { user?.result.name.charAt(0).toUpperCase() }
+                    <Avatar aria-label="recipe" className={classes.avatar} src={userPost?.profilePicture}>
+                        { userPost?.name.charAt(0).toUpperCase() }
                     </Avatar>
                 }
-                title={<div className={classes.name}>{user.result.name}</div>}
-                subheader={dateFormat(post.createdAt)}
+                title={<div className={classes.name}>{userPost?.name}</div>}
+                subheader={dateFormat(currentPost.createdAt)}
                 action={
                     <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
                         { deleting ? <CircularProgress size={22} /> : <MoreVert />}
@@ -122,12 +142,12 @@ export default function Post({post}) {
                 title={post.imgName}
             /> */}
             {
-                post.img.length > 1 ? <ImagesList arrObj={post.img}  /> : post.img.length !== 0 &&
-                <img src={post.img} alt={post.imgName} className={classes.media} />
+                currentPost.img.length > 1 ? <ImagesList arrObj={currentPost.img}  /> : currentPost.img.length !== 0 &&
+                <img src={currentPost.img} alt={currentPost.imgName} className={classes.media} />
             }
             <CardContent>
                 <Typography variant="body2" color="textPrimary" component="p" className={classes.description}>
-                    {post.desc}
+                    {currentPost.desc}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -135,6 +155,10 @@ export default function Post({post}) {
                     {isLiked ? <Favorite color="secondary" className={classes.favorite} /> : <Favorite />}
                 </IconButton>
                 <Typography color="textSecondary">{liked}</Typography>
+                
+                <Comment className={classes.cmtButton} color="primary" onClick={handleExpandClick} style={{ cursor: 'pointer' }} />
+                
+                <Typography color="textSecondary">{commented}</Typography>
                 <IconButton
                 className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded,
@@ -148,18 +172,21 @@ export default function Post({post}) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <TextField label="Viết bình luận..." variant="standard" fullWidth />
-                    <div className={classes.headCmtWrap}>
-                        <Avatar className={classes.cmtAvt} src="https://scontent.fsgn9-1.fna.fbcdn.net/v/t1.6435-1/p100x100/83674931_609441372959148_1761968762195542016_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=7206a8&_nc_ohc=qgeCRr0oFHAAX_jZdSM&_nc_ad=z-m&_nc_cid=1487&_nc_ht=scontent.fsgn9-1.fna&oh=b7ec3247d2811106d1b6618d49c7ac28&oe=61736C04"></Avatar>
-                        <div className={classes.cmtMain}>
-                            <Typography variant="subtitle2" component="span">User Name</Typography>
-                            <Typography color="textSecondary" className={classes.cmtTime} component="span">Created At</Typography>
-                            <Typography className={classes.cmtContent} variant="body2" component="div">
-                                Tối ngày đăng ảnh xàm xí đú.
-                            </Typography>
-                        </div>
-                    </div>
-                        
+                    <TextField 
+                        label="Viết bình luận..." 
+                        variant="standard" 
+                        fullWidth 
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        onKeyDown={(e) => { if(e.key === 'Enter') handleComment() }}
+                    />
+                    {
+                        currentPost.comments.length > 0 && 
+                        currentPost.comments.map((comment,index) => (
+                            <CommentComponent comment={comment} key={index} />
+                        ))
+                    }
+                    
                 </CardContent>
             </Collapse>
             </Card>

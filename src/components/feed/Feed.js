@@ -3,16 +3,20 @@ import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts } from '../../actions/post';
+import { getPosts, getTimeLine } from '../../actions/post';
 import { CircularProgress } from '@material-ui/core';
 
-export default function Feed() {
+export default function Feed({user}) {
     const dispatch = useDispatch();
     const{ posts, isLoading } = useSelector((state) => state.posts);
 
     useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
+        if(user) {
+            dispatch(getPosts(user));
+        } else {
+            dispatch(getTimeLine());
+        }
+    }, [dispatch,user]);
 
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>

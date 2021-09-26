@@ -77,31 +77,10 @@ const useStyles = makeStyles((theme) => ({
             transform: "scale(1)"
         }
     },
-    headCmtWrap: {
-        display: 'flex',
-        marginTop: '20px',
-        padding: '10px',
-        backgroundColor: '#f0f2f5',
-        borderRadius: '10px'
+    cmtButton: {
+        margin: '0 10px 0 20px'
     },
-    cmtMain: {
-        width: '100%',
-        margin: '0 5px 0 10px'
-    },
-    cmtTime: {
-        marginLeft: '10px',
-        fontSize: '13px'
-    },
-    cmtAvt: {
-        width: '32px',
-        height: '32px'
-    },
-    cmtContent: {
-        whiteSpace: 'pre-wrap',
-        color: 'rgba(0,0,0,0.7)',
-        fontSize: '15px',
-        marginTop: '5px'
-    }
+    
 }));
 
 export default useStyles;
