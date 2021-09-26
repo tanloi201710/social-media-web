@@ -62,7 +62,25 @@ const useStyles = makeStyles((theme) => ({
     },
     actionText: {
         color: '#000',
-    }
+    },
+    favorite: {
+        animation: `$scale 500ms ${theme.transitions.easing.easeInOut}`
+    },
+    "@keyframes scale": {
+        "0%": {
+            transform: "scale(1)"
+        },
+        "80%": {
+            transform: "scale(1.5)"
+        },
+        "100%": {
+            transform: "scale(1)"
+        }
+    },
+    cmtButton: {
+        margin: '0 10px 0 20px'
+    },
+    
 }));
 
 export default useStyles;

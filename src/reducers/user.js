@@ -1,9 +1,11 @@
-import { END_UPDATING, START_UPDATING, UPDATE_USER } from '../constants/actionTypes';
+
+import { END_UPDATING, FOLLOW, START_UPDATING, UNFOLLOW, UPDATE_USER } from '../constants/actionTypes';
 
 const initState = {
     isUpdating: false,
-    userData: null
+    userData: JSON.parse(localStorage.getItem('profile'))
 };
+
 
 const authReducer = (state = initState,action) => {
     switch (action.type) {
@@ -17,6 +19,28 @@ const authReducer = (state = initState,action) => {
             localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
             return { ...state, userData: action?.data }
 
+        case FOLLOW:
+            console.log("follow user");
+            return {
+                ...state,
+                userData: {...state.userData, result: 
+                    {...state.userData.result, followings: 
+                        [...state.userData.result.followings, action.payload ]
+                    } 
+                } 
+            }
+
+        case UNFOLLOW:
+            return {
+                ...state,
+                userData: {...state.userData, result:
+                    {...state.userData.result, followings:
+                        state.userData.result.followings.filter((id) => id !== action.payload)
+                    }
+                }
+            }
+        
+        
         default:
             return state;
     }

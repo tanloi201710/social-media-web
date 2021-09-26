@@ -1,4 +1,4 @@
-import { CREATE, DELETE, END_CREATING, END_DELETING, END_LOADING, FETCH_ALL, START_CREATING, START_DELETING, START_LOADING } from "../constants/actionTypes";
+import { CREATE, DELETE, END_CREATING, END_DELETING, END_LOADING, FETCH_ALL, START_CREATING, START_DELETING, START_LOADING, UPDATE_COMMENT } from "../constants/actionTypes";
 
 const initState = {
     isLoading: true,
@@ -44,6 +44,17 @@ const postsReducer = (state = initState, action) => {
 
         case DELETE:
             return {...state, posts: state.posts.filter((post) => post._id !== action.payload)};
+
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    if(post._id === action.payload._id) {
+                        return action.payload
+                    }
+                    return post;
+                }),
+            };
 
         default:
             return state;

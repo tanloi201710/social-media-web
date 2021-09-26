@@ -1,12 +1,17 @@
 import React from 'react';
-import './CloseFriend.css'
+import './CloseFriend.css';
+import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function CloseFriend({user}) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     return (
-        <li className="sidebarFriend">
-            <img className="sidebarFriendImg" src={PF+user.profilePicture} alt="" />
-            <span className="sidebarFriendName">{user.username}</span>
-        </li>
+        <Link to={`/profile/${user._id}`} style={{textDecoration: 'none', color: 'inherit'}}>
+            <li className="sidebarFriend">
+                <Avatar className="sidebarFriendImg" src={user?.profilePicture}></Avatar>
+                {/* <img className="sidebarFriendImg" src={user?.profilePicture} alt="" /> */}
+                <span className="sidebarFriendName">{user.name}</span>
+            </li>
+        </Link>
     )
 }
