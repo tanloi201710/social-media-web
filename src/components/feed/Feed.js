@@ -3,16 +3,20 @@ import Share from '../share/Share';
 import Post from '../post/Post';
 import './Feed.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts } from '../../actions/post';
+import { getPosts, getTimeLine } from '../../actions/post';
 import { CircularProgress } from '@material-ui/core';
 
-export default function Feed() {
+export default function Feed({user}) {
     const dispatch = useDispatch();
     const{ posts, isLoading } = useSelector((state) => state.posts);
 
     useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch,posts.length]);
+        if(user) {
+            dispatch(getPosts(user));
+        } else {
+            dispatch(getTimeLine());
+        }
+    }, [dispatch,user]);
 
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>
@@ -32,8 +36,8 @@ export default function Feed() {
                     {
                         !isLoading ? 
                             posts.map((p) => (
-                                <div className="postWrapper">
-                                    <Post key={p._id} post={p}/>
+                                <div className="postWrapper" key={p._id}>
+                                    <Post post={p}/>
                                 </div>
                             )) : <div className="progress-circle" ><CircularProgress /> </div>
                     }

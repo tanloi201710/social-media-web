@@ -30,10 +30,9 @@ export default function Share() {
     const [feel, setFeel] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
-    console.log(arrObj);
 
     useEffect(() => {
-        if(!creating) {
+        if(creating) {
             dispatch(getPosts());
         }
     }, [dispatch,creating]);
@@ -69,8 +68,6 @@ export default function Share() {
     useEffect(() => {
         setArrObj(() => setItemData(files));
     },[files,setItemData,setArrObj]);
-
-    
 
     const resetForm = () => {
         desc.current.value = '';
