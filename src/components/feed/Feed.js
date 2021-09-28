@@ -18,8 +18,9 @@ export default function Feed() {
         <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">
                     <Share />
-                    <div>
-                        <h4>Không có post - Hiển thị một cái Post Demo nào đó</h4>
+                    <div className="feedNotPost">
+                        <h4>Bạn chưa có bài viết !!!</h4>
+                        <h4>Bạn hãy chia sẽ các bài viết của mình !!!</h4>
                     </div>
             </div>
         </div>

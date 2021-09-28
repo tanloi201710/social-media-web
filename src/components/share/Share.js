@@ -1,6 +1,5 @@
 import { 
     PermMedia, LocalOffer, Cancel, InsertEmoticon, Search, 
-    // ChevronRight, ChevronLeft
 } from '@material-ui/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,8 +8,7 @@ import { createPost, getPosts } from '../../actions/post';
 import './Share.css';
 import { 
     CircularProgress, Avatar, Button, makeStyles, DialogActions, 
-    DialogContent, DialogTitle, Dialog, Grid, Paper, Chip, ListItemIcon, 
-    // IconButton,
+    DialogContent, DialogTitle, Dialog, Grid, Paper, Chip, ListItemIcon,
 } from '@material-ui/core';
 import Emojify from 'react-emojione';
 import CloseFriend from '../closeFriend/CloseFriend';
@@ -28,7 +26,8 @@ export default function Share() {
 
     const { creating } = useSelector((state) => state.posts);
     const { isUploading } = useSelector((state) => state.upload);
-
+    
+    const [feel, setFeel] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
     console.log(arrObj);
@@ -127,19 +126,6 @@ export default function Share() {
     const [openFeel, setOpenFeel] = React.useState(false);
     const [openTag, setOpenTag] = React.useState(false);
 
-    const handleClickOpenFeeling = () => {
-        setOpenFeel(true)
-    };
-
-    const handleClickOpenTag = () => {
-        setOpenTag(true);
-    };
-
-    const handleClose = () => {
-        setOpenFeel(false);
-        setOpenTag(false);
-    };
-
     const [chipData, setChipData] = React.useState([
         { key: 0, label: 'Mark Zuckerberg' },
         { key: 1, label: 'Polymer' },
@@ -152,17 +138,29 @@ export default function Share() {
         setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
     };
 
+    useEffect(() => {
+        setFeel(feel);
+        return () => {}
+    },[feel]);
 
     return (
         <div className="share">
             <div className="shareWrapper">
                 <div className="shareTop">
                     <Avatar className="shareProfileImg" src={user.result?.profilePicture}>{user.result.name.charAt(0).toUpperCase()}</Avatar>
-                    <input 
-                        placeholder={`Bạn đang nghĩ gì vậy ${user.result.name}`}
-                        className="shareInput"
-                        ref={desc}
-                    />
+                    <div className="shareTopTitle">
+                        <div className="shareTopTitleFeel">
+                            {feel === '' ? feel : 
+                                <>{user.result.name} <span> đang cảm thấy <Emojify style={{width: '20px', height: '20px'}}>{feel}</Emojify></span></>
+                            }
+                        </div>
+                        <input 
+                            placeholder={`Bạn đang nghĩ gì vậy ${user.result.name} ?`}
+                            className="shareInput"
+                            ref={desc}
+                        /> 
+                    </div>
+
                 </div>
                 <div className="shareHr"></div>
                 {
@@ -204,11 +202,11 @@ export default function Share() {
                                 <input id="file" type="file" multiple onChange={(e) => setFiles(e.target.files)} />
                             </div>
                         </label>
-                        <div className="shareOption" onClick={handleClickOpenTag}>
+                        <div className="shareOption" onClick={() => setOpenTag(true)}>
                             <LocalOffer htmlColor="blue" fontSize="medium" className="shareIcon" />
                             <span className="shareOptionText"> Gắn thẻ bạn bè </span>
                         </div>
-                        <div className="shareOption" onClick={handleClickOpenFeeling}>
+                        <div className="shareOption" onClick={() => setOpenFeel(true)}>
                             <InsertEmoticon htmlColor="orange" fontSize="medium" className="shareIcon" />
                             <span className="shareOptionText"> Cảm xúc </span>
                         </div>
@@ -217,59 +215,44 @@ export default function Share() {
                         {creating || isUploading ? <CircularProgress size={22} classes={{colorPrimary: classes.progress_white}} /> : "Đăng"}
                     </Button>
                     <div >
-                        <Dialog className="shareFeeling" open={openFeel} onClose={handleClose}>
-                            <DialogTitle className="shareFeelingTitle">
-                                {/* <IconButton className="shareFeelingButtonLeft" onClick={handleClickOpenTag}>
-                                    <ChevronLeft fontSize="large" className="shareTagIconLeft"/>
-                                </IconButton> */}
-                                Bạn đang cảm thấy như thế nào ?
-                            </DialogTitle>
+                        <Dialog className="shareFeeling" open={openFeel} onClose={() => setOpenFeel(false)}>
+                            <DialogTitle className="shareFeelingTitle"> Bạn đang cảm thấy {feel === '' ? 'như thế nào ?' : <Emojify>{feel}</Emojify>}</DialogTitle>
                             <hr/>
                             <DialogContent>
                                 <div className="shareFeelingContent">
                                     <Grid container spacing={1}>
                                         <Grid item xs={6}>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😊 hạnh phúc`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon">😊 Hạnh phúc</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Hạnh phúc </span> */}
                                             </div>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😍 đáng yêu`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😍 Đáng yêu</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Đáng yêu </span> */}
                                             </div>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😲 ngạc nhiên`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😲 Ngạc nhiên</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Ngạc nhiên </span> */}
                                             </div>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`🤪 hài hước`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >🤪 Hài hước</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Hài hước </span> */}
                                             </div>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😪 buồn ngủ`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😪 Buồn ngủ</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Buồn ngủ </span> */}
                                             </div>
                                         </Grid>
                                         <Grid item xs={6}>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😀 tuyệt vời`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😀 Tuyệt vời</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Tuyệt vời </span> */}
                                             </div>
-                                            <div className="shareFeelingOption">
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`☹️ buồn`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >☹️ Buồn</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Buồn </span> */}
                                             </div>
-                                            <div className="shareFeelingOption" >
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😆 vui vẻ`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😆 Vui vẻ</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Vui vẻ </span> */}
                                             </div>
-                                            <div className="shareFeelingOption" >
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😌 thư giãn`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😌 Thư giãn</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Thư giãn </span> */}
                                             </div>
-                                            <div className="shareFeelingOption" >
+                                            <div className="shareFeelingOption" onClick={() => setFeel(`😇 thoải mái`)}>
                                                 <Emojify><span className="shareFeelingOptionIcon" >😇 Thoải mái</span></Emojify>
-                                                {/* <span className="shareFeelingOptionText" > Thoải mái </span> */}
                                             </div>
                                         </Grid>
                                     </Grid>
@@ -277,25 +260,17 @@ export default function Share() {
                             </DialogContent>
                             <hr/>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={() => setFeel('')} color="primary">
                                     Cancel
                                 </Button>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={() => setOpenFeel(false)} color="primary">
                                     Ok
                                 </Button>
                             </DialogActions>
                         </Dialog>
-
-
-                        <Dialog className="shareTag" open={openTag} onClose={handleClose}>
+                        <Dialog className="shareTag" open={openTag} onClose={() => setOpenTag(false)}>
                             <DialogTitle className="shareTagTitle">
-                                {/* <IconButton className="shareTagButtonLeft" >
-                                        <ChevronLeft fontSize="large" className="shareTagIconLeft"/>
-                                </IconButton> */}
                                 Gắn thẻ bạn bè
-                                {/* <IconButton className="shareTagButtonRight" onClick={handleClickOpenFeeling}>
-                                    <ChevronRight fontSize="large" className="shareTagIconRight"/>
-                                </IconButton> */}
                             </DialogTitle>
                             <hr/>
                             <DialogContent>
@@ -342,10 +317,10 @@ export default function Share() {
                             </DialogContent>
                             <hr/>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={() => setOpenTag(false)} color="primary">
                                     Cancel
                                 </Button>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={() => setOpenTag(false)} color="primary">
                                     Ok
                                 </Button>
                             </DialogActions>
