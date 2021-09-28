@@ -71,6 +71,7 @@
 
 .shareOptions {
     display: flex;
+    margin-right: 15px;
     gap: 10px;
 }
 
