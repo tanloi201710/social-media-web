@@ -5,7 +5,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createPost, getPosts } from '../../actions/post';
+import { createPost, getTimeLine } from '../../actions/post';
 import './Share.css';
 import { 
     CircularProgress, Avatar, Button, makeStyles, DialogActions, 
@@ -34,7 +34,7 @@ export default function Share() {
 
     useEffect(() => {
         if(creating) {
-            dispatch(getPosts());
+            dispatch(getTimeLine());
         }
     }, [dispatch,creating]);
 

@@ -26,7 +26,6 @@ export default function Profile() {
     useEffect(() => {
         setFollowed(userData.result.followings.includes(id));
     }, [userData,id]);
-    console.log(userData);
     
     useEffect(() => {
         console.log("fetch user");
