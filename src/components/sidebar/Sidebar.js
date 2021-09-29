@@ -181,7 +181,7 @@ export default function Sidebar() {
                                 <div className="sidebarEventTodo">
                                     <TodoList todoList={todoList} onCheckBtnClick={onCheckBtnClick}></TodoList>
                                 </div>
-                                <Button variant="outlined" color="primary" onClick={() => setTodoList([])}>Reset</Button>
+                                <Button variant="outlined" color="primary" onClick={() => setTodoList([])}>Xóa hết sự kiện</Button>
                             </div>
                         </Box>
                     </SwipeableDrawer>

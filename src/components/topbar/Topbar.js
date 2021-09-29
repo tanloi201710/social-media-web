@@ -39,18 +39,11 @@ export default function Topbar() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClickMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-    };
-
     const StyledMenu = withStyles({
         paper: {
           border: '1px solid #d3d4d5',
         },
-      })((props) => (
+        })((props) => (
         <Menu
           elevation={0}
           getContentAnchorEl={null}
@@ -65,29 +58,25 @@ export default function Topbar() {
           {...props}
         />
     ));
-
     return (
         <div className="topbarContainer">
-
             <div className="topbarLeft">
                 <Link to="/" style={{textDecoration:"none"}}>
-                    <span className="logo">ThanhSocial</span>
+                    <span className="logo">SocialBook</span>
                 </Link>
             </div>
-
             <div className="topbarCenter">
                 <div className="search">
                     <Search className="searchIcon"/>
                     <input placeholder="Tìm kiếm bạn bè, hình ảnh, video ..." className="searchInput" />
                 </div>
             </div>
-
             <div className="topbarRight">
                 <Link to={`/profile/${user?.result._id}`} style={{textDecoration: 'none', color: 'white'}}>
                     <div className="topbarLinks" >
                         {/* <img src={user.result.profilePicture ? user.result.profilePicture : PF+'person/defaultUser.jpg'} alt="" className="topbarImg"/> */}
                         <Avatar src={user?.result.profilePicture} className="topbarAvatar">{user.result.name.charAt(0).toUpperCase()}</Avatar>
-                        <span className="topbarUsername">{user.result.name}</span>
+                        <span className="topbarUsername">{user.result.name.split(' ').slice(-1).join(' ')}</span>
                     </div>
                 </Link>
 
@@ -113,16 +102,17 @@ export default function Topbar() {
                                 fontSize="large" 
                                 aria-controls="customized-menu"
                                 aria-haspopup="true"
-                                onClick={handleClickMenu}
+                                onClick={(event) => setAnchorEl(event.currentTarget)}
                             />
                             <StyledMenu
+                                className="topbarIconItemMenu"
                                 id="customized-menu"
                                 anchorEl={anchorEl}
                                 keepMounted
                                 open={Boolean(anchorEl)}
-                                onClose={handleCloseMenu}
+                                onClose={() => setAnchorEl(null)}
                             >
-                                <MenuItem>
+                                <MenuItem className="topbarItemMenu">
                                     <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
                                         <div className="topbarMenu">
                                             <ListItemIcon>
@@ -132,7 +122,7 @@ export default function Topbar() {
                                         </div>
                                     </Link>
                                 </MenuItem>
-                                <MenuItem onClick={handleLogout}>
+                                <MenuItem className="topbarItemMenu" onClick={handleLogout}>
                                     <div className="topbarMenu">
                                         <ListItemIcon>
                                             <ExitToApp fontSize="large" className="topbarMenuIcon"/>

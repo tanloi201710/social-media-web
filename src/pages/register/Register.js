@@ -31,9 +31,9 @@ export default function Register() {
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
-                    <h3 className="loginLogo"> ThanhSocial </h3>
+                    <h3 className="loginLogo"> SocialBook </h3>
                     <span className="loginDesc">
-                        Kết bạn với các bạn bè và thế giới xung quanh bạn trên ThanhSocial
+                        Kết bạn với các bạn bè và thế giới xung quanh bạn trên SocialBook
                     </span>
                 </div>
                 <div className="loginRight">

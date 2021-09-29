@@ -1,8 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import GoogleLogin from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { google, signin } from '../../actions/auth';
+import { 
+    Button, DialogActions, DialogContent, DialogTitle, Dialog
+} from '@material-ui/core';
 import './Login.css';
 
 
@@ -12,6 +15,7 @@ export default function Login() {
     const email = useRef();
     const password = useRef();
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [openForgot, setOpenForgot] = useState(false);
 
     const {errorMsg} = useSelector((state) => state.auth);
     
@@ -45,17 +49,15 @@ export default function Login() {
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
-                    <h3 className="loginLogo"> ThanhSocial </h3>
-                    <span className="loginDesc">
-                        Kết bạn với các bạn bè và thế giới xung quanh bạn trên ThanhSocial
-                    </span>
+                    <h3 className="loginLogo"> SocialBook </h3>
+                    <span className="loginDesc">Kết bạn với các bạn bè và thế giới xung quanh bạn trên SocialBook</span>
                 </div>
                 <div className="loginRight">
                     <div className="loginBox">
                         <input placeholder="Email" type="email" className="loginInput" ref={email}/>
-                        <input placeholder="Password" type="password" className="loginInput" onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} ref={password}/>
+                        <input placeholder="Mật khẩu" type="password" className="loginInput" onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} ref={password}/>
                         <button className="loginButton" onClick={handleLogin}>Đăng nhập</button>
-                        <span className="loginForgot"> Quên mật khẩu ?</span>
+                        <button className="loginForgot" onClick={() => setOpenForgot(true)}> Quên mật khẩu ?</button>
                         <button className="loginRegisterButton" onClick={() => history.push('/register')}>
                             Tạo tài khoản mới
                         </button>
@@ -76,6 +78,21 @@ export default function Login() {
                             cookiePolicy="single_host_origin"
                         />
                     </div>
+                        <Dialog className="loginForgotDialog" open={openForgot} onClose={() => setOpenForgot(false)}>
+                            <DialogTitle className="loginForgotDialogTitle"> Quên mật khẩu </DialogTitle>
+                            <hr/>
+                            <DialogContent className="loginForgotDialog">
+                            </DialogContent>
+                            <hr/>
+                            <DialogActions>
+                                <Button onClick={() => setOpenForgot(false)} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={() => setOpenForgot(false)} color="primary">
+                                    Ok
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                 </div>
             </div>
         </div>
