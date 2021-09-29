@@ -4,7 +4,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createPost, getPosts } from '../../actions/post';
+import { createPost, getTimeLine, getPosts } from '../../actions/post';
 import './Share.css';
 import { 
     CircularProgress, Avatar, Button, makeStyles, DialogActions, 
@@ -17,12 +17,11 @@ import { compressFile, uploadFireBase } from '../../actions/images';
 import { ImageList, ImageListItem } from '@mui/material';
 import { END_UPLOADING, START_UPLOADING } from '../../constants/actionTypes';
 
-export default function Share() {
+export default function Share({id}) {
     const user = JSON.parse(localStorage.getItem('profile'));
     const [files,setFiles] = useState([]);
     const [arrObj,setArrObj] = useState([]);
     const desc = useRef();
-    
 
     const { creating } = useSelector((state) => state.posts);
     const { isUploading } = useSelector((state) => state.upload);
@@ -33,9 +32,14 @@ export default function Share() {
 
     useEffect(() => {
         if(creating) {
-            dispatch(getPosts());
+            if(id) {
+                dispatch(getPosts(id))
+            } else {
+                console.log("call in share");
+                dispatch(getTimeLine());
+            }
         }
-    }, [dispatch,creating]);
+    }, [dispatch,creating,id]);
 
     const useStyles = makeStyles(() => ({
         progress_white: {
@@ -70,8 +74,8 @@ export default function Share() {
     },[files,setItemData,setArrObj]);
 
     const resetForm = () => {
-        desc.current.value = '';
         setFiles([]);
+        desc.current.value = '';
     };
 
     const handleSubmit = async(e) => {

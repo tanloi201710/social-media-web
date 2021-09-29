@@ -30,6 +30,7 @@ export const google = (result,token,history) => async (dispatch) => {
         const data = { result: googleAccount.data, token };
         
         dispatch({ type: AUTH, data });
+        dispatch({ type: SET_USER, data });
         history.push('/');
     } catch (error) {
         console.log(error);

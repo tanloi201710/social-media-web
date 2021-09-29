@@ -14,9 +14,15 @@ export default function Feed({user}) {
         if(user) {
             dispatch(getPosts(user));
         } else {
+            console.log("call in feed");
             dispatch(getTimeLine());
         }
     }, [dispatch,user]);
+
+    // const reloadProfile = () => {
+    //     console.log("recall reload");
+    //     dispatch(getPosts(user));
+    // }
 
     if(!posts.length && !isLoading) return (
         <div className="feed" style={{marginBottom: 'auto'}}>
@@ -32,7 +38,7 @@ export default function Feed({user}) {
     return (
         <div className="feed" style={{marginBottom: 'auto'}}>
             <div className="feedWrapper">
-                    <Share/>
+                    <Share id={user} />
                     {
                         !isLoading ? 
                             posts.map((p) => (
