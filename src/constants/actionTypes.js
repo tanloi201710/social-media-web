@@ -7,6 +7,7 @@ export const UNFOLLOW = 'UNFOLLOW';
 export const CREATE = 'CREATE';
 export const UPDATE = 'UPDATE';
 export const UPDATE_USER = 'UPDATE_USER';
+export const SET_USER = 'SET_USER';
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const DELETE = 'DELETE';
 export const FETCH_ALL = 'FETCH_ALL';

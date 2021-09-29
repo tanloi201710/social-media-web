@@ -3,7 +3,7 @@ import { Avatar, Typography } from '@mui/material';
 import useStyles from './styles';
 import { dateFormat } from '../../actions/format';
 
-function CommentComponent({comment}) {
+function CommentComponent({comment,user}) {
     const classes = useStyles();
     return (
         <div className={classes.headCmtWrap}>
@@ -11,7 +11,7 @@ function CommentComponent({comment}) {
             src={comment?.img}>
             </Avatar>
             <div className={classes.cmtMain}>
-                <Typography variant="subtitle2" component="span">{comment.name}</Typography>
+                <Typography variant="subtitle2" component="span">{user.result.name === comment.name ? 'Bạn' : comment.name}</Typography>
                 <Typography color="textSecondary" className={classes.cmtTime} component="span">{dateFormat(comment.createdAt)}</Typography>
                 <Typography className={classes.cmtContent} variant="body2" component="div">
                     {comment.message}

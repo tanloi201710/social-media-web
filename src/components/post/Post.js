@@ -183,7 +183,7 @@ export default function Post({post}) {
                     {
                         currentPost.comments.length > 0 && 
                         currentPost.comments.map((comment,index) => (
-                            <CommentComponent comment={comment} key={index} />
+                            <CommentComponent comment={comment} user={user} key={index} />
                         ))
                     }
                     

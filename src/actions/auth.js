@@ -1,10 +1,11 @@
 import * as api from '../api';
-import { AUTH, ERROR } from '../constants/actionTypes';
+import { AUTH, ERROR, SET_USER } from '../constants/actionTypes';
 
 export const signin = (formdata,history) => async (dispatch) => {
     try {
         const { data } = await api.signIn(formdata);
         dispatch({ type: AUTH, data });
+        dispatch({ type: SET_USER, data });
         history.push('/');
     } catch (error) {
         const message = error?.response.data.message;

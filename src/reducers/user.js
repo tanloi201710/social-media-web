@@ -1,5 +1,5 @@
 
-import { END_UPDATING, FOLLOW, START_UPDATING, UNFOLLOW, UPDATE_USER } from '../constants/actionTypes';
+import { END_UPDATING, FOLLOW, SET_USER, START_UPDATING, UNFOLLOW, UPDATE_USER } from '../constants/actionTypes';
 
 const initState = {
     isUpdating: false,
@@ -17,6 +17,9 @@ const authReducer = (state = initState,action) => {
             
         case UPDATE_USER:
             localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
+            return { ...state, userData: action?.data }
+
+        case SET_USER:
             return { ...state, userData: action?.data }
 
         case FOLLOW:
