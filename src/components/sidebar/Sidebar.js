@@ -89,6 +89,15 @@ export default function Sidebar() {
                 )
         );
     }, []);
+
+    const onCheckBtnClickRemove = useCallback((id) => {
+        setTodoList(
+            prevState => 
+                prevState.map( todo => 
+                    todo.id === id ? {...todo, isCompleted: false} : todo
+                )
+        );
+    }, []);
     // events end
 
     return (
@@ -119,25 +128,25 @@ export default function Sidebar() {
                     </li>
 
                     <Collapse in={openShopping} timeout="auto" unmountOnExit>
-                        <a href='https://shopee.vn/' style={{textDecoration:"none"}}>
+                        <a target='_blank' rel='noreferrer' href='https://shopee.vn/' style={{textDecoration:"none"}}>
                             <li className="sidebarListItemChil" >
                                 <img src='/assets/logo_shopee.png' alt='' className="sidebarIconImg"/>
                                 <span className="sidebarListItemText">Shopee</span>
                             </li>
                         </a>
-                        <a href='https://tiki.vn/' style={{textDecoration:"none"}}>
+                        <a target='_blank' rel='noreferrer' href='https://tiki.vn/' style={{textDecoration:"none"}}>
                             <li className="sidebarListItemChil">
                                 <img src='/assets/logo_tiki.png' alt='' className="sidebarIconImg"/>
                                 <span className="sidebarListItemText">Tiki</span>
                             </li>
                         </a>
-                        <a href='https://lazada.vn/' style={{textDecoration:"none"}}>
+                        <a target='_blank' rel='noreferrer' href='https://lazada.vn/' style={{textDecoration:"none"}}>
                             <li className="sidebarListItemChil">
                                 <img src='/assets/logo_lazada.png' alt='' className="sidebarIconImg"/>
                                 <span className="sidebarListItemText">Lazada</span>
                             </li>
                         </a>
-                        <a href='https://sendo.vn/' style={{textDecoration:"none"}}>
+                        <a target='_blank' rel='noreferrer' href='https://sendo.vn/' style={{textDecoration:"none"}}>
                             <li className="sidebarListItemChil">
                                 <img src='/assets/logo_sendo.png' alt='' className="sidebarIconImg"/>
                                 <span className="sidebarListItemText">Sendo</span>
@@ -167,6 +176,7 @@ export default function Sidebar() {
                                     className="sidebarEventInput"
                                     name='add'
                                     placeholder='Thêm việc cần làm ...'
+                                    onKeyDown={(e) => { if(e.key === 'Enter') onAddBtnClick() }} 
                                     elemAfterInput={
                                         <ButtonAt 
                                             className="sidebarEventButton"
@@ -179,7 +189,7 @@ export default function Sidebar() {
                                     onChange={onTextInputChange}
                                 ></Textfield>
                                 <div className="sidebarEventTodo">
-                                    <TodoList todoList={todoList} onCheckBtnClick={onCheckBtnClick}></TodoList>
+                                    <TodoList todoList={todoList} onCheckBtnClick={onCheckBtnClick} onCheckBtnClickRemove={onCheckBtnClickRemove}></TodoList>
                                 </div>
                                 <Button variant="outlined" color="primary" onClick={() => setTodoList([])}>Xóa hết sự kiện</Button>
                             </div>

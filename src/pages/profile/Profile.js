@@ -11,6 +11,7 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../api';
 import { followUser, unfollowuser } from '../../actions/user';
+import {Link} from 'react-router-dom';
 
 export default function Profile() {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -89,11 +90,12 @@ export default function Profile() {
                                         <DoneAllRounded fontSize="small" />
                                     </Button>
                                 }
-                                
-                                <Button variant="outlined">
-                                    Nhắn tin &nbsp;
-                                    <ChatRounded fontSize="small" />
-                                </Button>
+                                <Link to='/chat' style={{textDecoration: 'none'}}>
+                                    <Button variant="outlined">
+                                        Nhắn tin &nbsp;
+                                        <ChatRounded fontSize="small" />
+                                    </Button>
+                                </Link>
                             </div>
                         }
                     </div>
