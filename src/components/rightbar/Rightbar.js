@@ -10,7 +10,7 @@ import { Cake, Favorite, Home, Room, Work } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@mui/styles';
 
-export default function Rightbar({profile}) {
+export default function Rightbar({ profile, user }) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {authData} = useSelector((state)=>state.auth);
 
@@ -230,29 +230,33 @@ export default function Rightbar({profile}) {
                             </div>
                         </TabPanel>
                         <TabPanel value={value} index={2} className="rightbarTabPanel">
-                            <Link to="/changeInfo" style={{textDecoration:"none"}}>
-                                <Button variant="outlined" color="primary" href="/changeInfo">Chỉnh sửa thông tin</Button>
-                            </Link>
+                            {
+                                user._id === authData.result._id &&
+                                <Link to="/changeInfo" style={{textDecoration:"none"}}>
+                                    <Button variant="outlined" color="primary" href="/changeInfo">Chỉnh sửa thông tin</Button>
+                                </Link>
+                            }
+                            
                             <div className="rightbarInfo">
                                 <div className="rightbarInfoItem">
                                     <Home className="rightbarInfoKey"/>
-                                    <Typography className="rightbarInfoValue">{echo(authData.result?.city)}</Typography>
+                                    <Typography className="rightbarInfoValue">{echo(user?.city)}</Typography>
                                 </div>
                                 <div className="rightbarInfoItem">
                                     <Room className="rightbarInfoKey"/>
-                                    <Typography className="rightbarInfoValue">{echo(authData.result?.from)}</Typography>
+                                    <Typography className="rightbarInfoValue">{echo(user?.from)}</Typography>
                                 </div>
                                 <div className="rightbarInfoItem">
                                     <Work className="rightbarInfoKey"/>
-                                    <Typography className="rightbarInfoValue">{echo(authData.result?.job)}</Typography>
+                                    <Typography className="rightbarInfoValue">{echo(user?.job)}</Typography>
                                 </div>
                                 <div className="rightbarInfoItem">
                                     <Cake className="rightbarInfoKey"/>
-                                    <Typography className="rightbarInfoValue">{birthFormat(authData.result?.birthday)}</Typography>
+                                    <Typography className="rightbarInfoValue">{birthFormat(user?.birthday)}</Typography>
                                 </div>
                                 <div className="rightbarInfoItem">
                                     <Favorite className="rightbarInfoKey"/>
-                                    <Typography className="rightbarInfoValue">{relationship(authData.result?.relationship)}</Typography>
+                                    <Typography className="rightbarInfoValue">{relationship(user?.relationship)}</Typography>
                                     {/* <span className="rightbarInfoValue">{authData.result?.relationship}</span> */}
                                 </div>
                             </div>
@@ -280,7 +284,7 @@ export default function Rightbar({profile}) {
     return (
         <div className="rightbar">
             <div className="rightbarWrapper">
-                {profile ? <ProfileRightbar /> : <HomeRightBar />}
+                {profile ? <ProfileRightbar user={user} /> : <HomeRightBar />}
             </div>
         </div>
     )

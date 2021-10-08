@@ -99,7 +99,7 @@ export default function Profile() {
                     </div>
                     <div className="profileRightBottom">
                     <Feed user={id} />
-                    <Rightbar profile/>
+                    <Rightbar profile user={user} />
                     {/* <div className="feedComp"></div>
                     <div className="rightBarComp"></div> */}
                         
