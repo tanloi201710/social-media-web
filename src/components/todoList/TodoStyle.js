@@ -11,13 +11,9 @@ const ButtonStyled = styled(Button)`
     &, 
     &:hover {
         ${(p) => 
-            p.isCompleted ?
+            p.isCompleted &&
             css `
                 text-decoration: line-through;
-            `
-            : 
-            css `
-                text-decoration: none;
             `
         };
     }
@@ -32,21 +28,8 @@ const ButtonStyled = styled(Button)`
         display: none;
 
         &:hover{
-            background-color: green;
-            border-radius: 50%;
-        }
-    }
-    &:hover {
-        .check-icon-not-complete {
-            display: inline-block;
-        }
-    }
-    .check-icon-not-complete{
-        display: none;
-
-        &:hover{
-            background-color: red;
-            border-radius: 50%;
+            background-color: #00a08f;
+            border-radius: 5px;
         }
     }
 `;

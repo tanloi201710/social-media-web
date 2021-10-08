@@ -11,6 +11,7 @@ import {
 import ChangeInfo from './pages/changeInfo/ChangeInfo';
 import Covid19 from './pages/covid-19/Covid19';
 import Profile from './pages/profile/Profile';
+import Chat from './pages/chat/Chat';
 import { useSelector } from 'react-redux';
 
 
@@ -34,11 +35,17 @@ function App() {
         <Route exact path='/' component={() => (!user ? <Redirect to="/login"/> : <Home user={user}/>)}/>
           
         <Route  path='/login'>
-          {user ? <Redirect to='/' /> :<Login/>}
+          {user ? <Redirect to='/' /> : <Login/>}
         </Route>
+
         <Route path="/register">
           <Register/>
         </Route>
+
+        <Route path="/chat">
+          <Chat/>
+        </Route>
+
         <Route path="/profile/:id">
           <Profile/>
         </Route>
@@ -50,6 +57,8 @@ function App() {
         <Route path="/Covid-19">
           <Covid19 />
         </Route>
+
+
       </Switch>
     </Router>
   );

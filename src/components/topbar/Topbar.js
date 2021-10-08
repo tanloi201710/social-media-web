@@ -86,11 +86,13 @@ export default function Topbar() {
                             <Person fontSize="large"/>
                         </Badge>
                     </IconButton>
-                    <IconButton>
-                        <Badge badgeContent={4} color="error" className="topbarIconItem">
-                            <Message fontSize="large"/>
-                        </Badge>
-                    </IconButton>
+                    <Link to='/chat' style={{textDecoration: 'none', color: 'white'}}> 
+                        <IconButton>
+                            <Badge badgeContent={4} color="error" className="topbarIconItem">
+                                <Message fontSize="large"/>
+                            </Badge>
+                        </IconButton>
+                    </Link>
                     <IconButton>
                         <Badge badgeContent={4} color="error" className="topbarIconItem">
                             <Notifications fontSize="large"/>
