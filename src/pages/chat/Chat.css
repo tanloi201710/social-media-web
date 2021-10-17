@@ -69,4 +69,5 @@
     font-size: 50px;
     color: rgb(220,220,220);
     cursor: default;
+    user-select: none;
 }
