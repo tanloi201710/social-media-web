@@ -90,7 +90,7 @@ export default function Profile() {
                                         <DoneAllRounded fontSize="small" />
                                     </Button>
                                 }
-                                <Link to='/chat' style={{textDecoration: 'none'}}>
+                                <Link to={`/chat?id=${id}`} style={{textDecoration: 'none'}}>
                                     <Button variant="outlined">
                                         Nhắn tin &nbsp;
                                         <ChatRounded fontSize="small" />

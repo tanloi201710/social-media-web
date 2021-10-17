@@ -27,13 +27,7 @@ export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
     const [currentPost, setCurrentPost] = useState(post);
     const [userPost,setUserPost] = useState({});
-    const now = new Date(Date.now());
-    const created = new Date(post.createdAt)
-
-    const dates = new Date(now - created).getDate();
-    if(dates === 3) {
-        console.log(new Date(post.createdAt));
-    }
+    
     const [liked, setLiked] = useState(post.likes.length);
     const [commented, setCommented] = useState(currentPost.comments.length);
     const [comment, setComment] = useState('');
@@ -57,7 +51,10 @@ export default function Post({post}) {
             }
         }
         getUserPost();
-    }, [post]);
+        return () => {
+            setUserPost({});
+        }
+    }, [post.userId]);
 
     useEffect(() => {
         posts.forEach(post => {

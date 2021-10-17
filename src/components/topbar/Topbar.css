@@ -118,6 +118,7 @@
     border-bottom: 2px solid white; 
 }
 
+
 .topbarAvatar {
     width: 45px !important;
     height: 45px !important;
@@ -148,7 +149,6 @@
 }
 
 .topbarMenu:hover {
-    background-color: #eff2f5;
     width: 100%;
     /* max-width: 190px; */
     padding: 8px;
@@ -168,6 +168,6 @@
     background-color: gray !important;
 }
 
-/* .topbarItemMenu {
-    width: 280px !important;
-} */
+.topbarItemMenu:hover {
+    background-color:none !important;
+}

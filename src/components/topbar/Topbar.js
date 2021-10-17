@@ -114,7 +114,7 @@ export default function Topbar() {
                                 open={Boolean(anchorEl)}
                                 onClose={() => setAnchorEl(null)}
                             >
-                                <MenuItem className="topbarItemMenu">
+                                <MenuItem className="topbarItemMenu" >
                                     <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
                                         <div className="topbarMenu">
                                             <ListItemIcon>
