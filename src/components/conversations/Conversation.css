@@ -1,13 +1,17 @@
 .conversation {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
+    margin-top: 5px;
+    transition: .2s;
 }
 
 .conversation:hover {
+    width: 90%;
     background-color: rgb(232, 232, 232);
     border-radius: 10px;
+    margin-left: 5px;
 }
 
 .conversationImg {

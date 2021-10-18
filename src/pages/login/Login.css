@@ -32,6 +32,12 @@
     font-size: 20px;
 }
 
+.loginError {
+    margin-right: 20px !important;
+    margin-top: 20px !important;
+    border-radius: 10px !important;
+}
+
 .loginBox {
     height: 300px;
     padding: 20px;

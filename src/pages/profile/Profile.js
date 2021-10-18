@@ -41,6 +41,10 @@ export default function Profile() {
         fetchUsers();
     },[id]);
     
+    // useEffect(() => {
+    //     document.title = `SocialBook ${user.name && user.name}`;
+    //     return () => {}
+    // }, [user]);
 
     const handleAddFriend = () => {
         if(!followed) {

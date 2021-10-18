@@ -3,6 +3,7 @@ import './Chat.css';
 import Topbar from '../../components/topbar/Topbar';
 import Conversation from '../../components/conversations/Conversation';
 import Message from '../../components/message/Message';
+import TextField from '@mui/material/TextField';
 
 export default function Chat() {
     return (
@@ -11,7 +12,8 @@ export default function Chat() {
         <div className="chat">
             <div className="chatMenu">
                 <div className="chatMenuWrapper"> 
-                    <input placeholder="Tìm kiếm bạn bè..." className="chatMenuInput" />
+                    {/* <input placeholder="Tìm kiếm bạn bè..." className="chatMenuInput" /> */}
+                    <TextField id="standard-basic" label="Tìm kiếm bạn bè" variant="standard" className="chatMenuInput"/>
                     <Conversation />
                     <Conversation />
                 </div>
