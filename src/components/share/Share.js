@@ -264,7 +264,7 @@ export default function Share({id}) {
                             </DialogContent>
                             <hr/>
                             <DialogActions>
-                                <Button onClick={() => setFeel('')} color="primary">
+                                <Button onClick={() => {setFeel(''); setOpenFeel(false)}} color="primary">
                                     Cancel
                                 </Button>
                                 <Button onClick={() => setOpenFeel(false)} color="primary">

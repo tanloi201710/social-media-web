@@ -4,23 +4,31 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import './Topbar.css';
 import {Link, useHistory, useLocation} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Menu, withStyles, MenuItem, ListItemIcon, Avatar, Badge, IconButton
 } from '@material-ui/core';
 import decode from 'jwt-decode';
+import { SET_SOCKET, LOGOUT } from '../../constants/actionTypes';
+import Notification from '../notification/Notification';
 
 export default function Topbar() {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const [isFriendBox, setIsFriendBox] = useState(false);
+    const [isChatBox, setIsChatBox] = useState(false);
+    const [isNotifyBox, setIsNotifyBox] = useState(false);
+    const { savedSocket } = useSelector((state) => state.socket);
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
 
     const handleLogout = useCallback(() => {
-        dispatch({ type: 'LOGOUT' });
+        savedSocket.current.disconnect();
+        dispatch({ type: SET_SOCKET, payload: null });
+        dispatch({ type: LOGOUT });
         history.push('/login');
         setUser(undefined);
-    }, [dispatch, history]);
+    }, [dispatch, history,savedSocket]);
 
     useEffect(() => {
         const token = user?.token;
@@ -36,6 +44,12 @@ export default function Topbar() {
         setUser(JSON.parse(localStorage.getItem('profile')));
 
     }, [location,user?.token,handleLogout]);
+
+    useEffect(() => {
+        savedSocket?.current.on('getMessageNotify', (data) => {
+            console.log(data.user + " " + data.action);
+        })
+    }, [savedSocket])
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -58,6 +72,32 @@ export default function Topbar() {
           {...props}
         />
     ));
+
+    const switchMode = (mode) => {
+        // 1: Friends
+        // 2: Messages
+        // 3: Notifications
+        switch (mode) {
+            case 1:
+                setIsChatBox(false);
+                setIsNotifyBox(false);
+                setIsFriendBox(!isFriendBox);
+                break;
+        
+            case 2:
+                setIsChatBox(!isChatBox);
+                setIsNotifyBox(false);
+                setIsFriendBox(false);
+                break;
+            case 3:
+                setIsChatBox(false);
+                setIsNotifyBox(!isNotifyBox);
+                setIsFriendBox(false);
+                break;
+            default:
+                break;
+        }
+    }
     return (
         <div className="topbarContainer">
             <div className="topbarLeft">
@@ -81,23 +121,64 @@ export default function Topbar() {
                 </Link>
 
                 <div className="topbarIcons">
-                    <IconButton className="topbarIconButtons">
+                    {/* Friends Notifications */}
+                    <IconButton className="topbarIconButtons" onClick={() => switchMode(1)}>
                         <Badge badgeContent={4} color="error" className="topbarIconItem">
                             <Person fontSize="large"/>
                         </Badge>
                     </IconButton>
-                    <Link to='/chat' style={{textDecoration: 'none', color: 'white'}}> 
-                        <IconButton>
-                            <Badge badgeContent={4} color="error" className="topbarIconItem">
-                                <Message fontSize="large"/>
-                            </Badge>
-                        </IconButton>
-                    </Link>
-                    <IconButton>
+                    {   isFriendBox &&   
+                        <div className="box">
+                            <h2 className="boxTitle">Bạn bè</h2>
+                            <div className="boxDivider"></div>
+                            <ul className="boxItems">
+                                <Notification friends />
+                                <Notification friends />
+                                <Notification friends />
+                                <Notification friends />
+                            </ul>
+                        </div>
+                    }
+
+                    {/* Chat Notifications */}
+                    <IconButton onClick={() => switchMode(2)}>
+                        <Badge badgeContent={4} color="error" className="topbarIconItem">
+                            <Message fontSize="large"/>
+                        </Badge>
+                    </IconButton>
+                    {   isChatBox &&   
+                        <div className="box">
+                            <h2 className="boxTitle">Tin nhắn</h2>
+                            <div className="boxDivider"></div>
+                            <ul className="boxItems">
+                                <Notification />
+                                <Notification />
+                                <Notification />
+                                <Notification />
+                            </ul>
+                        </div>
+                    }
+
+                    {/* Posts Notifications */}
+                    <IconButton onClick={() => switchMode(3)}>
                         <Badge badgeContent={4} color="error" className="topbarIconItem">
                             <Notifications fontSize="large"/>
                         </Badge>
                     </IconButton>
+                    {   isNotifyBox &&   
+                        <div className="box">
+                            <h2 className="boxTitle">Thông báo</h2>
+                            <div className="boxDivider"></div>
+                            <ul className="boxItems">
+                                <Notification />
+                                <Notification />
+                                <Notification />
+                                <Notification />
+                            </ul>
+                        </div>
+                    }
+
+                    {/* Settings */}
                     <IconButton>
                         <div className="topbarIconItem">
                             <ArrowDropDownCircle 

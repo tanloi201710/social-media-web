@@ -13,6 +13,7 @@ export const DELETE = 'DELETE';
 export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_POST = 'FETCH_POST';
 export const SET_CONVERSATION = 'SET_CONVERSATION';
+export const SET_SOCKET = 'SET_SOCKET';
 
 export const START_LOADING = 'START_LOADING';
 export const END_LOADING = 'END_LOADING';

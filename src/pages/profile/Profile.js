@@ -4,9 +4,8 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import Rightbar from '../../components/rightbar/Rightbar';
 import Feed from '../../components/feed/Feed';
 import Topbar from '../../components/topbar/Topbar';
-import { Avatar } from '@material-ui/core';
-import { Button } from '@mui/material';
-import { PersonAddRounded, ChatRounded, DoneAllRounded } from '@mui/icons-material';
+import { Button, Dialog, Avatar, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { PersonAddRounded, ChatRounded, DoneAllRounded, Edit } from '@mui/icons-material';
 import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../api';
@@ -23,6 +22,8 @@ export default function Profile() {
 
     const [user,setUser] = useState({});
     const [followed,setFollowed] = useState(authData.result.followings.includes(id));
+    const [isEditable,setIsEditable] = useState(false);
+    const [isEditNameDialog,setIsEditNameDialog] = useState(false);
 
     useEffect(() => {
         setFollowed(userData.result.followings.includes(id));
@@ -72,9 +73,36 @@ export default function Profile() {
                             <Avatar className="profileUserImg" src={user.profilePicture && user.profilePicture}></Avatar>
 
                         </div>
-                        <div className="profileInfo">
-                            <h4 className="profileInfoName">{user.name && user.name}</h4>
+                        <div className="profileInfo"
+                            onMouseEnter={() => setIsEditable(true)}
+                            onMouseLeave={() => setIsEditable(false)}
+                        >
+                            <h4 className="profileInfoName">
+                                {user.name && user.name}
+                            </h4>
+                            { isEditable && authData?.result._id === id &&
+                                <Edit 
+                                    fontSize="small" 
+                                    color="action" 
+                                    sx={{ position: 'absolute', top: '0', right: '42%', cursor: 'pointer'}} 
+                                    onClick={() => setIsEditNameDialog(true)}
+                                />
+                            }
                         </div>
+                        <Dialog open={isEditNameDialog} onClose={() => setIsEditNameDialog((prev) => !prev)}>
+                            <DialogTitle>Chỉnh sửa tên của bạn</DialogTitle>
+                            <DialogContent>
+                                <TextField defaultValue={user.name} />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setIsEditNameDialog(false)} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={() => setIsEditNameDialog(false)} color="primary">
+                                    Ok
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                         {
                             authData?.result._id !== id && 
                             <div className="profileAddFriend">
