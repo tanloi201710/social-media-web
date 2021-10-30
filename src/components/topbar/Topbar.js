@@ -17,6 +17,9 @@ export default function Topbar() {
     const [isFriendBox, setIsFriendBox] = useState(false);
     const [isChatBox, setIsChatBox] = useState(false);
     const [isNotifyBox, setIsNotifyBox] = useState(false);
+    const [friendsNotify, setFriendsNotify] = useState([]);
+    const [chatNotify, setChatNotify] = useState([]);
+    const [postsNotify, setPostsNotify] = useState([]);
     const { savedSocket } = useSelector((state) => state.socket);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -47,7 +50,8 @@ export default function Topbar() {
 
     useEffect(() => {
         savedSocket?.current.on('getMessageNotify', (data) => {
-            console.log(data.user + " " + data.action);
+            setChatNotify((prev) => [data, ...prev]);
+            console.log('new message');
         })
     }, [savedSocket])
 
@@ -123,7 +127,7 @@ export default function Topbar() {
                 <div className="topbarIcons">
                     {/* Friends Notifications */}
                     <IconButton className="topbarIconButtons" onClick={() => switchMode(1)}>
-                        <Badge badgeContent={4} color="error" className="topbarIconItem">
+                        <Badge badgeContent={friendsNotify.length} color="error" className="topbarIconItem">
                             <Person fontSize="large"/>
                         </Badge>
                     </IconButton>
@@ -132,17 +136,16 @@ export default function Topbar() {
                             <h2 className="boxTitle">Bạn bè</h2>
                             <div className="boxDivider"></div>
                             <ul className="boxItems">
-                                <Notification friends />
-                                <Notification friends />
-                                <Notification friends />
-                                <Notification friends />
+                                { friendsNotify.map((chat,id) => (
+                                    <Notification key={id} content={chat} friends />
+                                ))}
                             </ul>
                         </div>
                     }
 
                     {/* Chat Notifications */}
                     <IconButton onClick={() => switchMode(2)}>
-                        <Badge badgeContent={4} color="error" className="topbarIconItem">
+                        <Badge badgeContent={chatNotify.length} color="error" className="topbarIconItem">
                             <Message fontSize="large"/>
                         </Badge>
                     </IconButton>
@@ -151,17 +154,16 @@ export default function Topbar() {
                             <h2 className="boxTitle">Tin nhắn</h2>
                             <div className="boxDivider"></div>
                             <ul className="boxItems">
-                                <Notification />
-                                <Notification />
-                                <Notification />
-                                <Notification />
+                                { chatNotify.map((chat,id) => (
+                                    <Notification key={id} content={chat} />
+                                ))}
                             </ul>
                         </div>
                     }
 
                     {/* Posts Notifications */}
                     <IconButton onClick={() => switchMode(3)}>
-                        <Badge badgeContent={4} color="error" className="topbarIconItem">
+                        <Badge badgeContent={postsNotify.length} color="error" className="topbarIconItem">
                             <Notifications fontSize="large"/>
                         </Badge>
                     </IconButton>
@@ -170,10 +172,9 @@ export default function Topbar() {
                             <h2 className="boxTitle">Thông báo</h2>
                             <div className="boxDivider"></div>
                             <ul className="boxItems">
-                                <Notification />
-                                <Notification />
-                                <Notification />
-                                <Notification />
+                                { postsNotify.map((chat,id) => (
+                                    <Notification key={id} content={chat} />
+                                ))}
                             </ul>
                         </div>
                     }

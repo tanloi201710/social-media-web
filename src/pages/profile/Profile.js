@@ -74,8 +74,8 @@ export default function Profile() {
 
                         </div>
                         <div className="profileInfo"
-                            onMouseEnter={() => setIsEditable(true)}
-                            onMouseLeave={() => setIsEditable(false)}
+                            // onMouseEnter={() => setIsEditable(true)}
+                            // onMouseLeave={() => setIsEditable(false)}
                         >
                             <h4 className="profileInfoName">
                                 {user.name && user.name}
