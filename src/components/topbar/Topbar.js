@@ -86,13 +86,13 @@ export default function Topbar() {
                             <Person fontSize="large"/>
                         </Badge>
                     </IconButton>
-                    <Link to='/chat'> 
-                        <IconButton>
+                    {/* <Link to='/chat'>  */}
+                        <IconButton onClick={() => history.push("/chat")}>
                             <Badge badgeContent={4} color="error" className="topbarIconItem">
                                 <Message fontSize="large"/>
                             </Badge>
                         </IconButton>
-                    </Link>
+                    {/* </Link> */}
                     <IconButton>
                         <Badge badgeContent={4} color="error" className="topbarIconItem">
                             <Notifications fontSize="large"/>
@@ -114,7 +114,7 @@ export default function Topbar() {
                                 open={Boolean(anchorEl)}
                                 onClose={() => setAnchorEl(null)}
                             >
-                                <MenuItem className="topbarItemMenu">
+                                <MenuItem className="topbarItemMenu" >
                                     <Link to={`/profile/${user.result._id ? user.result._id : user.result.googleId}`} style={{textDecoration: 'none'}}>
                                         <div className="topbarMenu">
                                             <ListItemIcon>

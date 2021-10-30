@@ -76,6 +76,7 @@ export default function Share({id}) {
     const resetForm = () => {
         setFiles([]);
         desc.current.value = '';
+        setFeel('');
     };
 
     const handleSubmit = async(e) => {
@@ -84,6 +85,7 @@ export default function Share({id}) {
         const newPost = {
             userId: user?._id || user?.googleId,
             desc: desc.current.value,
+            feeling: feel,
             img: [],
             imgName: []
         };
@@ -141,6 +143,7 @@ export default function Share({id}) {
 
     useEffect(() => {
         setFeel(feel);
+        console.log(feel);
         return () => {}
     },[feel]);
 
@@ -261,7 +264,7 @@ export default function Share({id}) {
                             </DialogContent>
                             <hr/>
                             <DialogActions>
-                                <Button onClick={() => setFeel('')} color="primary">
+                                <Button onClick={() => {setFeel(''); setOpenFeel(false)}} color="primary">
                                     Cancel
                                 </Button>
                                 <Button onClick={() => setOpenFeel(false)} color="primary">

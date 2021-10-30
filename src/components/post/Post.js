@@ -3,27 +3,31 @@ import {
 } from '@material-ui/icons';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
-import useStyles from './styles';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePost, likePost, updateComments } from '../../actions/post';
 import { Avatar, Card, CardActions, 
     CardContent, CardHeader, 
     Collapse, Divider, IconButton, 
     List, ListItem, ListItemText, Typography} from '@material-ui/core';
-import { deleteImage } from '../../actions/images';
-import ImagesList from '../imageList/ImagesList';
 import { CircularProgress, TextField } from '@mui/material';
 import { Comment } from '@mui/icons-material';
+import Emojify from 'react-emojione';
+    
+    
+import useStyles from './styles';
+import { deletePost, likePost, updateComments } from '../../actions/post';
+import { deleteImage } from '../../actions/images';
+import ImagesList from '../imageList/ImagesList';
 import CommentComponent from '../comment/CommentComponent';
 import { dateFormat } from '../../actions/format';
 import { getUser } from '../../api';
+import { Link } from 'react-router-dom';
 
 export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
     const [currentPost, setCurrentPost] = useState(post);
-    const [userPost,setUserPost] = useState();
-
+    const [userPost,setUserPost] = useState({});
+    
     const [liked, setLiked] = useState(post.likes.length);
     const [commented, setCommented] = useState(currentPost.comments.length);
     const [comment, setComment] = useState('');
@@ -47,7 +51,10 @@ export default function Post({post}) {
             }
         }
         getUserPost();
-    }, [post]);
+        return () => {
+            setUserPost({});
+        }
+    }, [post.userId]);
 
     useEffect(() => {
         posts.forEach(post => {
@@ -104,12 +111,25 @@ export default function Post({post}) {
             <CardHeader
                 avatar={
                     <Avatar aria-label="recipe" className={classes.avatar} src={userPost?.profilePicture}>
-                        { userPost?.name.charAt(0).toUpperCase() }
+                        {/* { userPost?.name.charAt(0).toUpperCase() } */}
                     </Avatar>
                 }
-                title={<div className={classes.name}>{userPost?.name}</div>}
+                title={
+                    post?.feeling ?
+                        <Link to={`/profile/${userPost?._id}`} style={{textDecoration: 'none', color: 'black'}}>
+                            <div className={classes.name}>
+                                {userPost?.name} đang cảm thấy <Emojify>{post.feeling}</Emojify>
+                            </div>
+                        </Link>
+                    :
+                        <Link to={`/profile/${userPost?._id}`} style={{textDecoration: 'none', color: 'black'}}>
+                            <div className={classes.name}>
+                                {userPost?.name}
+                            </div>
+                        </Link>
+                }
                 subheader={dateFormat(currentPost.createdAt)}
-                action={
+                action={ user.result._id === userPost?._id &&
                     <IconButton aria-label="settings" className={classes.postTopRight} onClick={() => setIsMoreBox(!isMoreBox)}>
                         { deleting ? <CircularProgress size={22} /> : <MoreVert />}
                         {

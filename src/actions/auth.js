@@ -8,7 +8,9 @@ export const signin = (formdata,history) => async (dispatch) => {
         dispatch({ type: SET_USER, data });
         history.push('/');
     } catch (error) {
-        const message = error?.response.data.message;
+        let message = error?.response.data.message;
+        dispatch({ type: ERROR, message });
+        message = '';
         dispatch({ type: ERROR, message });
     }
 };

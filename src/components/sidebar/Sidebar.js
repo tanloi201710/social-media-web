@@ -37,6 +37,9 @@ export default function Sidebar() {
             }
         }
         fetchRecommentFriends();
+        return () => {
+            setRecommentFriends([]);
+        }
     }, [authData.result._id]);
     
     // events begin

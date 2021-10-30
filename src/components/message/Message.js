@@ -1,13 +1,14 @@
+import { dateFormat } from '../../actions/format';
 import React from 'react'
 import './Message.css';
 
-export default function Message({own}) {
+export default function Message({message, own}) {
     return (
         own ? (
             <div className="message own">
                 <div className="messageTop">
                     <p className="messageTopText">
-                        Hello this is a message
+                        {message.text}
                     </p>
                     <img
                         className="messageTopImg"
@@ -15,7 +16,7 @@ export default function Message({own}) {
                         alt=""
                     />
                 </div>
-                <div className="messageBottom"> 1 hour ago </div>
+                <div className="messageBottom">{dateFormat(message.createdAt)}</div>
             </div>
         ) : (
             <div className="message">
@@ -26,10 +27,10 @@ export default function Message({own}) {
                         alt=""
                     />
                     <p className="messageTopText">
-                        Hello this is a message Hello this is a message Hello this is a message Hello this is a message Hello this is a message Hello
+                        {message.text}
                     </p>
                 </div>
-                <div className="messageBottom"> 1 hour ago </div>
+                <div className="messageBottom">{dateFormat(message.createdAt)}</div>
             </div>
         )
     )
