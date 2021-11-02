@@ -23,6 +23,11 @@ export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const fetchPosts = (id) => API.get(`/posts/${id}/many`);
 export const fetchTimeline = () => API.get('/posts/timeline/all');
 
+export const addComment = (newComment) => API.post('/comments', newComment);
+export const getComments = (postId) => API.get(`/comments/${postId}`);
+export const getReplies = (commentId) => API.get(`/comments/${commentId}/replies`);
+export const likeComment = (commentId) => API.patch(`/comments/${commentId}/like`);
+
 export const likePost = (id) => API.patch(`/posts/${id}/like`);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
 

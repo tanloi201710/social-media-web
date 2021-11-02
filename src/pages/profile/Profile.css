@@ -35,6 +35,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .profileAddFriend {
@@ -47,7 +48,9 @@
 
 .profileInfoName {
     font-size: 24px;
+    user-select: none;
 }
+
 
 .profileInfoDesc {
     font-weight: 300;
@@ -55,5 +58,6 @@
 
 .profileRightBottom {
     display: flex;
+    margin-top: 20px;
 }
 

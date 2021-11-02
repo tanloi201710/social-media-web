@@ -73,3 +73,12 @@ export const updateComments = (postId,updated) => async(dispatch) => {
         console.log(error);
     }
 }
+
+export const addComment = (newComment) => async(dispatch) => {
+    try {
+        const savedComment = await api.addComment(newComment);
+        console.log(savedComment.data);
+    } catch (error) {
+        console.log(error);
+    }
+}

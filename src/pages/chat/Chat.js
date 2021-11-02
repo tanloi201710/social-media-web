@@ -21,6 +21,7 @@ export default function Chat() {
 
     const { userData } = useSelector((state) => state.user);
     const { conversations } = useSelector((state) => state.conversation);
+    const { savedSocket } = useSelector((state) => state.socket);
     const query = useQuery();
     const dispatch = useDispatch();
     const id = query.get('id');
@@ -34,18 +35,14 @@ export default function Chat() {
     const [emoji, setEmoji] = useState("");
     // Create a socket and get messages, clean up function will disconnect socket
     useEffect(() => {
-        socket.current = io("ws://localhost:8080");
-        socket.current.on('getMessage', (data) => {
+        savedSocket?.current.on('getMessage', (data) => {
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
                 createdAt: Date.now(),
             })
         })
-        return () => {
-            socket.current.disconnect();
-        }
-    },[]);
+    },[savedSocket]);
 
     // Add new messages to the message list
     useEffect(() => {
@@ -53,13 +50,6 @@ export default function Chat() {
         setMessages((prev) => [...prev,arrivalMessage]);
     }, [arrivalMessage,currentConv]);
 
-    // Get user online in socket server
-    useEffect(() => {
-        socket.current.emit('addUser', userData.result._id);
-        socket.current.on('getUsers', (users) => {
-            console.log(users);
-        })
-    }, [userData.result._id]);
 
     // Get conversations from the user when components mount
     useEffect(() => {
@@ -131,10 +121,15 @@ export default function Chat() {
 
         const receiverId = currentConv.members.find(member => member !== userData.result._id );
 
-        socket.current.emit('sendMessage', { 
+        savedSocket.current.emit('sendMessage', { 
             senderId: userData.result._id,
             receiverId,
             text: newMessage
+        });
+
+        savedSocket.current.emit('messageNotify', {
+            senderId: userData.result._id,
+            receiverId,
         });
         
         try {

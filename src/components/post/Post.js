@@ -15,12 +15,12 @@ import Emojify from 'react-emojione';
     
     
 import useStyles from './styles';
-import { deletePost, likePost, updateComments } from '../../actions/post';
+import { addComment, deletePost, likePost, updateComments } from '../../actions/post';
 import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
 import CommentComponent from '../comment/CommentComponent';
 import { dateFormat } from '../../actions/format';
-import { getUser } from '../../api';
+import { getComments, getUser } from '../../api';
 import { Link } from 'react-router-dom';
 
 export default function Post({post}) {
@@ -29,8 +29,9 @@ export default function Post({post}) {
     const [userPost,setUserPost] = useState({});
     
     const [liked, setLiked] = useState(post.likes.length);
-    const [commented, setCommented] = useState(currentPost.comments.length);
+    const [commented, setCommented] = useState(0);
     const [comment, setComment] = useState('');
+    const [comments,setComments] = useState([]);
     const [isLiked, setIsLiked] = useState(currentPost.likes.includes(user.result._id));
     const [isMoreBox,setIsMoreBox] = useState(false);
     const dispatch = useDispatch();
@@ -62,8 +63,21 @@ export default function Post({post}) {
                 setCurrentPost(post);
             }
         });
-        setCommented(currentPost.comments.length);
-    }, [posts,currentPost])
+        setCommented(comments.length);
+    }, [posts,currentPost,comments]);
+
+    useEffect(() => {
+        const getCmt = async() => {
+            try {
+                const comments = await getComments(post._id);
+                setComments(comments.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getCmt();
+    }, [post._id]);
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -90,18 +104,24 @@ export default function Post({post}) {
         }
     };
 
+    const upCmt = (newComment) => {
+        dispatch(addComment(newComment));
+    }
+
 
     const handleComment = () => {
         const commentForm = {
+            postId: currentPost._id,
             img: user.result?.profilePicture,
             name: user.result.name,
             message: comment,
             likes: [],
+            root: '1',
             createdAt: Date.now()
         }
         setComment('');
-        currentPost.comments.unshift(commentForm);
-        dispatch(updateComments(currentPost._id,currentPost.comments));
+        comments.unshift(commentForm);
+        upCmt(commentForm);
     }
 
 
@@ -201,9 +221,15 @@ export default function Post({post}) {
                         onKeyDown={(e) => { if(e.key === 'Enter') handleComment() }}
                     />
                     {
-                        currentPost.comments.length > 0 && 
-                        currentPost.comments.map((comment,index) => (
-                            <CommentComponent comment={comment} user={user} key={index} />
+                        comments.length > 0 && 
+                        comments.filter(comment => comment.root === '1').map((comment,index) => (
+                            <CommentComponent 
+                                comment={comment} 
+                                user={user} 
+                                upCmt={upCmt} 
+                                postId={currentPost._id}
+                                key={index} 
+                            />
                         ))
                     }
                     
