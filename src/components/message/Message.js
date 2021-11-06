@@ -8,7 +8,6 @@ export default function Message({message, own, userData}) {
     const { users } = useSelector((state) => state.conversation);
     const currentUser = users.find((user) => user._id === message.sender);
 
-    console.log(users);
     return (
         own ? (
             <div className="message own">
@@ -34,9 +33,11 @@ export default function Message({message, own, userData}) {
                         src={currentUser?.profilePicture}
                         alt=""
                     />
-                    <p className="messageTopText">
-                        {message.text}
-                    </p>
+                   <Emojify>
+                        <p className="messageTopText">
+                            {message.text}
+                        </p>
+                    </Emojify>
                 </div>
                 <div className="messageBottom">{dateFormat(message.createdAt)}</div>
             </div>

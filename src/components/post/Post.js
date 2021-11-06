@@ -121,6 +121,7 @@ export default function Post({post}) {
         }
         setComment('');
         comments.unshift(commentForm);
+        setCommented(commented+1);
         upCmt(commentForm);
     }
 

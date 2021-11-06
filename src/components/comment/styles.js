@@ -44,7 +44,7 @@ const useStyles = makeStyles(() => ({
         position: 'relative',
     },
     replyInput: {
-        marginTop: '5px'
+        marginTop: '5px',
     },
     viewReplyText: {
         marginLeft: '35px',

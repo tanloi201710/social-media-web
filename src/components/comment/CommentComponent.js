@@ -117,7 +117,7 @@ function CommentComponent({comment,user,upCmt,postId}) {
                         
                         <span>Thích {countLiked > 0 && `(${countLiked})`}</span>
                     </div>
-                    <div className={classes.group} onClick={() => setPlaceholder(comment.name)}>
+                    <div className={classes.group} onClick={() => {setPlaceholder(comment.name); setIsReply(true) }}>
                         <Reply sx={{ marginRight: '3px' }} />
                         <span>Trả lời {replies.length > 0 && `(${replies.length})`}</span>
                     </div>
@@ -153,7 +153,7 @@ function CommentComponent({comment,user,upCmt,postId}) {
                     </span>
                 </div>
             }
-            { isReply && 
+            { isReply && replies.length > 0 &&
                 <span 
                     className={classes.dropUp}
                     onClick={() => setIsReply(!isReply)}

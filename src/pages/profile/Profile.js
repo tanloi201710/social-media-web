@@ -66,7 +66,7 @@ export default function Profile() {
                         <div className="profileCover">
                             <img 
                                 className="profileCoverImg"
-                                src={`${PF}post/luffy.jpg`}
+                                src={`${PF}cover.jpg`}
                                 alt=""
                             />
                             {/* <img 

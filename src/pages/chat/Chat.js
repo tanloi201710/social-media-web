@@ -32,7 +32,6 @@ export default function Chat() {
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [openEmoji, setOpenEmoji] = useState(false);
-    const [selectEmoji, setSelectEmoji] = useState([]);
 
     // Create a socket and get messages, clean up function will disconnect socket
     useEffect(() => {
@@ -186,7 +185,7 @@ export default function Chat() {
                                 {
                                     openEmoji ? (
                                         <Picker
-                                            onSelect={(emoji) => {setSelectEmoji(...selectEmoji, emoji.native); setNewMessage(...newMessage, selectEmoji)}}
+                                            onSelect={(emoji) => { setNewMessage(newMessage.concat(emoji.native))}}
                                             set='apple'
                                             i18n={{ search: 'Search', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }} 
                                             style={{ position: 'absolute', bottom: '60px', left: '70px' , borderRadius: '10px'}}
