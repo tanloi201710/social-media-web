@@ -1,6 +1,6 @@
 import React, {
     useEffect, useRef, useState } from 'react';
-import GoogleLogin from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { google, signin } from '../../actions/auth';
@@ -40,7 +40,8 @@ export default function Login() {
         console.log("Google Sign In was unsuccessful. Try Again Later!");
     };
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
         try {
             const formData = {
                 email: email.current.value,
@@ -67,11 +68,27 @@ export default function Login() {
                     }
                 </div>
                 <div className="loginRight">
-                    <div className="loginBox">
-                        <input placeholder="Email" type="email" className="loginInput" onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} ref={email} required/>
-                        <input placeholder="Mật khẩu" type="password" className="loginInput" onKeyDown={(e) => { if(e.key === 'Enter') handleLogin() }} ref={password} required/>
-                        <button className="loginButton" onClick={handleLogin}>Đăng nhập</button>
-                        <button className="loginForgot" onClick={() => setOpenForgot(true)}> Quên mật khẩu ?</button>
+                    <form className="loginBox" onSubmit={(e) => handleLogin(e)}>
+                        <input 
+                            placeholder="Email" 
+                            type="email" 
+                            className="loginInput" 
+                            onKeyDown={(e) => { if(e.key === 'Enter') handleLogin(e) }} 
+                            ref={email} 
+                            required
+                            autoComplete="off"
+                        />
+                        <input 
+                            placeholder="Mật khẩu" 
+                            type="password" 
+                            className="loginInput" 
+                            onKeyDown={(e) => { if(e.key === 'Enter') handleLogin(e) }} 
+                            ref={password} 
+                            required
+                            autoComplete="off"
+                        />
+                        <button className="loginButton" onClick={(e) => handleLogin(e)}>Đăng nhập</button>
+                        <button className="loginForgot" onClick={() => setOpenForgot(!openForgot)}> Quên mật khẩu ?</button>
                         <button className="loginRegisterButton" onClick={() => history.push('/register')}>Tạo tài khoản mới</button>
                         <GoogleLogin 
                             clientId="942604298897-gs8om3cnmj19gr4pc02enfpidos9ofb4.apps.googleusercontent.com"
@@ -84,12 +101,13 @@ export default function Login() {
                                     <img src={PF+'googleicon.png'} alt="" className="googleImg"/>
                                     <span className="googleText">Đăng nhập bằng Google</span>
                                 </button>
+                                
                             )}
                             onSuccess={googleSuccess}
                             onFailure={googleFailure}
-                            cookiePolicy="single_host_origin"
+                            cookiePolicy={"single_host_origin"}
                         />
-                    </div>
+                    </form>
                     
                     {/* <Dialog className="loginForgotDialog" open={openForgot} onClose={() => setOpenForgot(false)}>
                         <DialogTitle className="loginForgotDialogTitle"> Quên mật khẩu </DialogTitle>

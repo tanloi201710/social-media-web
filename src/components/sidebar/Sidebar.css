@@ -92,11 +92,11 @@
 }
 
 .sidebarButton {
-    width: 150px !important;
+    width: 130px !important;
     padding: 5px !important;
     border-color: #3f51b5 !important;
     color: #3f51b5 !important;
-    border-radius: 10px !important;
+    border-radius: 30px !important;
     font-weight: 500 !important;
 }
 

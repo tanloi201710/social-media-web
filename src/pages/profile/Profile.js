@@ -22,7 +22,7 @@ export default function Profile() {
 
     const [user,setUser] = useState({});
     const [followed,setFollowed] = useState(authData.result.followings.includes(id));
-    const [isEditable,setIsEditable] = useState(false);
+    const [isEditable, setIsEditable] = useState(false);
     const [isEditNameDialog,setIsEditNameDialog] = useState(false);
 
     useEffect(() => {
@@ -113,12 +113,12 @@ export default function Profile() {
                                 {
                                     !followed ?
                                     <Button variant="contained" onClick={handleAddFriend}>
-                                        Thêm bạn &nbsp;
+                                        Theo dõi &nbsp;
                                         <PersonAddRounded fontSize="small"/>
                                     </Button>
                                     :
                                     <Button>
-                                        Bạn bè &nbsp;
+                                        Đã theo dõi &nbsp;
                                         <DoneAllRounded fontSize="small" />
                                     </Button>
                                 }

@@ -40,8 +40,33 @@ const useStyles = makeStyles(() => ({
         fontSize: '15px',
         marginTop: '5px'
     },
+    replyBox: {
+        position: 'relative',
+    },
     replyInput: {
         marginTop: '5px'
+    },
+    viewReplyText: {
+        marginLeft: '35px',
+        fontSize: '14px',
+        color: 'rgba(0,0,0,0.7)',
+        marginTop: '5px',
+        cursor: 'pointer',
+        "&:hover": {
+            color: '#3f51b5',
+        }
+    },
+    dropUp: {
+        position: 'absolute',
+        right: '10px',
+        bottom: '-5px',
+        fontSize: '14px',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+        "&:hover": {
+            color: '#3f51b5',
+        }
     }
 }));
 

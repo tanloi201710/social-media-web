@@ -1,9 +1,10 @@
 
-import { END_UPDATING, FOLLOW, SET_USER, START_UPDATING, UNFOLLOW, UPDATE_USER } from '../constants/actionTypes';
+import { END_UPDATING, FOLLOW, SET_RECOMMENT_FRIENDS, SET_USER, START_UPDATING, UNFOLLOW, UPDATE_USER } from '../constants/actionTypes';
 
 const initState = {
     isUpdating: false,
-    userData: JSON.parse(localStorage.getItem('profile'))
+    userData: JSON.parse(localStorage.getItem('profile')),
+    recommentFrds: [],
 };
 
 
@@ -43,7 +44,13 @@ const authReducer = (state = initState,action) => {
                 }
             }
         
-        
+        case SET_RECOMMENT_FRIENDS: {
+            return {
+                ...state,
+                recommentFrds: action.payload,
+            }
+        }
+
         default:
             return state;
     }

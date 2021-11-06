@@ -113,8 +113,7 @@ export default function Chat() {
     }, [messages]);
 
     // Submit messages to the servers
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         const message = {
             conversationId: currentConv?._id,
             text: newMessage
@@ -132,11 +131,12 @@ export default function Chat() {
             senderId: userData.result._id,
             receiverId,
         });
+
+        setNewMessage("");
         
         try {
             const res = await createMessage(message);
             setMessages([...messages, res.data ]);
-            setNewMessage("");
         } catch (error) {
             console.log(error);
         }
@@ -169,7 +169,7 @@ export default function Chat() {
                         {
                             messages.length > 0 && messages.map((m,index) => (
                                 <div key={index} ref={scrollRef}>
-                                    <Message message={m} own={m.sender === userData.result._id} />
+                                    <Message message={m} own={m.sender === userData.result._id} userData={userData.result} />
                                 </div>
                             ))
                         }
@@ -207,6 +207,7 @@ export default function Chat() {
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 value={newMessage}
                                 style={{ width: 200 }}
+                                onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); handleSubmit()} }}
                             />
                             <button className="chatSubmitButton" onClick={handleSubmit}><Send/></button>
                         </div>

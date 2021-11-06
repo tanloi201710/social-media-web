@@ -117,8 +117,8 @@
     width: 400px;
 }
 
-.rightbarTabs {
-    width: 400px;
+.MuiTabs-flexContainer{
+    justify-content: center !important;
 }
 
 .rightbarTab{

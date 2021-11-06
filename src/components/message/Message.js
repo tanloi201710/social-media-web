@@ -2,10 +2,13 @@ import { dateFormat } from '../../actions/format';
 import React from 'react'
 import './Message.css';
 import Emojify from 'react-emojione';
+import { useSelector } from 'react-redux';
 
-export default function Message({message, own}) {
-    console.log(message);
-    console.log(own);
+export default function Message({message, own, userData}) {
+    const { users } = useSelector((state) => state.conversation);
+    const currentUser = users.find((user) => user._id === message.sender);
+
+    console.log(users);
     return (
         own ? (
             <div className="message own">
@@ -17,7 +20,7 @@ export default function Message({message, own}) {
                     </Emojify>
                     <img
                         className="messageTopImg"
-                        src="https://cdn.stocksnap.io/img-thumbs/280h/RJWIE303ZE.jpg"
+                        src={userData?.profilePicture}
                         alt=""
                     />
                 </div>
@@ -28,7 +31,7 @@ export default function Message({message, own}) {
                 <div className="messageTop">
                     <img
                         className="messageTopImg"
-                        src="https://firebasestorage.googleapis.com/v0/b/social-images-store.appspot.com/o/images%2F1631451445869-Screenshot%20(20).png?alt=media&token=474698bb-9c27-462b-89fe-062ceb53a166"
+                        src={currentUser?.profilePicture}
                         alt=""
                     />
                     <p className="messageTopText">
