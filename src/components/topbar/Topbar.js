@@ -26,7 +26,7 @@ export default function Topbar() {
     const location = useLocation();
 
     const handleLogout = useCallback(() => {
-        savedSocket.current.disconnect();
+        savedSocket?.current.disconnect();
         dispatch({ type: SET_SOCKET, payload: null });
         dispatch({ type: LOGOUT });
         history.push('/login');

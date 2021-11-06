@@ -82,7 +82,7 @@ export default function Rightbar({ profile, user }) {
                 {...other}
             >
                 {value === index && (
-                <Box p={3}>
+                <Box p={2}>
                     <Typography component={'div'}>{children}</Typography>
                 </Box>
                 )}
@@ -134,10 +134,10 @@ export default function Rightbar({ profile, user }) {
     const AntTab = withStyles(() => ({
         root: {
             textTransform: 'none',
-            width: 80, 
+            width: 100, 
             color: '#fff',
             fontSize: '0.813rem',
-            marginRight: '-40px',
+            marginRight: '0',
             '&:focus': {
               opacity: 5,
             },
@@ -162,7 +162,7 @@ export default function Rightbar({ profile, user }) {
                 <div className={classes.friendAndPicture}>
                     <AppBar position="static" className="rightbarAppbar">
                         <StyledTabs value={value} onChange={handleChange} aria-label="Tabs Profile" classes={{indicator: classes.indicator}} className="rightbarTabs">
-                            <AntTab label="Bạn bè" />
+                            {/* <AntTab label="Bạn bè" /> */}
                             <AntTab label="Ảnh" />
                             <AntTab label="Thông tin" />
                         </StyledTabs>
@@ -172,7 +172,7 @@ export default function Rightbar({ profile, user }) {
                         index={value}
                         onChangeIndex={handleChangeIndex}
                     >
-                        <TabPanel value={value} index={0} className="rightbarTabPanel">
+                        {/* <TabPanel value={value} index={0} className="rightbarTabPanel">
                             <div className="rightbarFollowings">
                                 <div className="rightbarFollowing">
                                     <img src={`${PF}person/nene.jfif`} alt="" className="rightbarFollowingImg" />
@@ -199,8 +199,8 @@ export default function Rightbar({ profile, user }) {
                                     <span className="rightbarFollowingName">Nene</span>
                                 </div>
                             </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={1} className="rightbarTabPanel">
+                        </TabPanel> */}
+                        <TabPanel value={value} index={0} className="rightbarTabPanel">
                             <div className={classes.picture}>
                                 <ImageList rowHeight={160} className={classes.pictureList} cols={3}>
                                 {/* {itemData.map((item) => (
@@ -229,7 +229,7 @@ export default function Rightbar({ profile, user }) {
                                 </ImageList>
                             </div>
                         </TabPanel>
-                        <TabPanel value={value} index={2} className="rightbarTabPanel">
+                        <TabPanel value={value} index={1} className="rightbarTabPanel">
                             {
                                 user._id === authData.result._id &&
                                 <Link to="/changeInfo" style={{textDecoration:"none"}}>

@@ -42,6 +42,10 @@ export default function Profile() {
         fetchUsers();
     },[id]);
     
+    // useEffect(() => {
+    //     document.title = `SocialBook ${user.name && user.name}`;
+    //     return () => {}
+    // }, [user]);
 
     const handleAddFriend = () => {
         if(!followed) {
@@ -109,12 +113,12 @@ export default function Profile() {
                                 {
                                     !followed ?
                                     <Button variant="contained" onClick={handleAddFriend}>
-                                        Thêm bạn &nbsp;
+                                        Theo dõi &nbsp;
                                         <PersonAddRounded fontSize="small"/>
                                     </Button>
                                     :
                                     <Button>
-                                        Bạn bè &nbsp;
+                                        Đã theo dõi &nbsp;
                                         <DoneAllRounded fontSize="small" />
                                     </Button>
                                 }

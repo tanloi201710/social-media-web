@@ -11,7 +11,7 @@
 }
 
 .topbarLeft {
-    flex: 2;
+    flex: 3;
 }
 
 .logo {
@@ -34,11 +34,11 @@
 }
 
 .topbarCenter {
-    flex: 5;
+    flex: 4;
 }
 
 .search {
-    width: 80%;
+    width: 85%;
     height: 36px;
     background-color: white;
     border-radius: 30px;
@@ -125,7 +125,7 @@
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 8px;
     background-color: gray !important;
 }
 

@@ -10,8 +10,8 @@ import React, {useState, useCallback, useEffect} from 'react';
 import './Sidebar.css';
 import CloseFriend from '../closeFriend/CloseFriend';
 import {Link} from 'react-router-dom';
-import { getRecommentFriends } from '../../api';
-import { useSelector } from 'react-redux';
+import { getRecommentFriends } from '../../actions/user';
+import { useDispatch, useSelector } from 'react-redux';
 import TodoList from "../todoList/TodoList";
 import Textfield from "@atlaskit/textfield";
 import ButtonAt from '@atlaskit/button';
@@ -24,23 +24,18 @@ export default function Sidebar() {
     const [openShopping, setOpenShopping] = useState(false);
 
     const { authData } = useSelector((state) => state.auth);
+    const { recommentFrds } = useSelector((state) => state.user);
     const [recommentFriends, setRecommentFriends] = useState([]);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        const fetchRecommentFriends = async() => {
-            console.log("eff call");
-            try {
-                const recommentList = await getRecommentFriends(authData.result._id);
-                setRecommentFriends(recommentList.data)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchRecommentFriends();
-        return () => {
-            setRecommentFriends([]);
-        }
-    }, [authData.result._id]);
+        dispatch(getRecommentFriends(authData.result._id));
+    }, [authData.result._id,dispatch]);
+
+    useEffect(() => {
+        setRecommentFriends(recommentFrds);
+    }, [recommentFrds]);
     
     // events begin
     const [state, setState] = React.useState({ right: false });

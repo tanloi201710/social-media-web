@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Typography, TextField } from '@mui/material';
-import { ThumbUpAlt, Reply } from '@mui/icons-material';
+import { ThumbUpAlt, Reply, ArrowDropUp } from '@mui/icons-material';
 import useStyles from './styles';
 import { dateFormat } from '../../actions/format';
-import { useSelector } from 'react-redux';
-import { getReplies, likeComment } from '../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getReplies } from '../../api';
+import { likeCmt } from '../../actions/comment';
 
 function CommentComponent({comment,user,upCmt,postId}) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const { userData } = useSelector((state) => state.user);
+
+
     const [isReply, setIsReply] = useState(false);
     const [reply, setReply] = useState("");
     const [replies, setReplies] = useState([]);
     const [liked, setLiked] = useState(comment.likes.includes(userData.result._id));
     const [countLiked, setCountLiked] = useState(comment.likes.length);
+    const [placeholder,setPlaceholder] = useState('');
 
     useEffect(() => {
         const getRep = async() => {
@@ -27,14 +32,10 @@ function CommentComponent({comment,user,upCmt,postId}) {
         getRep();
     }, [postId, comment._id]);
 
-    const likeHandler = async() => {
-        try {
-            await likeComment(comment._id);
-            setLiked(true);
-            setCountLiked(countLiked+1);
-        } catch (error) {
-            console.log(error);
-        }
+    const likeHandler = (id) => {
+        setLiked(!liked);
+        setCountLiked(liked ? countLiked-1 : countLiked+1);
+        dispatch(likeCmt(id));
     }
 
     const handleSubmit = () => { 
@@ -54,6 +55,15 @@ function CommentComponent({comment,user,upCmt,postId}) {
     }
 
     const CommentDom = ({reply}) => {
+        const [replyLiked,setReplyLiked] = useState(false);
+        const [replyLikes,setReplyLikes] = useState(reply.likes.length);
+
+        const replyLikeHandler = (id) => {
+            setReplyLiked(!replyLiked);
+            setReplyLikes(replyLiked ? replyLikes-1 : replyLikes+1);
+            dispatch(likeCmt(id));
+        }
+
         return (
             <div style={{ display: 'flex', marginTop: '10px', marginLeft: '35px' }}>
                 <Avatar className={classes.cmtAvt} 
@@ -68,11 +78,13 @@ function CommentComponent({comment,user,upCmt,postId}) {
                         </Typography>
                     </div>
                     <div className={classes.cmtAction}>
-                        <div className={classes.group}>
+                        <div className={classes.group} onClick={() => replyLikeHandler(reply._id)} >
+                        { replyLiked ? <ThumbUpAlt fontSize="small" sx={{ marginRight: '3px' }} color="primary" /> : 
                             <ThumbUpAlt fontSize="small" sx={{ marginRight: '3px' }} />
-                            <span>Thích (2)</span>
+                        }
+                            <span>Thích {replyLikes > 0 && `(${replyLikes})`}</span>
                         </div>
-                        <div className={classes.group} >
+                        <div className={classes.group} onClick={() => setPlaceholder(reply.name)} >
                             <Reply sx={{ marginRight: '3px' }} />
                             <span>Trả lời (2)</span>
                         </div>
@@ -98,38 +110,56 @@ function CommentComponent({comment,user,upCmt,postId}) {
                     </Typography>
                 </div>
                 <div className={classes.cmtAction}>
-                    <div className={classes.group} onClick={() => likeHandler()}>
+                    <div className={classes.group} onClick={() => likeHandler(comment._id)} >
                     { liked ? <ThumbUpAlt fontSize="small" sx={{ marginRight: '3px' }} color="primary" /> : 
                         <ThumbUpAlt fontSize="small" sx={{ marginRight: '3px' }} />
                     }
                         
                         <span>Thích {countLiked > 0 && `(${countLiked})`}</span>
                     </div>
-                    <div className={classes.group} onClick={() => setIsReply(!isReply)}>
+                    <div className={classes.group} onClick={() => setPlaceholder(comment.name)}>
                         <Reply sx={{ marginRight: '3px' }} />
-                        <span>Trả lời ({replies.length})</span>
+                        <span>Trả lời {replies.length > 0 && `(${replies.length})`}</span>
                     </div>
                 </div>
                 { isReply &&
                     <div className={classes.replyInput}>
                         <TextField 
-                            placeholder="Trả lời..." 
+                            placeholder={placeholder !== "" ? `Trả lời ${placeholder}...` : `Trả lời...`}
                             fullWidth size="small" 
                             variant="standard"
                             value={reply}
                             onChange={(e) => setReply(e.target.value)}
                             onKeyDown={(e) => { if(e.key === 'Enter') handleSubmit() }}
+                            inputRef={input => input && input.focus()}
                         />
                     </div>
                 }
             </div>
         </div>
-        <div className="replyBox">
+        <div className={classes.replyBox}>
             {
-                isReply &&
+                isReply ?
                 replies.length > 0 && replies.map((reply, index) => (
                     <CommentDom key={index} reply={reply} />
-                ))
+                )): replies.length > 0 &&
+
+                <div>
+                    <span 
+                        className={classes.viewReplyText}
+                        onClick={() => setIsReply(!isReply)}
+                    >
+                    - Xem {replies.length} câu trả lời -
+                    </span>
+                </div>
+            }
+            { isReply && 
+                <span 
+                    className={classes.dropUp}
+                    onClick={() => setIsReply(!isReply)}
+                >
+                    Thu gọn <ArrowDropUp />
+                </span>
             }
         </div>
     </>

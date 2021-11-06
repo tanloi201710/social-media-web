@@ -1,8 +1,13 @@
 import { dateFormat } from '../../actions/format';
 import React from 'react'
 import './Message.css';
+import { useSelector } from 'react-redux';
 
-export default function Message({message, own}) {
+export default function Message({message, own, userData}) {
+    const { users } = useSelector((state) => state.conversation);
+    const currentUser = users.find((user) => user._id === message.sender);
+
+    console.log(users);
     return (
         own ? (
             <div className="message own">
@@ -12,7 +17,7 @@ export default function Message({message, own}) {
                     </p>
                     <img
                         className="messageTopImg"
-                        src="https://cdn.stocksnap.io/img-thumbs/280h/RJWIE303ZE.jpg"
+                        src={userData?.profilePicture}
                         alt=""
                     />
                 </div>
@@ -23,7 +28,7 @@ export default function Message({message, own}) {
                 <div className="messageTop">
                     <img
                         className="messageTopImg"
-                        src="https://cdn.stocksnap.io/img-thumbs/280h/RJWIE303ZE.jpg"
+                        src={currentUser?.profilePicture}
                         alt=""
                     />
                     <p className="messageTopText">

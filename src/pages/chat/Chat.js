@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
 import './Chat.css';
 import Topbar from '../../components/topbar/Topbar';
 import Conversation from '../../components/conversations/Conversation';
@@ -9,6 +8,10 @@ import Message from '../../components/message/Message';
 import { getConvers } from '../../actions/conversation';
 import { createConversation, createMessage, getMessages } from '../../api';
 import { SET_CONVERSATION } from '../../constants/actionTypes';
+import {TextField, TextareaAutosize} from '@mui/material';
+import {Send, Image} from '@mui/icons-material';
+import { Picker } from 'emoji-mart';
+import Emojify from 'react-emojione';
 
 export default function Chat() {
     const useQuery = () => {
@@ -27,7 +30,7 @@ export default function Chat() {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
-
+    const [emoji, setEmoji] = useState("");
     // Create a socket and get messages, clean up function will disconnect socket
     useEffect(() => {
         savedSocket?.current.on('getMessage', (data) => {
@@ -107,8 +110,7 @@ export default function Chat() {
     }, [messages]);
 
     // Submit messages to the servers
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         const message = {
             conversationId: currentConv?._id,
             text: newMessage
@@ -126,11 +128,12 @@ export default function Chat() {
             senderId: userData.result._id,
             receiverId,
         });
+
+        setNewMessage("");
         
         try {
             const res = await createMessage(message);
             setMessages([...messages, res.data ]);
-            setNewMessage("");
         } catch (error) {
             console.log(error);
         }
@@ -141,8 +144,8 @@ export default function Chat() {
         <Topbar />
         <div className="chat">
             <div className="chatMenu">
-                <div className="chatMenuWrapper"> 
-                    <input placeholder="Tìm kiếm bạn bè..." className="chatMenuInput" />
+                <div className="chatMenuWrapper">
+                    <TextField className="chatMenuInput" label="Tìm kiếm bạn bè..." variant="standard" />
                     {convers.length > 0 && convers.map((conv) => (
                         <Link 
                             to={`/chat?id=${conv.members.find((c) => c !== userData.result._id)}`} 
@@ -163,20 +166,29 @@ export default function Chat() {
                         {
                             messages.length > 0 && messages.map((m,index) => (
                                 <div key={index} ref={scrollRef}>
-                                    <Message message={m} own={m.sender === userData.result._id} />
+                                    <Message message={m} own={m.sender === userData.result._id} userData={userData.result} />
                                 </div>
                             ))
                         }
                         </div>
                         <div className="chatBoxBottom" >
-                            <textarea 
+                            <div>
+                                <Image fontSize="large"/>
+                            </div>
+                            <div>
+                                <Emojify><span>🙂</span></Emojify>
+                            </div>
+                            <TextareaAutosize
                                 className="chatBoxInput" 
-                                placeholder="Soạn tin nhắn..." 
-                                value={newMessage}
+                                maxRows={4}
+                                aria-label="maximum height"
+                                placeholder="Soạn tin nhắn..."
                                 onChange={(e) => setNewMessage(e.target.value)}
-                            >
-                            </textarea>
-                            <button className="chatSubmitButton" onClick={handleSubmit} >Send</button>
+                                value={newMessage}
+                                style={{ width: 200 }}
+                                onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); handleSubmit()} }}
+                            />
+                            <button className="chatSubmitButton" onClick={handleSubmit}><Send/></button>
                         </div>
                     </> : <span className="noConversationText">Chọn một người bạn để bắt đầu một cuộc trò chuyện đầy thú vị.</span>
                 }

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './Conversation.css';
 import { getUser } from '../../api';
+import { useDispatch } from 'react-redux';
+import { ADD_USER_CONVERSATION, SET_USER_CONVERSATION } from '../../constants/actionTypes';
 
 export default function Conversation({ conversation, currentUser }) {
     const [user,setUser] = useState({});
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const friendId = conversation.members.find((m) => m !== currentUser._id);
@@ -12,6 +15,7 @@ export default function Conversation({ conversation, currentUser }) {
             try {
                 const res = await getUser(friendId);
                 setUser(res.data);
+                dispatch({ type: ADD_USER_CONVERSATION, payload: res.data });
             } catch (error) {
                 console.log(error);
             }
@@ -20,8 +24,9 @@ export default function Conversation({ conversation, currentUser }) {
 
         return () => {
             setUser({});
+            dispatch({ type: SET_USER_CONVERSATION, payload: [] });
         }
-    }, [conversation, currentUser._id]);
+    }, [conversation, currentUser._id,dispatch]);
     return (
         <div className="conversation">
             <img 

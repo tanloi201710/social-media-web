@@ -15,7 +15,7 @@ import Emojify from 'react-emojione';
     
     
 import useStyles from './styles';
-import { addComment, deletePost, likePost, updateComments } from '../../actions/post';
+import { addComment, deletePost, likePost } from '../../actions/post';
 import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
 import CommentComponent from '../comment/CommentComponent';
