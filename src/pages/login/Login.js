@@ -20,12 +20,13 @@ export default function Login() {
     const {errorMsg} = useSelector((state) => state.auth);
     const [saveErrorMsg, setSaveErrorMsg] = useState("");
     const [showElement,setShowElement] = useState(true);
+
     useEffect(()=>{
         if(errorMsg !== '') {
             setSaveErrorMsg(errorMsg);
             setTimeout(function() {
                 setShowElement(false);
-            }, 10000);
+            }, 5000);
         }
     },[errorMsg]);
 
@@ -46,6 +47,7 @@ export default function Login() {
                 password: password.current.value
             };
             dispatch(signin(formData,history));
+            setShowElement(true);
         } catch (error) {
             console.log(error.message);
         }

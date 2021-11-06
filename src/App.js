@@ -15,6 +15,7 @@ import ChangeInfo from './pages/changeInfo/ChangeInfo';
 import Covid19 from './pages/covid-19/Covid19';
 import Profile from './pages/profile/Profile';
 import Chat from './pages/chat/Chat';
+import Question from './pages/question/Question';
 import { SET_SOCKET } from './constants/actionTypes';
 
 
@@ -66,10 +67,13 @@ function App() {
           <ChangeInfo/>
         </Route>
 
+        <Route path="/questions">
+          <Question/>
+        </Route>
+
         <Route path="/Covid-19">
           <Covid19 />
         </Route>
-
 
       </Switch>
     </Router>

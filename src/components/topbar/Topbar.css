@@ -201,3 +201,12 @@
     list-style-type: none;
     padding-inline-start: 0;
 }
+
+.boxlinks {
+    color: #3f51b5;
+    font-size: 15px;
+    font-weight: 300;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}

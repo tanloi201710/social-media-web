@@ -46,16 +46,21 @@ export default function Covid19() {
     return (
         <div className="covid19">
             <Container style={{ marginTop: 10 }}>
-            <Typography variant="h3" component='h3'>
-                Số liệu COVID-19
-            </Typography>
-            <Typography>{moment().format('LLL')}</Typography>
-            <CountrySelector 
-                countries={countries} 
-                handleOnchange={handleOnChange}
-                value={selectedCountryId} />
-            <HighLight report={report} />
-            <Summary report={report} selectedCountryId={selectedCountryId} />
+                <div className="covid19Top">
+                    <div className="covid19Left">
+                        <Typography variant="h3" component='h3'> Số liệu COVID-19</Typography>
+                        <Typography>{moment().format('LLL')}</Typography>
+                    </div>
+                    <div className="covid19Right">
+                        <CountrySelector 
+                            countries={countries} 
+                            handleOnchange={handleOnChange}
+                            value={selectedCountryId}
+                        />
+                    </div>
+                </div>
+                <HighLight report={report} className="covid19HightLight"/>
+                <Summary report={report} selectedCountryId={selectedCountryId} />
             </Container>
         </div>
     );

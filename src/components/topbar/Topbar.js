@@ -26,7 +26,7 @@ export default function Topbar() {
     const location = useLocation();
 
     const handleLogout = useCallback(() => {
-        savedSocket.current.disconnect();
+        savedSocket?.current.disconnect();
         dispatch({ type: SET_SOCKET, payload: null });
         dispatch({ type: LOGOUT });
         history.push('/login');
@@ -158,6 +158,7 @@ export default function Topbar() {
                                     <Notification key={id} content={chat} />
                                 ))}
                             </ul>
+                            <span className="boxlinks" onClick={() => history.push('/chat')} > Xem tất cả trong tin nhắn </span>
                         </div>
                     }
 

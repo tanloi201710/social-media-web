@@ -94,4 +94,14 @@
     color: rgb(220,220,220);
     cursor: default;
     user-select: none;
+    text-align: center;
+}
+
+.chatImage > .MuiSvgIcon-root {
+    color: #FF6347;
+    cursor: pointer;
+}
+
+.chatEmoji {
+    cursor: pointer;
 }

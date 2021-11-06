@@ -39,23 +39,7 @@
     top: 80%;
     right: 80%;
     border-radius: 10px !important;
-    animation-name: animation-error;
-    animation-duration: 10s;
     z-index: 888;
-}
-
-@keyframes animation-error {
-    0%{
-        transform: translateX(-5px);
-        opacity: 0.5;
-    }
-    10%{
-        transform: translateX(0);
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
 }
 
 .loginBox {

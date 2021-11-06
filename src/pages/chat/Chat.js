@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
 import './Chat.css';
 import Topbar from '../../components/topbar/Topbar';
 import Conversation from '../../components/conversations/Conversation';
@@ -11,7 +10,8 @@ import { createConversation, createMessage, getMessages } from '../../api';
 import { SET_CONVERSATION } from '../../constants/actionTypes';
 import {TextField, TextareaAutosize} from '@mui/material';
 import {Send, Image} from '@mui/icons-material';
-import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker} from 'emoji-mart';
 import Emojify from 'react-emojione';
 
 export default function Chat() {
@@ -31,8 +31,9 @@ export default function Chat() {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const socket = useRef();
-    const [emoji, setEmoji] = useState("");
+    const [openEmoji, setOpenEmoji] = useState(false);
+    const [selectEmoji, setSelectEmoji] = useState("");
+
     // Create a socket and get messages, clean up function will disconnect socket
     useEffect(() => {
         savedSocket?.current.on('getMessage', (data) => {
@@ -174,11 +175,29 @@ export default function Chat() {
                         }
                         </div>
                         <div className="chatBoxBottom" >
-                            <div>
+                            <div className="chatImage">
                                 <Image fontSize="large"/>
+                                <div style={{ display: 'none' }}>
+                                    <input id="file" type="file" multiple />
+                                </div>
                             </div>
-                            <div>
-                                <Emojify><span>🙂</span></Emojify>
+                            <div className="chatEmoji">
+                                <Emojify onClick={() => setOpenEmoji(!openEmoji)} >🙂</Emojify>
+                                {
+                                    openEmoji ? (
+                                        <Picker
+                                            onSelect={(emoji) => {setSelectEmoji(emoji.native); setNewMessage(selectEmoji)}}
+                                            set='apple'
+                                            i18n={{ search: 'Search', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }} 
+                                            style={{ position: 'absolute', bottom: '60px', left: '70px' , borderRadius: '10px'}}
+                                            perLine={8}
+                                            color="#ae65c5"
+                                            showPreview={false}
+                                            showSkinTones={false}
+                                        />
+                                    ) : <></>
+                                }
+                                {/* <Emojify>{selectEmoji}</Emojify> */}
                             </div>
                             <TextareaAutosize
                                 className="chatBoxInput" 

@@ -1,6 +1,7 @@
 import { 
-    Event, Group, HelpOutline, PlayCircleFilledOutlined, LocalHospital, StorefrontOutlined, 
-    School, WorkOutline, ExpandLess, ExpandMore
+    Event, Group, HelpOutline, LocalHospital, StorefrontOutlined, 
+    School, WorkOutline, ExpandLess, ExpandMore,
+    // PlayCircleFilledOutlined
 } from '@material-ui/icons';
 import {Collapse} from '@material-ui/core';
 import {
@@ -9,7 +10,7 @@ import {
 import React, {useState, useCallback, useEffect} from 'react';
 import './Sidebar.css';
 import CloseFriend from '../closeFriend/CloseFriend';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { getRecommentFriends } from '../../api';
 import { useSelector } from 'react-redux';
 import TodoList from "../todoList/TodoList";
@@ -22,9 +23,10 @@ const TODO_APP_STORAGE_KEY = "TODO_APP";
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const [openShopping, setOpenShopping] = useState(false);
-
+    const [openCourses, setOpenCourses] = useState(false);
     const { authData } = useSelector((state) => state.auth);
     const [recommentFriends, setRecommentFriends] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const fetchRecommentFriends = async() => {
@@ -114,10 +116,10 @@ export default function Sidebar() {
                         </li>
                     </Link>
 
-                    <li className="sidebarListItem">
+                    {/* <li className="sidebarListItem">
                         <PlayCircleFilledOutlined className="sidebarIcon" />
                         <span className="sidebarListItemText">Videos</span>
-                    </li>
+                    </li> */}
 
                     <li className="sidebarListItem">
                         <Group className="sidebarIcon" />
@@ -200,20 +202,45 @@ export default function Sidebar() {
                     </SwipeableDrawer>
 
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <li className="sidebarListItem">
+                        <li className="sidebarListItem" onClick={() => history.push('/questions')}>
                             <HelpOutline className="sidebarIcon" />
                             <span className="sidebarListItemText">Questions</span>
                         </li>
+                        
+                        <a target='_blank' rel='noreferrer' href='https://vieclamcantho.com.vn/' style={{textDecoration:"none"}}>
+                            <li className="sidebarListItem">
+                                <WorkOutline className="sidebarIcon" />
+                                <span className="sidebarListItemText">Jobs</span>
+                            </li>
+                        </a>
 
-                        <li className="sidebarListItem">
-                            <WorkOutline className="sidebarIcon" />
-                            <span className="sidebarListItemText">Jobs</span>
-                        </li>
-
-                        <li className="sidebarListItem">
+                        <li className="sidebarListItem" onClick={() => setOpenCourses(!openCourses)} >
                             <School className="sidebarIcon" />
                             <span className="sidebarListItemText">Courses</span>
+                            {openCourses ? <ExpandLess /> : <ExpandMore />}
                         </li>
+                        <Collapse in={openCourses} timeout="auto" unmountOnExit>
+                            <a target='_blank' rel='noreferrer' href='https://www.ctu.edu.vn/' style={{textDecoration:"none"}}>
+                                <li className="sidebarListItemChil" >
+                                    <span className="sidebarListItemText">Đại Học Cần Thơ</span>
+                                </li>
+                            </a>
+                            <a target='_blank' rel='noreferrer' href='https://htql.ctu.edu.vn/' style={{textDecoration:"none"}}>
+                                <li className="sidebarListItemChil" >
+                                    <span className="sidebarListItemText">Hệ Thống Quản Lý</span>
+                                </li>
+                            </a>
+                            <a target='_blank' rel='noreferrer' href='https://tansinhvien.ctu.edu.vn/' style={{textDecoration:"none"}}>
+                                <li className="sidebarListItemChil" >
+                                    <span className="sidebarListItemText">Tân Sinh Viên CTU</span>
+                                </li>
+                            </a>
+                            <a target='_blank' rel='noreferrer' href='https://elcit.ctu.edu.vn/' style={{textDecoration:"none"}}>
+                                <li className="sidebarListItemChil" >
+                                    <span className="sidebarListItemText">Elcit</span>
+                                </li>
+                            </a>
+                        </Collapse>
                     </Collapse>
                 </ul>
 

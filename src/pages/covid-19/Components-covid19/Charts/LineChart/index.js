@@ -5,8 +5,8 @@ import moment from 'moment';
 import { Button, ButtonGroup } from "@material-ui/core";
 
 const generateOptions = (data) => {
-    const categories = data.map((item) => moment(item.Date).format('DD/MM/YYYY'));
-  
+  const categories = data.map((item) => moment(item.Date).format('DD/MM/YYYY'));
+
     return {
       chart: {
         height: 500,
@@ -76,6 +76,7 @@ const LineChart = ({ data }) => {
 
     return (
         <div>
+          <center>
             <ButtonGroup size='small' style={{display: 'flex', justifyContent: 'flex-end'}}>
                 <Button 
                     color={reportType === 'all' ? 'secondary' : ''} 
@@ -96,7 +97,7 @@ const LineChart = ({ data }) => {
                     7 ngày
                 </Button>
             </ButtonGroup>
-
+          </center>
             <HighchartsReact 
                 highcharts={Highcharts}
                 options={options}

@@ -12,10 +12,12 @@ import {
 } from '@material-ui/core';
 import Emojify from 'react-emojione';
 import CloseFriend from '../closeFriend/CloseFriend';
+import { getRecommentFriends } from '../../api';
 import {Users} from '../../dummyData';
 import { compressFile, uploadFireBase } from '../../actions/images';
 import { ImageList, ImageListItem } from '@mui/material';
 import { END_UPLOADING, START_UPLOADING } from '../../constants/actionTypes';
+import '../sidebar/Sidebar'
 
 export default function Share({id}) {
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -29,6 +31,25 @@ export default function Share({id}) {
     const [feel, setFeel] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const { authData } = useSelector((state) => state.auth);
+    const [recommentFriends, setRecommentFriends] = useState([]);
+
+    useEffect(() => {
+        const fetchRecommentFriends = async() => {
+            console.log("eff call");
+            try {
+                const recommentList = await getRecommentFriends(authData.result._id);
+                setRecommentFriends(recommentList.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchRecommentFriends();
+        return () => {
+            setRecommentFriends([]);
+        }
+    }, [authData.result._id]);
 
     useEffect(() => {
         if(creating) {
@@ -200,18 +221,19 @@ export default function Share({id}) {
                 <form className="shareBottom">
                     <div className="shareOptions">
                         <label className="shareOption">
-                            <PermMedia htmlColor="tomato" fontSize="medium" className="shareIcon" />
-                            <span className="shareOptionText"> Ảnh/Video</span>
+                            <PermMedia htmlColor="tomato" fontSize="large" className="shareIcon" />
+                            <span className="shareOptionText"> Ảnh</span>
                             <div style={{ display: 'none' }}>
                                 <input id="file" type="file" multiple onChange={(e) => setFiles(e.target.files)} />
                             </div>
                         </label>
                         <div className="shareOption" onClick={() => setOpenTag(true)}>
-                            <LocalOffer htmlColor="blue" fontSize="medium" className="shareIcon" />
+                            <LocalOffer htmlColor="blue" fontSize="large" className="shareIcon" />
                             <span className="shareOptionText"> Gắn thẻ bạn bè </span>
                         </div>
                         <div className="shareOption" onClick={() => setOpenFeel(true)}>
-                            <InsertEmoticon htmlColor="orange" fontSize="medium" className="shareIcon" />
+                            {/* <InsertEmoticon htmlColor="orange" fontSize="medium" className="shareIcon" /> */}
+                            <Emojify className="shareEmoji" >🙂</Emojify>
                             <span className="shareOptionText"> Cảm xúc </span>
                         </div>
                     </div>
@@ -312,9 +334,11 @@ export default function Share({id}) {
                                     <span className="shareTagsFriendTitle">Gợi ý</span>
                                     <Grid container spacing={2} className="shareTagContentOption">
                                         <Grid item xs={12} md={12}>
-                                            {Users.map(u => (
-                                                <CloseFriend key={u.id} user={u}/>
-                                            ))}
+                                            <ul className="sidebarFriendList">
+                                                {recommentFriends.map(u => (
+                                                    <CloseFriend key={u._id} user={u}/>
+                                                ))}
+                                            </ul>
                                         </Grid>
                                     </Grid>
                                 </div>
