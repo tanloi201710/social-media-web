@@ -187,8 +187,8 @@ export default function Chat() {
                                         <Picker
                                             onSelect={(emoji) => { setNewMessage(newMessage.concat(emoji.native))}}
                                             set='apple'
-                                            i18n={{ search: 'Search', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }} 
-                                            style={{ position: 'absolute', bottom: '60px', left: '70px' , borderRadius: '10px'}}
+                                            i18n={{ search: 'Search', notfound: 'Không tìm thấy', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }} 
+                                            style={{ position: 'absolute', bottom: '60px', left: '70px' , borderRadius: '10px', cursor: 'pointer'}}
                                             perLine={8}
                                             color="#ae65c5"
                                             showPreview={false}
@@ -196,7 +196,6 @@ export default function Chat() {
                                         />
                                     ) : <></>
                                 }
-                                {/* <Emojify>{selectEmoji}</Emojify> */}
                             </div>
                             <TextareaAutosize
                                 className="chatBoxInput" 

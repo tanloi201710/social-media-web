@@ -20,10 +20,10 @@ export default function Profile() {
     const { authData } = useSelector((state) => state.auth);
     const { userData } = useSelector((state) => state.user);
 
-    const [user,setUser] = useState({});
-    const [followed,setFollowed] = useState(authData.result.followings.includes(id));
+    const [user, setUser] = useState({});
+    const [followed, setFollowed] = useState(authData.result.followings.includes(id));
     const [isEditable, setIsEditable] = useState(false);
-    const [isEditNameDialog,setIsEditNameDialog] = useState(false);
+    const [isEditNameDialog, setIsEditNameDialog] = useState(false);
 
     useEffect(() => {
         setFollowed(userData.result.followings.includes(id));
@@ -66,7 +66,7 @@ export default function Profile() {
                         <div className="profileCover">
                             <img 
                                 className="profileCoverImg"
-                                src={`${PF}cover.jpg`}
+                                src={`${PF}coverPicture.png`}
                                 alt=""
                             />
                             {/* <img 
