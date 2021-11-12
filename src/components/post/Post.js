@@ -21,7 +21,7 @@ import ImagesList from '../imageList/ImagesList';
 import CommentComponent from '../comment/CommentComponent';
 import { dateFormat } from '../../actions/format';
 import { getComments, getUser } from '../../api';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -37,6 +37,7 @@ export default function Post({post}) {
     const dispatch = useDispatch();
     const {deleting} = useSelector(state => state.posts);
     const classes = useStyles();
+    const history = useHistory();
 
     const [expanded, setExpanded] = React.useState(false);
 
@@ -136,6 +137,7 @@ export default function Post({post}) {
                     </Avatar>
                 }
                 title={
+                    <>{
                     post?.feeling ?
                         <Link to={`/profile/${userPost?._id}`} style={{textDecoration: 'none', color: 'black'}}>
                             <div className={classes.name}>
@@ -148,6 +150,34 @@ export default function Post({post}) {
                                 {userPost?.name}
                             </div>
                         </Link>
+                    }
+                    {post?.tag?.length > 0 && (
+                        <div>
+                            <span>cùng với {
+                                post.tag.slice(0,2).map((tag,index) => (
+                                    <strong 
+                                        style={{color: '#2e81f4', fontSize: 15 , cursor: 'pointer'}}
+                                        key={index}
+                                        onClick={() => history.push(`/profile/${tag.key}`)}
+                                    >
+                                        @{tag.label}  
+                                    </strong>))
+                            }
+                            </span>
+                            <br/>
+                            <span>{
+                                post.tag.slice(2,post.tag.length).map((tag,index) => (
+                                    <strong 
+                                        style={{color: '#2e81f4', fontSize: 15 , cursor: 'pointer' }}
+                                        key={index}
+                                        onClick={() => history.push(`/profile/${tag.key}`)}
+                                    >
+                                    @{tag.label}  
+                                    </strong>))
+                            }</span>
+                        </div>
+                    )}
+                    </>
                 }
                 subheader={dateFormat(currentPost.createdAt)}
                 action={ user.result._id === userPost?._id &&

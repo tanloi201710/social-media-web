@@ -1,10 +1,11 @@
-import { CREATE, DELETE, END_CREATING, END_DELETING, END_LOADING, FETCH_ALL, START_CREATING, START_DELETING, START_LOADING, UPDATE_COMMENT } from "../constants/actionTypes";
+import { CREATE, DELETE, END_CREATING, END_DELETING, END_LOADING, FETCH_ALL, FETCH_POST, START_CREATING, START_DELETING, START_LOADING, UPDATE_COMMENT } from "../constants/actionTypes";
 
 const initState = {
     isLoading: true,
     creating: false,
     deleting: false,
-    posts: []
+    posts: [],
+    userPosts: [],
 };
 
 const postsReducer = (state = initState, action) => {
@@ -41,6 +42,12 @@ const postsReducer = (state = initState, action) => {
                 ...state,
                 posts: action.payload.data,
             };
+        
+        case FETCH_POST:
+            return {
+                ...state,
+                userPosts: action.payload.data,
+            }
 
         case DELETE:
             return {...state, posts: state.posts.filter((post) => post._id !== action.payload)};

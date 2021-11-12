@@ -17,6 +17,8 @@ import Profile from './pages/profile/Profile';
 import Chat from './pages/chat/Chat';
 import Question from './pages/question/Question';
 import { SET_SOCKET } from './constants/actionTypes';
+import { getTimeLine } from './actions/post';
+import { getFriends, getRecommentFriends } from './actions/user';
 
 
 
@@ -39,6 +41,13 @@ function App() {
     }
   }, [user, dispatch, savedSocket]);
 
+  useEffect(() => {
+    if(user) {
+      dispatch(getTimeLine());
+      dispatch(getRecommentFriends(user.result._id));
+      dispatch(getFriends(user.result._id));
+    }
+  }, [user,dispatch]);
   
   // const user = JSON.parse(localStorage.getItem('profile'));
 

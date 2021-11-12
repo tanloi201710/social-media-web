@@ -11,8 +11,12 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@mui/styles';
 
 export default function Rightbar({ profile, user }) {
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {authData} = useSelector((state)=>state.auth);
+
+    // useEffect(() => {
+    //     dispatch(getFriends(authData.result._id));
+    // }, [dispatch]);
 
     const birthFormat = (birthday) => {
         if(birthday) {

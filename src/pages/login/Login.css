@@ -80,11 +80,11 @@
 }
 
 .loginError {
-    margin-right: 20px !important;
-    margin-top: 20px !important;
+    /* margin-left: 20px !important;
+    margin-bottom: 20px !important; */
     position: absolute !important;
     top: 80%;
-    right: 80%;
+    right: 72%;
     border-radius: 10px !important;
     z-index: 888;
 }
