@@ -43,3 +43,8 @@ export const getConversations = (id) => API.get(`/conversations/${id}`);
 
 export const getMessages = (id) => API.get(`/messages/${id}`);
 export const createMessage = (newMessage) => API.post('/messages', newMessage);
+
+export const addNotification = (newNotification) => API.post('/notifications', newNotification);
+export const getNotification = (id) => API.get(`/notifications/${id}`);
+export const getNotifications = () => API.get('/notifications');
+export const readNotification = (id) => API.put(`/notifications/${id}`);

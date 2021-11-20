@@ -13,6 +13,7 @@ import {Send, Image} from '@mui/icons-material';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker} from 'emoji-mart';
 import Emojify from 'react-emojione';
+import { addNotification } from '../../actions/notifications';
 
 export default function Chat() {
     const useQuery = () => {
@@ -126,12 +127,25 @@ export default function Chat() {
             text: newMessage
         });
 
+        const waitToken = Date.now().toString();
+
         savedSocket.current.emit('messageNotify', {
             senderId: userData.result._id,
             receiverId,
+            waitToken,
         });
 
         setNewMessage("");
+
+        const model = {
+            sender: userData.result._id,
+            receiver: receiverId,
+            action: 'đã nhắn tin cho bạn 📧',
+            type: 'message',
+            waitToken,
+        }
+
+        dispatch(addNotification(model));
         
         try {
             const res = await createMessage(message);

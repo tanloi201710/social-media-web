@@ -11,13 +11,11 @@ import {
     DialogContent, DialogTitle, Dialog, Grid, Paper, Chip, ListItemIcon,
 } from '@material-ui/core';
 import Emojify from 'react-emojione';
-import CloseFriend from '../closeFriend/CloseFriend';
-// import { getRecommentFriends } from '../../api';
-// import {Users} from '../../dummyData';
 import { compressFile, uploadFireBase } from '../../actions/images';
 import { ImageList, ImageListItem } from '@mui/material';
 import { END_UPLOADING, START_UPLOADING } from '../../constants/actionTypes';
-import '../sidebar/Sidebar'
+import '../sidebar/Sidebar';
+import { addNotification } from '../../actions/notifications';
 
 export default function Share({id}) {
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -28,30 +26,12 @@ export default function Share({id}) {
     const { creating } = useSelector((state) => state.posts);
     const { isUploading } = useSelector((state) => state.upload);
     const { friends } = useSelector((state) => state.user);
+    const { savedSocket } = useSelector((state) => state.socket);
     
     const [feel, setFeel] = useState('');
+    const [tag,setTag] = useState([]);
     const dispatch = useDispatch();
     const history = useHistory();
-    // console.log(friends);
-
-    // const { authData } = useSelector((state) => state.auth);
-    // const [recommentFriends, setRecommentFriends] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchRecommentFriends = async() => {
-    //         console.log("eff call");
-    //         try {
-    //             const recommentList = await getRecommentFriends(authData.result._id);
-    //             setRecommentFriends(recommentList.data)
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     fetchRecommentFriends();
-    //     return () => {
-    //         setRecommentFriends([]);
-    //     }
-    // }, [authData.result._id]);
 
     useEffect(() => {
         if(creating) {
@@ -100,10 +80,32 @@ export default function Share({id}) {
         setFiles([]);
         desc.current.value = '';
         setFeel('');
+        setTag([]);
+        setChipData([]);
     };
+    
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+
+        const waitToken = Date.now().toString();
+
+        savedSocket.current.emit('friendsTag', {
+            senderId: user.result._id,
+            receiverId: tag,
+            waitToken
+        });
+
+        tag.forEach(one => {
+            const model = {
+                sender: user.result._id,
+                receiver: one,
+                action: 'đã triệu hồi bạn trong một bài viết 👨‍💻',
+                type: 'post',
+                waitToken,
+            }
+            dispatch(addNotification(model));
+        })
 
         const newPost = {
             userId: user?._id || user?.googleId,
@@ -157,10 +159,12 @@ export default function Share({id}) {
 
     const addChipData = (user) => {
         setChipData([...chipData, { key: user._id, label: user.name }]);
+        setTag([...tag,user._id]);
     }
     
     const handleDelete = (chipToDelete) => () => {
         setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+        setTag((tags) => tags.filter((tag) => tag !== chipToDelete.key ));
     };
 
     useEffect(() => {
@@ -362,7 +366,7 @@ export default function Share({id}) {
                             </DialogContent>
                             <hr/>
                             <DialogActions>
-                                <Button onClick={() => { setOpenTag(false); setChipData([]) }} color="primary">
+                                <Button onClick={() => { setOpenTag(false); setChipData([]); setTag([]); }} color="primary">
                                     Cancel
                                 </Button>
                                 <Button onClick={() => setOpenTag(false)} color="primary">

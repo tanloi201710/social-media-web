@@ -1,6 +1,5 @@
 import React from 'react';
 import './Rightbar.css';
-import {Users} from '../../dummyData';
 import Online from '../online/Online';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
@@ -13,6 +12,7 @@ import { withStyles } from '@mui/styles';
 export default function Rightbar({ profile, user }) {
     // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {authData} = useSelector((state)=>state.auth);
+    const { onlineUsers } = useSelector((state)=>state.user);
 
     // useEffect(() => {
     //     dispatch(getFriends(authData.result._id));
@@ -62,13 +62,13 @@ export default function Rightbar({ profile, user }) {
                 <hr className="rightbarHr"/>
                 <h4 className="rightbarTitle">Online Friends</h4>
                 <ul className="rightbarFriendList">
-                    {Users.map(u => (
-                        <Online key={u.id} user={u}/>
+                    {onlineUsers.filter(user => user.userId !== authData.result._id).map(u => (
+                        <Online key={u.userId} user={u}/>
                     ))}
 
-                    {Users.map(u => (
+                    {/* {Users.map(u => (
                         <Online key={u.id} user={u}/>
-                    ))}
+                    ))} */}
                 </ul>
             </>
         )
@@ -271,13 +271,13 @@ export default function Rightbar({ profile, user }) {
                 <div className="rightbarOnlineFriendList">
                     <h4 className="rightbarTitle">Online Friends</h4>
                     <ul className="rightbarFriendList">
-                        {Users.map(u => (
+                        {onlineUsers.filter(user => user.userId !== authData.result._id).map(u => (
                             <Online key={u.id} user={u}/>
                         ))}
 
-                        {Users.map(u => (
+                        {/* {Users.map(u => (
                             <Online key={u.id} user={u}/>
-                        ))}
+                        ))} */}
                     </ul>
                 </div>
                 

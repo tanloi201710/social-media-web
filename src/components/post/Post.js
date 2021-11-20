@@ -22,6 +22,7 @@ import CommentComponent from '../comment/CommentComponent';
 import { dateFormat } from '../../actions/format';
 import { getComments, getUser } from '../../api';
 import { Link, useHistory } from 'react-router-dom';
+import { addNotification } from '../../actions/notifications';
 
 export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
@@ -41,7 +42,8 @@ export default function Post({post}) {
 
     const [expanded, setExpanded] = React.useState(false);
 
-    const {posts} = useSelector((state) => state.posts);
+    const { posts } = useSelector((state) => state.posts);
+    const { savedSocket } = useSelector((state) => state.socket);
     
     useEffect(() => {
         const getUserPost = async () => {
@@ -87,6 +89,22 @@ export default function Post({post}) {
         setLiked(isLiked ? liked-1 : liked+1);
         setIsLiked(!isLiked);
         dispatch(likePost(currentPost._id));
+        if(!isLiked && user.result._id !== userPost._id) {
+            const waitToken = Date.now().toString();
+            savedSocket?.current.emit('likeNotify', {
+                senderId: user.result._id,
+                receiverId: userPost._id,
+                waitToken
+            });
+            const model = {
+                sender: user.result._id,
+                receiver: userPost._id,
+                action: 'đã thích bài biết của bạn ❤️',
+                type: 'post',
+                waitToken
+            }
+            dispatch(addNotification(model));
+        }
     };
 
     const deleteHandler = async() => {
@@ -111,6 +129,26 @@ export default function Post({post}) {
 
 
     const handleComment = () => {
+        const waitToken = Date.now().toString();
+        if(user.result._id !== userPost._id) {
+            savedSocket?.current.emit('commentNotify', {
+                senderId: user.result._id,
+                receiverId: userPost._id,
+                waitToken,
+                postId: currentPost._id
+            });
+
+            const model = {
+                sender: user.result._id,
+                receiver: userPost._id,
+                action: 'đã bình luận bài viết của bạn 📝',
+                type: 'post',
+                waitToken,
+                postId: currentPost._id,
+            }
+            dispatch(addNotification(model));
+        }
+
         const commentForm = {
             postId: currentPost._id,
             img: user.result?.profilePicture,

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './notification.css';
 import { Avatar } from '@mui/material';
+import Emojify from 'react-emojione';
 import { getUser } from '../../api';
+import { dateFormat } from '../../actions/format';
 
 const Notification = ({friends=false, content}) => {
     const [user,setUser] = useState({});
@@ -9,8 +11,7 @@ const Notification = ({friends=false, content}) => {
     useEffect(() => {
         const get = async() => {
             try {
-                const res = await getUser(content?.userId);
-                console.log(res.data);
+                const res = await getUser(content?.sender);
                 setUser(res.data);
             } catch (error) {
                 console.log(error);
@@ -18,7 +19,7 @@ const Notification = ({friends=false, content}) => {
         }
         get();
         
-    }, [content.userId]);
+    }, [content.sender]);
 
     const NotifyAndMessage = () => {
         return (
@@ -27,8 +28,8 @@ const Notification = ({friends=false, content}) => {
                     <Avatar src={user?.profilePicture} ></Avatar>
                 </div>
                 <div className="notifyContent">
-                    <p><strong>{user?.name}</strong> {content.action}</p>
-                    <span className="notifyTime">3 phút trước</span>
+                    <p><strong>{user?.name}</strong><Emojify> {content.action}</Emojify></p>
+                    <span className="notifyTime">{dateFormat(content.createdAt)}</span>
                 </div>
                 <div className="readMark"></div>
             </li>
@@ -39,16 +40,16 @@ const Notification = ({friends=false, content}) => {
         return (
             <li className="Item">
                 <div className="notifyAvatar">
-                    <Avatar src="" >T</Avatar>
+                    <Avatar src={user?.profilePicture} ></Avatar>
                 </div>
                 <div className="notifyFriend">
                     <div className="notifyContent">
-                        <p><strong>Hồ Tấn Lợi B1809148</strong> đã gửi lời mời kết bạn</p>
+                        <p><strong>{user?.name}</strong><Emojify> {content.action}</Emojify></p>
                         <div className="notifyAction">
                             <button className="btn btnCancel">Hủy</button>
-                            <button className="btn btnAccept">Xác nhận</button>
+                            <button className="btn btnAccept">Theo dõi lại</button>
                         </div>
-                        <span className="notifyTime">3 phút trước</span>
+                        <span className="notifyTime">{dateFormat(content.createdAt) || 'vừa xong'}</span>
                     </div>
                 </div>
             </li>
