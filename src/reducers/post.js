@@ -35,7 +35,7 @@ const postsReducer = (state = initState, action) => {
             return {...state, deleting: false };
 
         case CREATE:
-            return { posts: [...state.posts, action.payload], ...state};
+            return { posts: [action.payload, ...state.posts], ...state};
     
         case FETCH_ALL:
             return {
@@ -50,7 +50,11 @@ const postsReducer = (state = initState, action) => {
             }
 
         case DELETE:
-            return {...state, posts: state.posts.filter((post) => post._id !== action.payload)};
+            return {
+                ...state, 
+                posts: state.posts.filter((post) => post._id !== action.payload),
+                userPosts: state.userPosts.filter((post) => post._id !== action.payload),
+            };
 
         case UPDATE_COMMENT:
             return {

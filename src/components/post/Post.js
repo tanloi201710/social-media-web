@@ -20,14 +20,14 @@ import { deleteImage } from '../../actions/images';
 import ImagesList from '../imageList/ImagesList';
 import CommentComponent from '../comment/CommentComponent';
 import { dateFormat } from '../../actions/format';
-import { getComments, getUser } from '../../api';
+import { getComments } from '../../api';
 import { Link, useHistory } from 'react-router-dom';
 import { addNotification } from '../../actions/notifications';
 
 export default function Post({post}) {
     const user = JSON.parse(localStorage.getItem('profile'));
     const [currentPost, setCurrentPost] = useState(post);
-    const [userPost,setUserPost] = useState({});
+    const [userPost,setUserPost] = useState(user?.result);
     
     const [liked, setLiked] = useState(post.likes.length);
     const [commented, setCommented] = useState(0);
@@ -35,8 +35,12 @@ export default function Post({post}) {
     const [comments,setComments] = useState([]);
     const [isLiked, setIsLiked] = useState(currentPost.likes.includes(user.result._id));
     const [isMoreBox,setIsMoreBox] = useState(false);
+    
     const dispatch = useDispatch();
+
     const {deleting} = useSelector(state => state.posts);
+    const { recommentFrds } = useSelector(state => state.user);
+
     const classes = useStyles();
     const history = useHistory();
 
@@ -44,21 +48,24 @@ export default function Post({post}) {
 
     const { posts } = useSelector((state) => state.posts);
     const { savedSocket } = useSelector((state) => state.socket);
-    
+
     useEffect(() => {
-        const getUserPost = async () => {
-            try {
-                const user = await getUser(post.userId);
-                setUserPost(user.data)
-            } catch (error) {
-                console.log(error);
-            }
+        
+        // const getUserPost = async () => {
+        //     try {
+        //         const user = await getUser(post.userId);
+        //         setUserPost(user.data)
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
+        // getUserPost();
+        const postUser = recommentFrds.filter(recomment => recomment._id === post.userId);
+        
+        if(postUser.length > 0) {
+            setUserPost(...postUser);
         }
-        getUserPost();
-        return () => {
-            setUserPost({});
-        }
-    }, [post.userId]);
+    }, [post.userId, recommentFrds]);
 
     useEffect(() => {
         posts.forEach(post => {

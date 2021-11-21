@@ -23,19 +23,19 @@ import { getFriends, getRecommentFriends } from './actions/user';
 
 
 function App() {
-  const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
-  const {authData} = useSelector((state) => state.auth);
+  const { authData } = useSelector((state) => state.auth);
   const { savedSocket } = useSelector((state) => state.socket);
   const socket = useRef();
   const dispatch = useDispatch();
 
   useEffect(() => {
     setUser(authData);
-  },[authData]);
+  }, [authData]);
 
   useEffect(() => {
-    if(user && savedSocket === null) {
+    if (user && savedSocket === null) {
       socket.current = io("ws://social-socket-ct466.herokuapp.com");
       // socket.current = io("ws://localhost:8080");
       dispatch({ type: SET_SOCKET, payload: socket });
@@ -43,42 +43,42 @@ function App() {
   }, [user, dispatch, savedSocket]);
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       dispatch(getTimeLine());
       dispatch(getRecommentFriends(user.result._id));
       dispatch(getFriends(user.result._id));
     }
-  }, [user,dispatch]);
-  
+  }, [user, dispatch]);
+
   // const user = JSON.parse(localStorage.getItem('profile'));
 
-  return ( 
+  return (
     <Router>
       <Switch >
-        <Route exact path='/' component={() => (!user ? <Redirect to="/login"/> : <Home user={user} socket={socket.current} />)}/>
-          
-        <Route  path='/login'>
-          {user ? <Redirect to='/' /> : <Login/>}
+        <Route exact path='/' component={() => (!user ? <Redirect to="/login" /> : <Home user={user} socket={socket.current} />)} />
+
+        <Route path='/login'>
+          {user ? <Redirect to='/' /> : <Login />}
         </Route>
 
         <Route path="/register">
-          <Register/>
+          <Register />
         </Route>
 
         <Route path="/chat">
-          <Chat/>
+          <Chat />
         </Route>
 
         <Route path="/profile/:id">
-          <Profile/>
+          <Profile />
         </Route>
 
-        <Route  path='/changeInfo'>
-          <ChangeInfo/>
+        <Route path='/changeInfo'>
+          <ChangeInfo />
         </Route>
 
         <Route path="/questions">
-          <Question/>
+          <Question />
         </Route>
 
         <Route path="/Covid-19">

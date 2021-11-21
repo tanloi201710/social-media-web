@@ -124,20 +124,17 @@ export default function Profile() {
                             <div className="profileAddFriend">
                                 {
                                     !followed ?
-                                    <Button variant="contained" onClick={handleAddFriend}>
-                                        Theo dõi &nbsp;
-                                        <PersonAddRounded fontSize="small"/>
+                                    <Button variant="contained" onClick={() => handleAddFriend} endIcon={<PersonAddRounded fontSize="small" />}>
+                                        Theo dõi
                                     </Button>
                                     :
-                                    <Button onClick={handleAddFriend}>
-                                        Đã theo dõi &nbsp;
-                                        <DoneAllRounded fontSize="small" />
+                                    <Button onClick={() => handleAddFriend} endIcon={<DoneAllRounded fontSize="small" />}>
+                                        Đã theo dõi
                                     </Button>
                                 }
                                 <Link to={`/chat?id=${id}`} style={{textDecoration: 'none'}}>
-                                    <Button variant="outlined">
-                                        Nhắn tin &nbsp;
-                                        <ChatRounded fontSize="small" />
+                                    <Button variant="outlined" endIcon={<ChatRounded fontSize="small" />}>
+                                        Nhắn tin
                                     </Button>
                                 </Link>
                             </div>

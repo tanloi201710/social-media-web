@@ -75,7 +75,7 @@ export default function Topbar() {
                 }
             })
         }
-    }, [friendsNotify]);
+    }, [friendsNotify, dispatch]);
 
     useEffect(() => {
         if(chatNotify.length > 0) {
@@ -89,7 +89,7 @@ export default function Topbar() {
                 }
             })
         }
-    }, [chatNotify]);
+    }, [chatNotify, dispatch]);
 
     useEffect(() => {
         if(postsNotify.length > 0) {
@@ -103,7 +103,7 @@ export default function Topbar() {
                 }
             })
         }
-    }, [postsNotify]);
+    }, [postsNotify, dispatch]);
 
     // read Notifications when clicking
     const readFriendsNotify = () => {

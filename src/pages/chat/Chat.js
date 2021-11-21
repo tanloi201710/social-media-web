@@ -132,6 +132,7 @@ export default function Chat() {
         savedSocket.current.emit('messageNotify', {
             senderId: userData.result._id,
             receiverId,
+            link: `/chat?id=${userData.result._id}`,
             waitToken,
         });
 
@@ -143,6 +144,7 @@ export default function Chat() {
             action: 'đã nhắn tin cho bạn 📧',
             type: 'message',
             waitToken,
+            link: `/chat?id=${userData.result._id}`
         }
 
         dispatch(addNotification(model));
@@ -220,6 +222,7 @@ export default function Chat() {
                                 value={newMessage}
                                 style={{ width: 200 }}
                                 onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); handleSubmit()} }}
+                                onClick={() => setOpenEmoji(false)}
                             />
                             <button className="chatSubmitButton" onClick={handleSubmit}><Send/></button>
                         </div>

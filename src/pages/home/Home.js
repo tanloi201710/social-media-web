@@ -25,7 +25,7 @@ export default function Home({user}) {
                 dispatch({ type: SET_ONLINE_USER, payload: users });
             })
         }
-    }, [user.result, savedSocket]);
+    }, [user.result, savedSocket, dispatch]);
 
     return (
         <> 

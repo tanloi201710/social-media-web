@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Rightbar.css';
 import Online from '../online/Online';
 import PropTypes from 'prop-types';
@@ -13,10 +13,23 @@ export default function Rightbar({ profile, user }) {
     // const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const {authData} = useSelector((state)=>state.auth);
     const { onlineUsers } = useSelector((state)=>state.user);
+    const { userPosts } = useSelector((state)=>state.posts);
+    
+    const [images, setImages] = useState([]);
 
-    // useEffect(() => {
-    //     dispatch(getFriends(authData.result._id));
-    // }, [dispatch]);
+    useEffect(() => {
+        let arr = [];
+        userPosts.forEach(post => {
+            if(post.img.length > 1) {
+                post.img.forEach(img => arr.push(img.img));
+            } else {
+                post.img.forEach(img => arr.push(img));
+            }
+        });
+        setImages(arr);
+    }, [userPosts]);
+
+
 
     const birthFormat = (birthday) => {
         if(birthday) {
@@ -115,7 +128,6 @@ export default function Rightbar({ profile, user }) {
         },
         pictureList: {
             width: 430,
-            height: 500,
         },
         indicator: {
             backgroundColor: 'white',
@@ -206,13 +218,13 @@ export default function Rightbar({ profile, user }) {
                         </TabPanel> */}
                         <TabPanel value={value} index={0} className="rightbarTabPanel">
                             <div className={classes.picture}>
-                                <ImageList rowHeight={160} className={classes.pictureList} cols={3}>
-                                {/* {itemData.map((item) => (
-                                    <ImageListItem key={item.img} cols={item.cols || 1}>
-                                    <img src={item.img} alt={item.title} />
+                                <ImageList rowHeight={140} className={classes.pictureList} cols={3}>
+                                {images.slice(0,9).map((item,index) => (
+                                    <ImageListItem key={index} cols={1} rows={1}>
+                                    <img src={item} alt="" />
                                     </ImageListItem>
-                                ))} */}
-                                    <ImageListItem cols={ 2 || 1}>
+                                ))}
+                                    {/* <ImageListItem cols={ 2 || 1}>
                                         <img src="https://image.shutterstock.com/image-photo/large-beautiful-drops-transparent-rain-260nw-668593321.jpg" alt="" />
                                     </ImageListItem>
                                     <ImageListItem cols={1}>
@@ -229,7 +241,7 @@ export default function Rightbar({ profile, user }) {
                                     </ImageListItem>
                                     <ImageListItem cols={1}>
                                         <img src="https://cdn.stocksnap.io/img-thumbs/280h/RJWIE303ZE.jpg" alt="" />
-                                    </ImageListItem>
+                                    </ImageListItem> */}
                                 </ImageList>
                             </div>
                         </TabPanel>
