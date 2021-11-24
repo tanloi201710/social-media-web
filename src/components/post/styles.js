@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
+import { makeStyles } from "@mui/styles";
+import { red } from "@mui/material/colors";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -22,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
     expand: {
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
+        transition: 'all .3s',
     },
     expandOpen: {
         transform: 'rotate(180deg)',
@@ -64,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#000',
     },
     favorite: {
-        animation: `$scale 500ms ${theme.transitions.easing.easeInOut}`
+        animation: `$scale 500ms ease-in-out`
     },
     "@keyframes scale": {
         "0%": {

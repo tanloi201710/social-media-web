@@ -17,27 +17,25 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     '& > *': {
-      margin: theme.spacing(1),
+      margin: '10px !important',
       minWidth: '200px'
     },
   },
   button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginTop: '10px 10px 0 0 !important',
   },
   actionsContainer: {
-    marginBottom: theme.spacing(2),
+    marginBottom: '15px !important',
   },
   resetContainer: {
-    padding: theme.spacing(3),
+    padding: '20px !important',
   },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    margin: '10px !important',
     width: 200,
   },
   progress_white: {
@@ -157,7 +155,7 @@ export default function ChangeInfo() {
                 onChange={(e) => setAllInfo({ ...allInfo, job: e.target.value })}
               />
               <FormControl>
-                <InputLabel id="demo-simple-select-label">Mối quan hệ</InputLabel>
+                <InputLabel id="demo-simple-select-label" >Mối quan hệ</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
