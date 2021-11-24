@@ -8,12 +8,13 @@ import Message from '../../components/message/Message';
 import { getConvers } from '../../actions/conversation';
 import { createConversation, createMessage, getMessages } from '../../api';
 import { SET_CONVERSATION } from '../../constants/actionTypes';
-import {TextField, TextareaAutosize} from '@mui/material';
-import {Send, Image} from '@mui/icons-material';
+import { TextField, TextareaAutosize, Avatar } from '@mui/material';
+import { Send, Image } from '@mui/icons-material';
 import 'emoji-mart/css/emoji-mart.css';
-import { Picker} from 'emoji-mart';
+import { Picker } from 'emoji-mart';
 import Emojify from 'react-emojione';
 import { addNotification } from '../../actions/notifications';
+import Heading from './Heading';
 
 export default function Chat() {
     const useQuery = () => {
@@ -43,13 +44,13 @@ export default function Chat() {
                 createdAt: Date.now(),
             })
         })
-    },[savedSocket]);
+    }, [savedSocket]);
 
     // Add new messages to the message list
     useEffect(() => {
         arrivalMessage && currentConv?.members.includes(arrivalMessage.sender) &&
-        setMessages((prev) => [...prev,arrivalMessage]);
-    }, [arrivalMessage,currentConv]);
+            setMessages((prev) => [...prev, arrivalMessage]);
+    }, [arrivalMessage, currentConv]);
 
 
     // Get conversations from the user when components mount
@@ -64,23 +65,23 @@ export default function Chat() {
 
     // Set current conversation, create new if unexisting
     useEffect(() => {
-        if(id) {
-            if(convers.length !== 0) {
+        if (id) {
+            if (convers.length !== 0) {
                 const existConv = convers.find((conversation) => {
-                    if(conversation.members.includes(id)) 
+                    if (conversation.members.includes(id))
                         return true;
                     return false;
                 });
-                if(existConv) {
+                if (existConv) {
                     setCurrentConv(existConv);
                 } else {
-                    const getCurrentConv = async() => {
+                    const getCurrentConv = async () => {
                         try {
                             const currentChat = await createConversation({ receiverId: id });
                             setCurrentConv(currentChat.data);
-                            dispatch({ type: SET_CONVERSATION, payload: [...convers, currentChat.data]});
+                            dispatch({ type: SET_CONVERSATION, payload: [...convers, currentChat.data] });
                             // setConvers((prev) => [...prev, currentChat.data]);
-                            
+
                         } catch (error) {
                             console.log(error);
                         }
@@ -89,7 +90,7 @@ export default function Chat() {
                 }
             }
         }
-    }, [id,convers,dispatch]);
+    }, [id, convers, dispatch]);
 
     // Get message of current conversation
     useEffect(() => {
@@ -119,9 +120,9 @@ export default function Chat() {
             text: newMessage
         };
 
-        const receiverId = currentConv.members.find(member => member !== userData.result._id );
+        const receiverId = currentConv.members.find(member => member !== userData.result._id);
 
-        savedSocket.current.emit('sendMessage', { 
+        savedSocket.current.emit('sendMessage', {
             senderId: userData.result._id,
             receiverId,
             text: newMessage
@@ -148,10 +149,10 @@ export default function Chat() {
         }
 
         dispatch(addNotification(model));
-        
+
         try {
             const res = await createMessage(message);
-            setMessages([...messages, res.data ]);
+            setMessages([...messages, res.data]);
         } catch (error) {
             console.log(error);
         }
@@ -159,78 +160,79 @@ export default function Chat() {
 
     return (
         <>
-        <Topbar />
-        <div className="chat">
-            <div className="chatMenu">
-                <div className="chatMenuWrapper">
-                    <TextField className="chatMenuInput" label="Tìm kiếm bạn bè..." variant="standard" />
-                    {convers.length > 0 && convers.map((conv) => (
-                        <Link 
-                            to={`/chat?id=${conv.members.find((c) => c !== userData.result._id)}`} 
-                            key={conv._id} 
-                            style={{ textDecoration: 'none', color: 'inherit' }} 
-                        >
-                            <Conversation currentUser={userData.result} conversation={conv} />
-                        </Link>
-                    ))}
+            <Topbar />
+            <div className="chat">
+                <div className="chatMenu">
+                    <div className="chatMenuWrapper">
+                        <TextField className="chatMenuInput" label="Tìm kiếm bạn bè..." variant="standard" />
+                        {convers.length > 0 && convers.map((conv) => (
+                            <Link
+                                to={`/chat?id=${conv.members.find((c) => c !== userData.result._id)}`}
+                                key={conv._id}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <Conversation currentUser={userData.result} conversation={conv} />
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <div className="chatBox">
-                <div className="chatBoxWrapper">
-                {
-                    currentConv ?
-                    <>
-                        <div className="chatBoxTop" >
+                <div className="chatBox">
+                    <div className="chatBoxWrapper">
                         {
-                            messages.length > 0 && messages.map((m,index) => (
-                                <div key={index} ref={scrollRef}>
-                                    <Message message={m} own={m.sender === userData.result._id} userData={userData.result} />
-                                </div>
-                            ))
-                        }
-                        </div>
-                        <div className="chatBoxBottom" >
-                            <div className="chatImage">
-                                <Image fontSize="large"/>
-                                <div style={{ display: 'none' }}>
-                                    <input id="file" type="file" multiple />
-                                </div>
-                            </div>
-                            <div className="chatEmoji">
-                                <Emojify onClick={() => setOpenEmoji(!openEmoji)} >🙂</Emojify>
-                                {
-                                    openEmoji ? (
-                                        <Picker
-                                            onSelect={(emoji) => { setNewMessage(newMessage.concat(emoji.native))}}
-                                            set='apple'
-                                            i18n={{ search: 'Search', notfound: 'Không tìm thấy', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }} 
-                                            style={{ position: 'absolute', bottom: '60px', left: '70px' , borderRadius: '10px', cursor: 'pointer'}}
-                                            perLine={8}
-                                            color="#ae65c5"
-                                            showPreview={false}
-                                            showSkinTones={false}
+                            currentConv ?
+                                <>
+                                    <Heading id={currentConv.members.find(member => member !== userData.result._id)} />
+                                    <div className="chatBoxTop" >
+                                        {
+                                            messages.length > 0 && messages.map((m, index) => (
+                                                <div key={index} ref={scrollRef}>
+                                                    <Message message={m} own={m.sender === userData.result._id} userData={userData.result} />
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    <div className="chatBoxBottom" >
+                                        <div className="chatImage">
+                                            <Image fontSize="large" />
+                                            <div style={{ display: 'none' }}>
+                                                <input id="file" type="file" multiple />
+                                            </div>
+                                        </div>
+                                        <div className="chatEmoji">
+                                            <Emojify onClick={() => setOpenEmoji(!openEmoji)} >🙂</Emojify>
+                                            {
+                                                openEmoji ? (
+                                                    <Picker
+                                                        onSelect={(emoji) => { setNewMessage(newMessage.concat(emoji.native)) }}
+                                                        set='apple'
+                                                        i18n={{ search: 'Search', notfound: 'Không tìm thấy', categories: { search: 'Kết quả liên quan', recent: 'Gần đây' } }}
+                                                        style={{ position: 'absolute', bottom: '60px', left: '70px', borderRadius: '10px', cursor: 'pointer' }}
+                                                        perLine={8}
+                                                        color="#ae65c5"
+                                                        showPreview={false}
+                                                        showSkinTones={false}
+                                                    />
+                                                ) : <></>
+                                            }
+                                        </div>
+                                        <TextareaAutosize
+                                            className="chatBoxInput"
+                                            maxRows={4}
+                                            aria-label="maximum height"
+                                            placeholder="Soạn tin nhắn..."
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            value={newMessage}
+                                            style={{ width: 200 }}
+                                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSubmit() } }}
+                                            onClick={() => setOpenEmoji(false)}
                                         />
-                                    ) : <></>
-                                }
-                            </div>
-                            <TextareaAutosize
-                                className="chatBoxInput" 
-                                maxRows={4}
-                                aria-label="maximum height"
-                                placeholder="Soạn tin nhắn..."
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                value={newMessage}
-                                style={{ width: 200 }}
-                                onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); handleSubmit()} }}
-                                onClick={() => setOpenEmoji(false)}
-                            />
-                            <button className="chatSubmitButton" onClick={handleSubmit}><Send/></button>
-                        </div>
-                    </> : <span className="noConversationText">Chọn một người bạn để bắt đầu một cuộc trò chuyện đầy thú vị.</span>
-                }
+                                        <button className="chatSubmitButton" onClick={handleSubmit}><Send /></button>
+                                    </div>
+                                </> : <span className="noConversationText">Chọn một người bạn để bắt đầu một cuộc trò chuyện đầy thú vị.</span>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }

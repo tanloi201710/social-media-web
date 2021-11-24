@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar } from '@material-ui/core';
+import { Avatar } from '@mui/material';
 import './ChangeAvatar.css';
 
 export default function ChangeAvatar({user, avt, setAvt}) {

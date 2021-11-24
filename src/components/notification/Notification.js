@@ -44,7 +44,7 @@ const Notification = ({friends=false, content}) => {
                         <Avatar src={user?.profilePicture} ></Avatar>
                     </div>
                     <div className="notifyContent">
-                        <p><strong>{user?.name}</strong><Emojify> {content.action}</Emojify></p>
+                        <p><strong>{user?.name}</strong><Emojify style={{ width: 20, height: 20 }} > {content.action}</Emojify></p>
                         <span className="notifyTime">{dateFormat(content.createdAt)}</span>
                     </div>
                     <div className="readMark"></div>
@@ -62,7 +62,7 @@ const Notification = ({friends=false, content}) => {
                     </div>
                     <div className="notifyFriend">
                         <div className="notifyContent">
-                            <p><strong>{user?.name}</strong><Emojify> {content.action}</Emojify></p>
+                            <p><strong>{user?.name}</strong><Emojify style={{ width: 20, height: 20 }} > {content.action}</Emojify></p>
                             <div className="notifyAction">
                                 <button className="btn btnCancel">Hủy</button>
                                 <button className="btn btnAccept">Theo dõi lại</button>

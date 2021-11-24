@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Rightbar.css';
 import Online from '../online/Online';
 import PropTypes from 'prop-types';
-import { makeStyles, AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Typography, Box, ImageList, ImageListItem, Button, useTheme } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { useSelector } from 'react-redux';
-import { Cake, Favorite, Home, Room, Work } from '@material-ui/icons';
+import { Cake, Favorite, Home, Room, Work } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@mui/styles';
 
@@ -116,7 +117,8 @@ export default function Rightbar({ profile, user }) {
     const useStyles = makeStyles((theme) => ({
         friendAndPicture: {
             flexGrow: 1,
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: '#FFFFFF',
+            // backgroundColor: theme.palette.background.paper,
         },
         
         picture: {
@@ -124,7 +126,8 @@ export default function Rightbar({ profile, user }) {
             flexWrap: 'wrap',
             justifyContent: 'space-around',
             overflow: 'hidden',
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: '#FFFFFF',
+            // backgroundColor: theme.palette.background.paper,
         },
         pictureList: {
             width: 430,
@@ -151,7 +154,7 @@ export default function Rightbar({ profile, user }) {
         root: {
             textTransform: 'none',
             width: 100, 
-            color: '#fff',
+            color: '#fff !important',
             fontSize: '0.813rem',
             marginRight: '0',
             '&:focus': {

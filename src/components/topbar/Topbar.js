@@ -1,12 +1,13 @@
 import { 
     Notifications, Person, Search, ArrowDropDownCircle, ExitToApp, Message
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import React, { useCallback, useEffect, useState } from 'react';
 import {Link, useHistory, useLocation} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    Menu, withStyles, MenuItem, ListItemIcon, Avatar, Badge, IconButton
-} from '@material-ui/core';
+    Menu, MenuItem, ListItemIcon, Avatar, Badge, IconButton
+} from '@mui/material';
+import { withStyles } from '@mui/styles';
 import decode from 'jwt-decode';
 
 import './Topbar.css';

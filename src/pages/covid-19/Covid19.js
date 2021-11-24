@@ -1,4 +1,4 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import { sortBy } from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -52,14 +52,14 @@ export default function Covid19() {
                         <Typography>{moment().format('LLL')}</Typography>
                     </div>
                     <div className="covid19Right">
-                        <CountrySelector 
-                            countries={countries} 
+                        <CountrySelector
+                            countries={countries}
                             handleOnchange={handleOnChange}
                             value={selectedCountryId}
                         />
                     </div>
                 </div>
-                <HighLight report={report} className="covid19HightLight"/>
+                <HighLight report={report} className="covid19HightLight" />
                 <Summary report={report} selectedCountryId={selectedCountryId} />
             </Container>
         </div>

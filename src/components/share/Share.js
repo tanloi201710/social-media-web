@@ -1,18 +1,19 @@
 import { 
     PermMedia, LocalOffer, Cancel, Search, 
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createPost, getTimeLine, getPosts } from '../../actions/post';
 import './Share.css';
 import { 
-    CircularProgress, Avatar, Button, makeStyles, DialogActions, 
+    CircularProgress, Avatar, Button, DialogActions, 
     DialogContent, DialogTitle, Dialog, Grid, Paper, Chip, ListItemIcon,
-} from '@material-ui/core';
+    ImageList, ImageListItem
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import Emojify from 'react-emojione';
 import { compressFile, uploadFireBase } from '../../actions/images';
-import { ImageList, ImageListItem } from '@mui/material';
 import { END_UPLOADING, START_UPLOADING } from '../../constants/actionTypes';
 import '../sidebar/Sidebar';
 import { addNotification } from '../../actions/notifications';

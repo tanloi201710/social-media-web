@@ -43,7 +43,9 @@
     overflow-y: scroll;
     padding-right: 10px;
     margin-bottom: 10px;
+    margin-top: 50px;
 }
+
 
 .chatBoxBottom {
     margin-top: 5px;

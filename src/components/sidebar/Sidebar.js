@@ -2,10 +2,9 @@ import {
     Event, Group, HelpOutline, LocalHospital, StorefrontOutlined, 
     School, WorkOutline, ExpandLess, ExpandMore,
     // PlayCircleFilledOutlined
-} from '@material-ui/icons';
-import {Collapse} from '@material-ui/core';
+} from '@mui/icons-material';
 import {
-    Box, SwipeableDrawer, Button
+    Box, SwipeableDrawer, Button, Collapse
 } from '@mui/material';
 import React, {useState, useCallback, useEffect} from 'react';
 import './Sidebar.css';

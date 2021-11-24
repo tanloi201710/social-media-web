@@ -4,7 +4,7 @@ import Post from '../post/Post';
 import './Feed.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../actions/post';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 
 export default function Feed({user}) {
     const dispatch = useDispatch();

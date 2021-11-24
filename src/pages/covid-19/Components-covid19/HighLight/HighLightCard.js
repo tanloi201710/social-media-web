@@ -1,14 +1,15 @@
 import React from 'react';
-import { Card, CardContent, Typography, makeStyles } from '@material-ui/core';
+import { Card, CardContent, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import CountUp from 'react-countup';
 
-const useStyles = makeStyles ({
+const useStyles = makeStyles({
     wrapper: (props) => {
         if (props.type === 'confirmed') return { borderLeft: '5px solid #c9302c' };
         if (props.type === 'recovered') return { borderLeft: '5px solid #28a745' };
         else return { borderLeft: '5px solid gray' };
     },
-    title:{
+    title: {
         fontSize: 18,
         marginBottom: 5,
     },
@@ -28,7 +29,7 @@ export default function HighLightCard({ title, count, type }) {
                     {title}
                 </Typography>
                 <Typography component='span' variant='body2' className={styles.count}>
-                    <CountUp end={count || 0} duration={2} separator=' '/>
+                    <CountUp end={count || 0} duration={2} separator=' ' />
                 </Typography>
             </CardContent>
         </Card>

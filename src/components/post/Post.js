@@ -1,6 +1,6 @@
 import { 
-    ExpandMore, Favorite, MoreVert, Delete, Edit 
-} from '@material-ui/icons';
+    ExpandMore, Favorite, MoreVert, Delete, Edit , Comment
+} from '@mui/icons-material';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -8,9 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card, CardActions, 
     CardContent, CardHeader, 
     Collapse, Divider, IconButton, 
-    List, ListItem, ListItemText, Typography} from '@material-ui/core';
-import { CircularProgress, TextField } from '@mui/material';
-import { Comment } from '@mui/icons-material';
+    List, ListItem, ListItemText, Typography, CircularProgress, TextField } from '@mui/material';
+import { pink } from '@mui/material/colors';
 import Emojify from 'react-emojione';
     
     
@@ -268,7 +267,7 @@ export default function Post({post}) {
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="like" onClick={likeHandler}>
-                    {isLiked ? <Favorite color="secondary" className={classes.favorite} /> : <Favorite />}
+                    {isLiked ? <Favorite sx={{ color: pink[500] }} className={classes.favorite} /> : <Favorite />}
                 </IconButton>
                 <Typography color="textSecondary">{liked}</Typography>
                 
