@@ -124,11 +124,11 @@ export default function Profile() {
                             <div className="profileAddFriend">
                                 {
                                     !followed ?
-                                    <Button variant="contained" onClick={() => handleAddFriend} endIcon={<PersonAddRounded fontSize="small" />}>
+                                    <Button variant="contained" onClick={() => handleAddFriend()} endIcon={<PersonAddRounded fontSize="small" />}>
                                         Theo dõi
                                     </Button>
                                     :
-                                    <Button onClick={() => handleAddFriend} endIcon={<DoneAllRounded fontSize="small" />}>
+                                    <Button onClick={() => handleAddFriend()} endIcon={<DoneAllRounded fontSize="small" />}>
                                         Đã theo dõi
                                     </Button>
                                 }
