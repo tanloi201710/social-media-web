@@ -24,6 +24,10 @@ const Notification = ({friends=false, content}) => {
             }
         }
         get();
+
+        return () => {
+            setUser({});
+        }
         
     }, [content.sender]);
 

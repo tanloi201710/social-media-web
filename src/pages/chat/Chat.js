@@ -8,7 +8,7 @@ import Message from '../../components/message/Message';
 import { getConvers } from '../../actions/conversation';
 import { createConversation, createMessage, getMessages } from '../../api';
 import { SET_CONVERSATION } from '../../constants/actionTypes';
-import { TextField, TextareaAutosize, Avatar } from '@mui/material';
+import { TextField, TextareaAutosize } from '@mui/material';
 import { Send, Image } from '@mui/icons-material';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';

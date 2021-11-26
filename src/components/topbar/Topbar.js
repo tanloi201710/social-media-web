@@ -33,8 +33,6 @@ export default function Topbar() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-
-    console.log(waitTokens);
     
 
     // Logout the session
@@ -49,7 +47,7 @@ export default function Topbar() {
     // send request to server to get all notifications
     useEffect(() => {
         dispatch(getNotifications());
-    }, [])
+    }, [dispatch])
 
     // set each of the notifications type
     useEffect(() => {
@@ -207,7 +205,7 @@ export default function Topbar() {
         })((props) => (
         <Menu
           elevation={0}
-          getContentAnchorEl={null}
+          anchorEl={null}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',

@@ -10,7 +10,6 @@ import { SET_ONLINE_USER } from '../../constants/actionTypes';
 export default function Home({user}) {
     const { savedSocket } = useSelector((state) => state.socket);
     const dispatch = useDispatch();
-    console.log(savedSocket);
     useEffect(() => {
         if(savedSocket !== null ) {
             savedSocket.current.emit('addUser', 
@@ -21,7 +20,6 @@ export default function Home({user}) {
                 }
             );
             savedSocket.current.on('getUsers', (users) => {
-                console.log(users);
                 dispatch({ type: SET_ONLINE_USER, payload: users });
             })
         }
