@@ -9,6 +9,7 @@ import Summary from "./Components-covid19/Summary";
 import 'moment/locale/vi';
 import '@fontsource/roboto';
 import './Covid19.css'
+import Topbar from "../../components/topbar/Topbar";
 
 moment.locale('vi');
 
@@ -44,6 +45,8 @@ export default function Covid19() {
         }
     }, [countries, selectedCountryId]);
     return (
+        <>
+        <Topbar />
         <div className="covid19">
             <Container style={{ marginTop: 10 }}>
                 <div className="covid19Top">
@@ -63,5 +66,6 @@ export default function Covid19() {
                 <Summary report={report} selectedCountryId={selectedCountryId} />
             </Container>
         </div>
+        </>
     );
 }

@@ -4,7 +4,7 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
     fromControl: {
-        margin: `${theme.spacing(3)}px 0`,
+        margin: '15px 0',
     }
 }));
 
