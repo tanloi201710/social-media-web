@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
     if (user && savedSocket === null) {
-      socket.current = io("ws://social-socket-ct466.herokuapp.com");
+      socket.current = io("https://social-socket-ct466.herokuapp.com");
       // socket.current = io("ws://localhost:8080");
       dispatch({ type: SET_SOCKET, payload: socket });
     }
