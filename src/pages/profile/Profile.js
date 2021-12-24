@@ -10,7 +10,7 @@ import { useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../api';
 import { followUser, unfollowuser } from '../../actions/user';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { addNotification } from '../../actions/notifications';
 
 export default function Profile() {
@@ -27,11 +27,11 @@ export default function Profile() {
 
     useEffect(() => {
         setFollowed(userData.result.followings.includes(id));
-    }, [userData,id]);
-    
+    }, [userData, id]);
+
     useEffect(() => {
         console.log("fetch user");
-        const fetchUsers = async() => {
+        const fetchUsers = async () => {
             try {
                 const res = await getUser(id);
                 setUser(res.data);
@@ -40,15 +40,15 @@ export default function Profile() {
             }
         }
         fetchUsers();
-    },[id]);
-    
+    }, [id]);
+
     // useEffect(() => {
     //     document.title = `SocialBook ${user.name && user.name}`;
     //     return () => {}
     // }, [user]);
 
     const handleAddFriend = () => {
-        if(!followed) {
+        if (!followed) {
             dispatch(followUser(id));
             const waitToken = Date.now().toString();
             savedSocket?.current.emit('friendsNotify', { senderId: authData.result._id, receiverId: id, waitToken });
@@ -67,16 +67,16 @@ export default function Profile() {
     }
 
     return (
-        <> 
+        <>
             <Topbar />
             <div className="profile">
                 <Sidebar />
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            <img 
+                            <img
                                 className="profileCoverImg"
-                                src={`${PF}coverPicture.png`}
+                                src={`/assets/coverPicture.png`}
                                 alt=""
                             />
                             {/* <img 
@@ -88,8 +88,8 @@ export default function Profile() {
 
                         </div>
                         <div className="profileInfo"
-                            // onMouseEnter={() => setIsEditable(true)}
-                            // onMouseLeave={() => setIsEditable(false)}
+                        // onMouseEnter={() => setIsEditable(true)}
+                        // onMouseLeave={() => setIsEditable(false)}
                         >
                             <h4 className="profileInfoName">
                                 {user.name && user.name}
@@ -118,19 +118,19 @@ export default function Profile() {
                             </DialogActions>
                         </Dialog> */}
                         {
-                            authData?.result._id !== id && 
+                            authData?.result._id !== id &&
                             <div className="profileAddFriend">
                                 {
                                     !followed ?
-                                    <Button variant="contained" onClick={handleAddFriend} endIcon={<PersonAddRounded fontSize="small" />}>
-                                        Theo dõi
-                                    </Button>
-                                    :
-                                    <Button onClick={handleAddFriend} endIcon={<DoneAllRounded fontSize="small" />}>
-                                        Đã theo dõi
-                                    </Button>
+                                        <Button variant="contained" onClick={handleAddFriend} endIcon={<PersonAddRounded fontSize="small" />}>
+                                            Theo dõi
+                                        </Button>
+                                        :
+                                        <Button onClick={handleAddFriend} endIcon={<DoneAllRounded fontSize="small" />}>
+                                            Đã theo dõi
+                                        </Button>
                                 }
-                                <Link to={`/chat?id=${id}`} style={{textDecoration: 'none'}}>
+                                <Link to={`/chat?id=${id}`} style={{ textDecoration: 'none' }}>
                                     <Button variant="outlined" endIcon={<ChatRounded fontSize="small" />}>
                                         Nhắn tin
                                     </Button>
@@ -139,16 +139,16 @@ export default function Profile() {
                         }
                     </div>
                     <div className="profileRightBottom">
-                    <Feed user={id} />
-                    <Rightbar profile user={user} />
-                    {/* <div className="feedComp"></div>
+                        <Feed user={id} />
+                        <Rightbar profile user={user} />
+                        {/* <div className="feedComp"></div>
                     <div className="rightBarComp"></div> */}
-                        
+
                     </div>
                 </div>
             </div>
-            
-        
+
+
         </>
     )
 }
