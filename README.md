@@ -18,4 +18,4 @@ Back-end [https://github.com/tanloi201710/social-media-api](https://github.com/t
 
 Socket [https://github.com/tanloi201710/social-media-socket](https://github.com/tanloi201710/social-media-socket).
 
-## Site is available on [https://socialbook-ct466.netlify.app](https://socialbook-ct466.netlify.app)
+## Demo site is available on [https://socialbook-ct466.netlify.app](https://socialbook-ct466.netlify.app)
